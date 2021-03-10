@@ -25,6 +25,20 @@ public class UserController {
         this.userService = userService;
     }
 
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public UserGetDTO checkLogin(@RequestBody UserPostDTO userPostDTO) {
+        // convert API user to internal representation
+        User userInput = DTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO);
+
+        // check user
+        User checkedUser = userService.checkUser(userInput);
+
+        // convert internal representation of user back to API
+        return DTOMapper.INSTANCE.convertEntityToUserGetDTO(checkedUser);
+    }
+
     @GetMapping("/users")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
