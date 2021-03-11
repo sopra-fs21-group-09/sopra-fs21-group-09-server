@@ -3,7 +3,6 @@ package ch.uzh.ifi.hase.soprafs21.service;
 import ch.uzh.ifi.hase.soprafs21.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.repository.UserRepository;
-import ch.uzh.ifi.hase.soprafs21.rest.mapper.DTOMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,9 +38,12 @@ public class UserService {
         return this.userRepository.findAll();
     }
 
+    public User getUserByID(Long id){return this.userRepository.findByid(id);}
+
     public User createUser(User newUser) {
         newUser.setToken(UUID.randomUUID().toString());
         newUser.setStatus(UserStatus.OFFLINE);
+        newUser.setCreationDate(LocalDate.now().toString());
 
         checkIfUserExists(newUser);
 
@@ -53,22 +56,18 @@ public class UserService {
     }
 
     public User checkUser(User toCheckUser) {
-        List<User> users = getUsers();
+        User existingUser = userRepository.findByUsername(toCheckUser.getUsername());
         String baseErrorMessage = "Login was unsuccesful. %s";
 
-        for (User user : users) {
-            if (user.getUsername().equals(toCheckUser.getUsername())){
-                if (user.getPassword().equals(toCheckUser.getPassword())){
-                    return user;
-                }
-                else{
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "Wrong password"));
-                }
+        if(existingUser != null){
+            if(toCheckUser.getPassword().equals(existingUser.getPassword())){
+                return existingUser;
             }
-
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "Wrong password"));
         }
+        else{
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "User doesn't exist"));
-    }
+    }}
 
     /**
      * This is a helper method that will check the uniqueness criteria of the username and the name

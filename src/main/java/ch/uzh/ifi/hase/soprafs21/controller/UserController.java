@@ -8,6 +8,7 @@ import ch.uzh.ifi.hase.soprafs21.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,5 +67,16 @@ public class UserController {
 
         // convert internal representation of user back to API
         return DTOMapper.INSTANCE.convertEntityToUserGetDTO(createdUser);
+    }
+
+
+    @GetMapping("/users/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public UserGetDTO getUserInformation(@PathVariable Long id) {
+        // fetch user in the internal representation
+        User user = userService.getUserByID(id);
+        UserGetDTO userDTO= DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
+        return userDTO;
     }
 }
