@@ -2,9 +2,10 @@ package ch.uzh.ifi.hase.soprafs21.rest.dto;
 
 import ch.uzh.ifi.hase.soprafs21.constant.UserStatus;
 
-public class UserGetDTO {
+public class UserPutDTO {
 
     private Long id;
+    private String password;
     private String username;
     private UserStatus status;
     private String token;
@@ -19,6 +20,13 @@ public class UserGetDTO {
         this.id = id;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getUsername() {
         return username;

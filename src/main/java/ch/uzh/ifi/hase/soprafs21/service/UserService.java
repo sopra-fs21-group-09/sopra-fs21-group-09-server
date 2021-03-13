@@ -5,6 +5,9 @@ import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -12,9 +15,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.beans.FeatureDescriptor;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 /**
  * User Service
@@ -42,7 +47,7 @@ public class UserService {
 
     public User createUser(User newUser) {
         newUser.setToken(UUID.randomUUID().toString());
-        newUser.setStatus(UserStatus.OFFLINE);
+        newUser.setStatus(UserStatus.ONLINE);
         newUser.setCreationDate(LocalDate.now().toString());
 
         checkIfUserExists(newUser);
@@ -66,8 +71,30 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "Wrong password"));
         }
         else{
-        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "User doesn't exist"));
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "User doesn't exist"));
     }}
+
+    public void editUser(User src, User target){
+        if (src.getUsername() != target.getUsername()){
+            checkIfUserExists(src);
+        }
+        BeanUtils.copyProperties(src, target, getNullPropertyNames(src));
+        userRepository.save(target);
+        userRepository.flush();
+    }
+
+    public String[] getNullPropertyNames(Object source) {
+        final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
+        return Stream.of(wrappedSource.getPropertyDescriptors())
+                .map(FeatureDescriptor::getName)
+                .filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null)
+                .toArray(String[]::new);
+    }
+
+    public User onlineUser(User user){
+        user.setStatus(UserStatus.ONLINE);
+        return user;
+    }
 
     /**
      * This is a helper method that will check the uniqueness criteria of the username and the name
@@ -80,7 +107,7 @@ public class UserService {
     private void checkIfUserExists(User userToBeCreated) {
         User userByUsername = userRepository.findByUsername(userToBeCreated.getUsername());
 
-        String baseErrorMessage = "The %s provided %s not unique. Therefore, the user could not be created!";
+        String baseErrorMessage = "This %s already exists. Choose another one.";
         if (userByUsername != null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(baseErrorMessage, "username", "is"));
         }
