@@ -39,12 +39,33 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * return all users
+     * @return
+     */
     public List<User> getUsers() {
         return this.userRepository.findAll();
     }
 
-    public User getUserByID(Long id){return this.userRepository.findByid(id);}
+    /**
+     * return a the user corresponding to the ID, throw NotFound if userId doesn't exist
+     * @param id
+     * @return
+     */
+    public User getUserByID(Long id){
+        if(this.userRepository.findByid(id) != null){
+            return this.userRepository.findByid(id);
+        }
+        else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User wasn't found");
+        }
+    }
 
+    /**
+     * create the newUser
+     * @param newUser
+     * @return
+     */
     public User createUser(User newUser) {
         newUser.setToken(UUID.randomUUID().toString());
         newUser.setStatus(UserStatus.ONLINE);
@@ -60,6 +81,12 @@ public class UserService {
         return newUser;
     }
 
+    /**
+     * Check if the user exists and if the password is correct
+     * @param toCheckUser
+     * @return
+     */
+
     public User checkUser(User toCheckUser) {
         User existingUser = userRepository.findByUsername(toCheckUser.getUsername());
         String baseErrorMessage = "Login was unsuccesful. %s";
@@ -74,6 +101,11 @@ public class UserService {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(baseErrorMessage, "User doesn't exist"));
     }}
 
+    /**
+     * method to edit the user --> copy all not null properties from source to target and save the edited User
+     * @param src
+     * @param target
+     */
     public void editUser(User src, User target){
         if (src.getUsername() != target.getUsername()){
             checkIfUserExists(src);
@@ -83,6 +115,13 @@ public class UserService {
         userRepository.flush();
     }
 
+    /**
+     * This is a helper method that returns a list of all null properties, so only the not null properties are changed
+     * when we try to edit
+     * @param source
+     * @return
+     */
+
     public String[] getNullPropertyNames(Object source) {
         final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
         return Stream.of(wrappedSource.getPropertyDescriptors())
@@ -91,6 +130,11 @@ public class UserService {
                 .toArray(String[]::new);
     }
 
+    /**
+     * set a user online
+     * @param user
+     * @return
+     */
     public User onlineUser(User user){
         user.setStatus(UserStatus.ONLINE);
         return user;

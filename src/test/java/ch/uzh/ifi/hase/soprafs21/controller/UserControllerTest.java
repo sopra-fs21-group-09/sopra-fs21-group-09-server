@@ -119,7 +119,7 @@ public class UserControllerTest {
 
     @Test
     public void getUser_invalidInput_excThrown() throws Exception {
-        // what userService should return when getUser() is called
+        // what userService should return when getUserByID() is called
         given(userService.getUserByID(1L)).willThrow(new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         // when
@@ -201,6 +201,22 @@ public class UserControllerTest {
 
         // when/then -> do the request + validate the result
         MockHttpServletRequestBuilder putRequest = put("/users/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(userPutDTO));
+
+        // then
+        mockMvc.perform(putRequest)
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void editUser_invalidInput_excThrown() throws Exception {
+        UserPutDTO userPutDTO = new UserPutDTO();
+        userPutDTO.setBirthday("2021-14-03");
+        userPutDTO.setUsername("testUsername");
+
+        // when/then -> do the request + validate the result
+        MockHttpServletRequestBuilder putRequest = put("/users/2")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(userPutDTO));
 

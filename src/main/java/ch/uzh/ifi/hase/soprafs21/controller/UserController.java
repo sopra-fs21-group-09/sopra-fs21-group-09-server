@@ -34,7 +34,7 @@ public class UserController {
         // convert API user to internal representation
         User userInput = DTOMapper.INSTANCE.convertUserPutDTOtoEntity(UserPutDTO);
 
-        // check user
+        // check user and set online
         User checkedUser = userService.checkUser(userInput);
         User onlineUser = userService.onlineUser(checkedUser);
 
@@ -76,7 +76,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     //@ResponseBody
     public UserGetDTO getUserInformation(@PathVariable Long id) {
-        // fetch user in the internal representation
+        //get user to corresponding id
         User user = userService.getUserByID(id);
         UserGetDTO userDTO= DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
         return userDTO;

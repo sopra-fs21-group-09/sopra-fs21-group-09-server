@@ -65,24 +65,4 @@ public class UserServiceTest {
         assertThrows(ResponseStatusException.class, () -> userService.createUser(testUser));
     }
 
-    @Test
-    public void editUser_validInputs_success() {
-        // when -> any object is being save in the userRepository -> return the dummy testUser
-        User createdUser = userService.createUser(testUser);
-
-        // editUser
-        User editUser = new User();
-        editUser.setId(1L);
-        editUser.setBirthday("2021-14-03");
-        editUser.setUsername("editedUsername");
-
-        userService.editUser(editUser, createdUser);
-
-        // when -> setup additional mocks for UserRepository
-        Mockito.when(userRepository.findByUsername(Mockito.any())).thenReturn(testUser);
-
-        // then -> attempt to create second user with same user -> check that an error is thrown
-        assertThrows(ResponseStatusException.class, () -> userService.createUser(testUser));
-    }
-
 }
