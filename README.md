@@ -1,4 +1,4 @@
-# SoPra RESTful Service Template FS21
+# SoPra RESTful Service Template FS21 test
 
 ## Getting started with Spring Boot
 
