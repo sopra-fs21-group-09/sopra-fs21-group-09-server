@@ -31,9 +31,9 @@ public class UserServiceIntegrationTest {
 
     @BeforeEach
     public void setup() {
+        userRepository.deleteAll();
     }
 
-<<<<<<< HEAD
     
     @Test
     public void createUser_duplicateUsername_throwsException() {
@@ -56,6 +56,4 @@ public class UserServiceIntegrationTest {
     }
 
 
-=======
->>>>>>> a8263d9f32ff0644f8ce66f4c26045f80989edd5
 }
