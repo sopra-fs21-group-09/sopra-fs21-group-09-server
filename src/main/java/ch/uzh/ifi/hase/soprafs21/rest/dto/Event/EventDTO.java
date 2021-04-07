@@ -2,7 +2,7 @@ package ch.uzh.ifi.hase.soprafs21.rest.dto.Event;
 
 import java.util.Date;
 
-public class EventGetDTO {
+public class EventDTO {
     private String name;
     private Date startTime;
     private Date endTime;

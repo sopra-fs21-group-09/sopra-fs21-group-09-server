@@ -1,15 +1,16 @@
 package ch.uzh.ifi.hase.soprafs21.entity;
 
-import ch.uzh.ifi.hase.soprafs21.constant.UserStatus;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "EVENT")
+@Table(name = "EVENTS")
 public class Event implements Serializable {
-
+    //TODO: add Task relations
+    //TODO: add User relations
+    //TODO: make temporal --> handle json input to date format
+    //TODO: add Labels
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -19,13 +20,13 @@ public class Event implements Serializable {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date start_time;
 
-    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date end_time;
 
-    @Column(nullable = false)
+    @Column
     private String desc;
 
     public Long getEventId() {
@@ -34,6 +35,14 @@ public class Event implements Serializable {
 
     public void setEventId(Long eventId) {
         EventId = eventId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getStart_time() {

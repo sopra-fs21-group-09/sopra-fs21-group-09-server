@@ -1,14 +1,12 @@
 package ch.uzh.ifi.hase.soprafs21.controller;
 
 import ch.uzh.ifi.hase.soprafs21.entity.Event;
-import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventGetDTO;
+import ch.uzh.ifi.hase.soprafs21.entity.User;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs21.service.EventService;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,15 +24,33 @@ public class EventController {
     @GetMapping("/events")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<EventGetDTO> getAllEvents() {
+    public List<EventDTO> getAllEvents() {
         // fetch all users in the internal representation
         List<Event> events = eventService.getEvents();
-        List<EventGetDTO> eventGetDTOs = new ArrayList<>();
+        List<EventDTO> eventDTOs = new ArrayList<EventDTO>();
 
         // convert each user to the API representation
         for (Event event: events) {
-            eventGetDTOs.add(DTOMapper.INSTANCE.convertEntityToEventGetDTO(event));
+            eventDTOs.add(DTOMapper.INSTANCE.convertEntityToEventDTO(event));
         }
-        return eventGetDTOs;
+        return eventDTOs;
+    }
+
+    @PostMapping("/events")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public void createEvent(@RequestBody EventDTO eventDTO){
+        Event eventInput = DTOMapper.INSTANCE.convertEventDTOtoEntity(eventDTO);
+
+        eventService.createEvent(eventInput);
+    }
+
+    @PutMapping("/users/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
+    public void editEvent(@PathVariable Long EventId, @RequestBody EventDTO eventDTO) {
+        Event eventInput = DTOMapper.INSTANCE.convertEventDTOtoEntity(eventDTO);
+
+        eventService.editEvent(eventInput, EventId);
     }
 }

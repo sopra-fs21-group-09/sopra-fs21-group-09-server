@@ -1,9 +1,7 @@
 package ch.uzh.ifi.hase.soprafs21.rest.mapper;
 
 import ch.uzh.ifi.hase.soprafs21.entity.Event;
-import ch.uzh.ifi.hase.soprafs21.entity.User;
-import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventGetDTO;
-import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserGetDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventDTO;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
@@ -20,5 +18,6 @@ public interface DTOMapper {
 
     DTOMapper INSTANCE = Mappers.getMapper(DTOMapper.class);
 
-    EventGetDTO convertEntityToEventGetDTO(Event event);
+    EventDTO convertEntityToEventDTO(Event event);
+    Event convertEventDTOtoEntity(EventDTO eventDTO);
 }
