@@ -1,5 +1,7 @@
 package ch.uzh.ifi.hase.soprafs21.rest.dto.Event;
 
+import ch.uzh.ifi.hase.soprafs21.constant.EventLabel;
+
 import java.util.Date;
 
 public class EventDTO {
@@ -7,6 +9,7 @@ public class EventDTO {
     private Date startTime;
     private Date endTime;
     private String description;
+    private EventLabel label;
 
     public String getName() {
         return name;
@@ -38,5 +41,13 @@ public class EventDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public EventLabel getLabel() {
+        return label;
+    }
+
+    public void setLabel(EventLabel label) {
+        this.label = label;
     }
 }

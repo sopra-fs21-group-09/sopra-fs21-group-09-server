@@ -1,5 +1,7 @@
 package ch.uzh.ifi.hase.soprafs21.entity;
 
+import ch.uzh.ifi.hase.soprafs21.constant.EventLabel;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -15,26 +17,29 @@ public class Event implements Serializable {
 
     @Id
     @GeneratedValue
-    private Long EventId;
+    private Long eventId;
 
     @Column(nullable = false)
     private String name;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date start_time;
+    private Date startTime;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date end_time;
+    private Date endTime;
 
     @Column
-    private String desc;
+    private String description;
+
+    @Column
+    private EventLabel label;
 
     public Long getEventId() {
-        return EventId;
+        return eventId;
     }
 
     public void setEventId(Long eventId) {
-        EventId = eventId;
+        eventId = eventId;
     }
 
     public String getName() {
@@ -45,27 +50,35 @@ public class Event implements Serializable {
         this.name = name;
     }
 
-    public Date getStart_time() {
-        return start_time;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setStart_time(Date start_time) {
-        this.start_time = start_time;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
-    public Date getEnd_time() {
-        return end_time;
+    public Date getEndTime() {
+        return endTime;
     }
 
-    public void setEnd_time(Date end_time) {
-        this.end_time = end_time;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String desc) {
+        this.description = desc;
+    }
+
+    public EventLabel getLabel() {
+        return label;
+    }
+
+    public void setLabel(EventLabel label) {
+        this.label = label;
     }
 }

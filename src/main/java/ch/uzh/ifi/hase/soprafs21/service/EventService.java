@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -25,6 +26,9 @@ public class EventService {
     private final Logger log = LoggerFactory.getLogger(EventService.class);
 
     private final EventRepository eventRepository;
+
+    private final SimpleDateFormat formatter = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+
 
     @Autowired
     public EventService(@Qualifier("eventRepository") EventRepository eventRepository) {
@@ -43,7 +47,6 @@ public class EventService {
      * create an Event
      */
     public void createEvent(Event event){
-        //TODO: implement createEvent
         eventRepository.save(event);
         eventRepository.flush();
     }

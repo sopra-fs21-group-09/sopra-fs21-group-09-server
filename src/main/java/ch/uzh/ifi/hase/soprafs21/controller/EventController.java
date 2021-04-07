@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs21.controller;
 
 import ch.uzh.ifi.hase.soprafs21.entity.Event;
-import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs21.service.EventService;
@@ -45,7 +44,7 @@ public class EventController {
         eventService.createEvent(eventInput);
     }
 
-    @PutMapping("/users/{id}")
+    @PutMapping("/users/{EventId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     public void editEvent(@PathVariable Long EventId, @RequestBody EventDTO eventDTO) {
