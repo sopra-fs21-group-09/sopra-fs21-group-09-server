@@ -1,9 +1,12 @@
 package ch.uzh.ifi.hase.soprafs21.rest.mapper;
 
+import ch.uzh.ifi.hase.soprafs21.entity.Task;
 import ch.uzh.ifi.hase.soprafs21.entity.User;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.TaskPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.UserPutDTO;
+import com.sun.xml.bind.v2.TODO;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
@@ -20,4 +23,8 @@ public interface DTOMapper {
 
     DTOMapper INSTANCE = Mappers.getMapper(DTOMapper.class);
 
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "description", target = "description")
+    //TODO: mappings
+    Task convertTaskPostDTOtoEntity(TaskPostDTO taskPostDTO);
 }
