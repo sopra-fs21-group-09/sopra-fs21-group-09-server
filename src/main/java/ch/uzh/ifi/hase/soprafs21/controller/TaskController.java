@@ -3,13 +3,12 @@ package ch.uzh.ifi.hase.soprafs21.controller;
 import ch.uzh.ifi.hase.soprafs21.entity.Task;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.TaskGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.TaskPostDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.TaskPutDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs21.service.TaskService;
-import ch.uzh.ifi.hase.soprafs21.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 public class TaskController {
@@ -30,8 +29,31 @@ public class TaskController {
         taskService.createTask(input);
     }
 
-    @GetMapping("/tasks")
+    @GetMapping("/tasks/{taskID}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<TaskGetDTO> getTasks() {}
+    public TaskGetDTO getTask(@PathVariable Long taskID) {
+
+        Task task = taskService.getTask(taskID);
+
+        return DTOMapper.INSTANCE.convertEntityToTaskGetDTO(task);
+    }
+
+    @PutMapping("/tasks/{taskId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
+    public void updateTask(@PathVariable Long taskId, @RequestBody TaskPutDTO taskPutDTO) {
+
+        Task input = DTOMapper.INSTANCE.convertTaskPutDTOtoEntity(taskPutDTO);
+
+        taskService.updateTask(input);
+    }
+
+    @DeleteMapping("/task/{taskId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
+    public void deleteTask(@PathVariable Long taskId) {
+
+        taskService.deleteTask(taskId);
+    }
 }

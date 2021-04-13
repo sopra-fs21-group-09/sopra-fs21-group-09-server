@@ -1,5 +1,5 @@
 package ch.uzh.ifi.hase.soprafs21.rest.dto;
 
-public class TaskGetDTO {
-    //TODO: ...
+public class TaskPutDTO {
+    // TODO: ...
 }
