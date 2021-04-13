@@ -46,7 +46,7 @@ public class TaskController {
 
         Task input = DTOMapper.INSTANCE.convertTaskPutDTOtoEntity(taskPutDTO);
 
-        taskService.updateTask(input);
+        taskService.updateTask(taskId, input);
     }
 
     @DeleteMapping("/task/{taskId}")

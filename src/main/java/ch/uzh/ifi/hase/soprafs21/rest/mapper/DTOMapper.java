@@ -1,5 +1,6 @@
 package ch.uzh.ifi.hase.soprafs21.rest.mapper;
 
+import ch.uzh.ifi.hase.soprafs21.embeddable.Deadline;
 import ch.uzh.ifi.hase.soprafs21.entity.Task;
 import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.*;
@@ -22,12 +23,24 @@ public interface DTOMapper {
 
     @Mapping(source = "name", target = "name")
     @Mapping(source = "description", target = "description")
-    //TODO: mappings
+    @Mapping(source = "deadlinePostDTO", target = "deadline")
     Task convertTaskPostDTOtoEntity(TaskPostDTO taskPostDTO);
 
-    @Mapping()
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "description", target = "description")
+    @Mapping(source = "deadlinePostDTO", target = "deadline")
     Task convertTaskPutDTOtoEntity(TaskPutDTO taskPutDTO);
 
-    @Mapping()
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "description", target = "description")
+    @Mapping(source = "deadline", target = "deadlineGetDTO")
     TaskGetDTO convertEntityToTaskGetDTO(Task task);
+
+    @Mapping(source = "time", target = "when")
+    @Mapping(source = "visible", target = "visibleInCalendar")
+    Deadline convertDeadlinePostDTOtoEntity(DeadlinePostDTO deadlinePostDTO);
+
+    @Mapping(target = "time", source = "when")
+    @Mapping(target = "visible", source = "visibleInCalendar")
+    DeadlineGetDTO convertEntityToDeadlineGetDTO(Deadline deadline);
 }

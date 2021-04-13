@@ -8,8 +8,7 @@ public class TaskPostDTO {
     private String name;
     private String description;
     private Set<TaskPostDTO> subTasks;
-    private Date date;
-    private boolean visible;
+    private DeadlinePostDTO deadlinePostDTO;
 
     public String getName() {
         return name;
@@ -35,20 +34,12 @@ public class TaskPostDTO {
         this.subTasks = subTasks;
     }
 
-    public Date getDate() {
-        return date;
+    public DeadlinePostDTO getDeadlinePostDTO() {
+        return deadlinePostDTO;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public boolean isVisible() {
-        return visible;
-    }
-
-    public void setVisible(boolean visible) {
-        this.visible = visible;
+    public void setDeadlinePostDTO(DeadlinePostDTO deadlinePostDTO) {
+        this.deadlinePostDTO = deadlinePostDTO;
     }
 }
 

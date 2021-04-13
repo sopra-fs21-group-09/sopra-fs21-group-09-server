@@ -3,12 +3,13 @@ package ch.uzh.ifi.hase.soprafs21.entity;
 import ch.uzh.ifi.hase.soprafs21.embeddable.Deadline;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 
 @Entity
 @Table(name = "TASKS")
-public class Task {
+public class Task implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,6 +31,10 @@ public class Task {
     private Set<Task> subTasks;
 
     @Embedded
+    @AttributeOverrides(value = {
+            @AttributeOverride(name = "when", column = @Column(name = "time")),
+            @AttributeOverride(name = "visibleInCalendar", column = @Column(name = "visible"))
+    })
     private Deadline deadline;
 
     public static long getSerialVersionUID() {
