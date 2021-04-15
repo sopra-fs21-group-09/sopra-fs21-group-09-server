@@ -1,10 +1,7 @@
 package ch.uzh.ifi.hase.soprafs21.entity;
 
-import ch.uzh.ifi.hase.soprafs21.constant.UserStatus;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Internal User Representation
@@ -16,6 +13,10 @@ import java.util.Date;
 @Entity
 @Table(name = "USER")
 public class User implements Serializable {
+    //TODO: add Tasks
+    //TODO: add Groups
+    //TODO: add Events
+    //TODO: add Modules
 
     private static final long serialVersionUID = 1L;
 
@@ -23,5 +24,66 @@ public class User implements Serializable {
     @GeneratedValue
     private Long id;
 
+    @Column(nullable = false, unique = true)
+    private String username;
 
+    @Column(nullable = false, unique = true)
+    private String token;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column
+    private String matrikelNr;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getMatrikelNr() {
+        return matrikelNr;
+    }
+
+    public void setMatrikelNr(String matrikelNr) {
+        this.matrikelNr = matrikelNr;
+    }
 }
