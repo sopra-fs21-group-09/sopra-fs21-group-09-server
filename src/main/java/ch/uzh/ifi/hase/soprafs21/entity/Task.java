@@ -25,9 +25,10 @@ public class Task implements Serializable {
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
     private Task parentTask;
 
-    @OneToMany(mappedBy = "parentCategory")
+    @OneToMany(mappedBy = "parentTask")
     private Set<Task> subTasks;
 
     @Embedded
@@ -87,6 +88,11 @@ public class Task implements Serializable {
 
     public void setDeadline(Deadline deadline) {
         this.deadline = deadline;
+    }
+
+    public void addSubTask(Task subTask) {
+        this.subTasks.add(subTask);
+        subTask.setParentTask(this);
     }
 
 }
