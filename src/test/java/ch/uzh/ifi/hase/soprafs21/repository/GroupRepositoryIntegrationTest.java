@@ -1,8 +1,6 @@
 package ch.uzh.ifi.hase.soprafs21.repository;
 
-import ch.uzh.ifi.hase.soprafs21.constant.UserStatus;
-import ch.uzh.ifi.hase.soprafs21.entity.User;
-import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -12,13 +10,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
-public class UserRepositoryIntegrationTest {
+public class GroupRepositoryIntegrationTest {
 
     @Autowired
     private TestEntityManager entityManager;
 
-    @Qualifier("userRepository")
+    @Qualifier("groupRepository")
     @Autowired
-    private UserRepository userRepository;
+    private GroupRepository groupRepository;
 
 }
