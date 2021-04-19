@@ -10,6 +10,7 @@ public class EventDTO {
     private Date endTime;
     private String description;
     private EventLabel label;
+    private Long taskId;
 
     public String getName() {
         return name;
@@ -49,5 +50,13 @@ public class EventDTO {
 
     public void setLabel(EventLabel label) {
         this.label = label;
+    }
+
+    public Long getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
     }
 }

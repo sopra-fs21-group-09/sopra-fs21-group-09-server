@@ -1,9 +1,9 @@
 package ch.uzh.ifi.hase.soprafs21.controller;
 
 import ch.uzh.ifi.hase.soprafs21.entity.Task;
-import ch.uzh.ifi.hase.soprafs21.rest.dto.TaskGetDTO;
-import ch.uzh.ifi.hase.soprafs21.rest.dto.TaskPostDTO;
-import ch.uzh.ifi.hase.soprafs21.rest.dto.TaskPutDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskGetDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskPostDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskPutDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs21.service.TaskService;
 import org.springframework.http.HttpStatus;

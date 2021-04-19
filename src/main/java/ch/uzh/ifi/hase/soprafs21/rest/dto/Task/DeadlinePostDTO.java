@@ -1,8 +1,9 @@
-package ch.uzh.ifi.hase.soprafs21.rest.dto;
+package ch.uzh.ifi.hase.soprafs21.rest.dto.Task;
 
 import java.util.Date;
 
-public class DeadlineGetDTO {
+public class DeadlinePostDTO {
+
 
     private String time;
     private boolean visible;

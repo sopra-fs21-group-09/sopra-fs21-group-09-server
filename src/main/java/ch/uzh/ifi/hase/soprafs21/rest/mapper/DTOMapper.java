@@ -1,15 +1,12 @@
 package ch.uzh.ifi.hase.soprafs21.rest.mapper;
 
-<<<<<<< HEAD
 import ch.uzh.ifi.hase.soprafs21.embeddable.Deadline;
 import ch.uzh.ifi.hase.soprafs21.entity.Task;
-import ch.uzh.ifi.hase.soprafs21.entity.User;
-import ch.uzh.ifi.hase.soprafs21.rest.dto.*;
-import com.sun.xml.bind.v2.TODO;
-=======
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.*;
+
 import ch.uzh.ifi.hase.soprafs21.entity.Event;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventDTO;
->>>>>>> Robin_wip_event-classes
+
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
@@ -26,7 +23,7 @@ public interface DTOMapper {
 
     DTOMapper INSTANCE = Mappers.getMapper(DTOMapper.class);
 
-<<<<<<< HEAD
+
     @Mapping(source = "name", target = "name")
     @Mapping(source = "description", target = "description")
     @Mapping(source = "deadlinePostDTO", target = "deadline")
@@ -50,8 +47,8 @@ public interface DTOMapper {
     @Mapping(target = "time", source = "time")
     @Mapping(target = "visible", source = "visible")
     DeadlineGetDTO convertEntityToDeadlineGetDTO(Deadline deadline);
-=======
+
     EventDTO convertEntityToEventDTO(Event event);
     Event convertEventDTOtoEntity(EventDTO eventDTO);
->>>>>>> Robin_wip_event-classes
+
 }

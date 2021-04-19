@@ -1,13 +1,9 @@
-package ch.uzh.ifi.hase.soprafs21.rest.dto;
+package ch.uzh.ifi.hase.soprafs21.rest.dto.Task;
 
-import java.util.Date;
-import java.util.Set;
-
-public class TaskPutDTO {
+public class TaskPostDTO {
 
     private String name;
     private String description;
-    private Set<TaskPostDTO> subTasks;
     private DeadlinePostDTO deadlinePostDTO;
 
     public String getName() {
@@ -26,14 +22,6 @@ public class TaskPutDTO {
         this.description = description;
     }
 
-    public Set<TaskPostDTO> getSubTasks() {
-        return subTasks;
-    }
-
-    public void setSubTasks(Set<TaskPostDTO> subTasks) {
-        this.subTasks = subTasks;
-    }
-
     public DeadlinePostDTO getDeadlinePostDTO() {
         return deadlinePostDTO;
     }
@@ -42,3 +30,4 @@ public class TaskPutDTO {
         this.deadlinePostDTO = deadlinePostDTO;
     }
 }
+

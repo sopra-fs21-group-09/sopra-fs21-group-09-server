@@ -44,7 +44,7 @@ public class EventController {
         eventService.createEvent(eventInput);
     }
 
-    @PutMapping("/users/{EventId}")
+    @PutMapping("/events/{EventId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     public void editEvent(@PathVariable Long EventId, @RequestBody EventDTO eventDTO) {
@@ -52,4 +52,6 @@ public class EventController {
 
         eventService.editEvent(eventInput, EventId);
     }
+
+
 }

@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs21.service;
 
 import ch.uzh.ifi.hase.soprafs21.entity.Event;
+import ch.uzh.ifi.hase.soprafs21.entity.Task;
 import ch.uzh.ifi.hase.soprafs21.repository.EventRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,8 +55,8 @@ public class EventService {
     /**
      * edit an Event
      */
-    public void editEvent(Event eventInput, Long EventId){
-        //TODO: implement editEvent
+    public void editEvent(Event eventInput, Long EventId) {
+
     }
 
     private void checkIfEventExists(Event event){

@@ -5,13 +5,12 @@ import ch.uzh.ifi.hase.soprafs21.constant.EventLabel;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "EVENTS")
 public class Event implements Serializable {
-    //TODO: add Task relations
     //TODO: add User relations
-    //TODO: make temporal --> handle json input to date format
     //TODO: add Labels
     private static final long serialVersionUID = 1L;
 
@@ -34,12 +33,16 @@ public class Event implements Serializable {
     @Column
     private EventLabel label;
 
+    @OneToMany
+    @JoinColumn(name = "task_id")
+    private Set<Task> tasks;
+
     public Long getEventId() {
         return eventId;
     }
 
     public void setEventId(Long eventId) {
-        eventId = eventId;
+        this.eventId = eventId;
     }
 
     public String getName() {
@@ -80,5 +83,21 @@ public class Event implements Serializable {
 
     public void setLabel(EventLabel label) {
         this.label = label;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public void addTask(Task task) {
+        this.tasks.add(task);
     }
 }
