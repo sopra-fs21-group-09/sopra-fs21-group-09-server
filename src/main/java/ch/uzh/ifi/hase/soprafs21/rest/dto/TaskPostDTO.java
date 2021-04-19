@@ -7,7 +7,6 @@ public class TaskPostDTO {
 
     private String name;
     private String description;
-    private Set<TaskPostDTO> subTasks;
     private DeadlinePostDTO deadlinePostDTO;
 
     public String getName() {
@@ -24,14 +23,6 @@ public class TaskPostDTO {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Set<TaskPostDTO> getSubTasks() {
-        return subTasks;
-    }
-
-    public void setSubTasks(Set<TaskPostDTO> subTasks) {
-        this.subTasks = subTasks;
     }
 
     public DeadlinePostDTO getDeadlinePostDTO() {

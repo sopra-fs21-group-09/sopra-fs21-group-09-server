@@ -6,7 +6,7 @@ import java.util.Set;
 public class TaskGetDTO {
     private String name;
     private String description;
-    private Set<TaskPostDTO> subTasks;
+    private Set<TaskGetDTO> subTasks;
     private DeadlineGetDTO deadlineGetDTO;
 
     public String getName() {
@@ -25,11 +25,11 @@ public class TaskGetDTO {
         this.description = description;
     }
 
-    public Set<TaskPostDTO> getSubTasks() {
+    public Set<TaskGetDTO> getSubTasks() {
         return subTasks;
     }
 
-    public void setSubTasks(Set<TaskPostDTO> subTasks) {
+    public void setSubTasks(Set<TaskGetDTO> subTasks) {
         this.subTasks = subTasks;
     }
 

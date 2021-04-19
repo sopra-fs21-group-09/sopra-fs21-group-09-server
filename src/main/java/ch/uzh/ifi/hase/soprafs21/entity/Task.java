@@ -33,9 +33,10 @@ public class Task implements Serializable {
 
     @Embedded
     @AttributeOverrides(value = {
-            @AttributeOverride(name = "when", column = @Column(name = "time")),
-            @AttributeOverride(name = "visibleInCalendar", column = @Column(name = "visible"))
+            @AttributeOverride(name = "time", column = @Column(name = "deadline_time")),
+            @AttributeOverride(name = "visible", column = @Column(name = "deadline_visible"))
     })
+
     private Deadline deadline;
 
     public static long getSerialVersionUID() {

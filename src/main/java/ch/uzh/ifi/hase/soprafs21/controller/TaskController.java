@@ -56,4 +56,14 @@ public class TaskController {
 
         taskService.deleteTask(taskId);
     }
+
+    @PostMapping("/tasks/{taskId}/sub-tasks")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public void createSubTask(@PathVariable Long taskId, @RequestBody TaskPostDTO taskPostDTO) {
+
+        Task input = DTOMapper.INSTANCE.convertTaskPostDTOtoEntity(taskPostDTO);
+
+        taskService.createSubTask(taskId, input);
+    }
 }

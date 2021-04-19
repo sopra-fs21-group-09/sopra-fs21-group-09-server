@@ -5,14 +5,14 @@ import java.util.Date;
 public class DeadlinePostDTO {
 
 
-    private Date time;
+    private String time;
     private boolean visible;
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
     }
 

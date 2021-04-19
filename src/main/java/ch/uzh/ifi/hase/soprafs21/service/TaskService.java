@@ -73,6 +73,15 @@ public class TaskService {
         taskRepository.deleteById(id);
     }
 
+    public void createSubTask(Long parentTaskId, Task newSubTask) {
+        // TODO: isPresent() check
+        newSubTask.setParentTask(taskRepository.findById(parentTaskId).get());
+
+        newSubTask = taskRepository.saveAndFlush(newSubTask);
+
+        log.debug("Created information for sub task: {}", newSubTask);
+    }
+
     private static <V> V returnIfChangedElseKeepOld(V change, V old) {
         return (change != null) ? change : old;
     }

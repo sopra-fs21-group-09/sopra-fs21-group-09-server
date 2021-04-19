@@ -34,13 +34,14 @@ public interface DTOMapper {
     @Mapping(source = "name", target = "name")
     @Mapping(source = "description", target = "description")
     @Mapping(source = "deadline", target = "deadlineGetDTO")
+    @Mapping(source = "subTasks", target =  "subTasks")
     TaskGetDTO convertEntityToTaskGetDTO(Task task);
 
-    @Mapping(source = "time", target = "when")
-    @Mapping(source = "visible", target = "visibleInCalendar")
+    @Mapping(source = "time", target = "time")
+    @Mapping(source = "visible", target = "visible")
     Deadline convertDeadlinePostDTOtoEntity(DeadlinePostDTO deadlinePostDTO);
 
-    @Mapping(target = "time", source = "when")
-    @Mapping(target = "visible", source = "visibleInCalendar")
+    @Mapping(target = "time", source = "time")
+    @Mapping(target = "visible", source = "visible")
     DeadlineGetDTO convertEntityToDeadlineGetDTO(Deadline deadline);
 }

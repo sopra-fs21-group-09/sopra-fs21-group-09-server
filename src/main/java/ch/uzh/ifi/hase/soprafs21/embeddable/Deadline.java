@@ -1,41 +1,36 @@
 package ch.uzh.ifi.hase.soprafs21.embeddable;
 
 import javax.persistence.Embeddable;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Embeddable
 public class Deadline implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Temporal(TemporalType.DATE)
-    private Date when;
-    private boolean visibleInCalendar;
+    private LocalDateTime time;
+    private boolean visible;
 
-    public Deadline() {
-
-    }
+    public Deadline() {}
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
 
-    public Date getWhen() {
-        return when;
+    public LocalDateTime getTime() {
+        return time;
     }
 
-    public void setWhen(Date when) {
-        this.when = when;
+    public void setTime(LocalDateTime time) {
+        this.time = time;
     }
 
-    public boolean isVisibleInCalendar() {
-        return visibleInCalendar;
+    public boolean isVisible() {
+        return visible;
     }
 
-    public void setVisibleInCalendar(boolean visibleInCalendar) {
-        this.visibleInCalendar = visibleInCalendar;
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 }
