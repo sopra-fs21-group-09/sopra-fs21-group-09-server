@@ -43,7 +43,6 @@ public class TaskController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     public void updateTask(@PathVariable Long taskId, @RequestBody TaskPutDTO taskPutDTO) {
-
         Task input = DTOMapper.INSTANCE.convertTaskPutDTOtoEntity(taskPutDTO);
 
         taskService.updateTask(taskId, input);
@@ -53,7 +52,6 @@ public class TaskController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     public void deleteTask(@PathVariable Long taskId) {
-
         taskService.deleteTask(taskId);
     }
 
@@ -61,7 +59,6 @@ public class TaskController {
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public void createSubTask(@PathVariable Long taskId, @RequestBody TaskPostDTO taskPostDTO) {
-
         Task input = DTOMapper.INSTANCE.convertTaskPostDTOtoEntity(taskPostDTO);
 
         taskService.createSubTask(taskId, input);

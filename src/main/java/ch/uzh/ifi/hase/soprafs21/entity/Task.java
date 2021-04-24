@@ -4,6 +4,8 @@ import ch.uzh.ifi.hase.soprafs21.embeddable.Deadline;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 
@@ -29,7 +31,7 @@ public class Task implements Serializable {
     private Task parentTask;
 
     @OneToMany(mappedBy = "parentTask")
-    private Set<Task> subTasks;
+    private List<Task> subTasks = new ArrayList<Task>();
 
     @Embedded
     @AttributeOverrides(value = {
@@ -75,11 +77,11 @@ public class Task implements Serializable {
         this.parentTask = parentTask;
     }
 
-    public Set<Task> getSubTasks() {
+    public List<Task> getSubTasks() {
         return subTasks;
     }
 
-    public void setSubTasks(Set<Task> subTasks) {
+    public void setSubTasks(List<Task> subTasks) {
         this.subTasks = subTasks;
     }
 
@@ -95,5 +97,4 @@ public class Task implements Serializable {
         this.subTasks.add(subTask);
         subTask.setParentTask(this);
     }
-
 }

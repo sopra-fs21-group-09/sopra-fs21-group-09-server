@@ -29,5 +29,6 @@ public class TaskPostDTO {
     public void setDeadlinePostDTO(DeadlinePostDTO deadlinePostDTO) {
         this.deadlinePostDTO = deadlinePostDTO;
     }
+
 }
 

@@ -5,6 +5,9 @@ import ch.uzh.ifi.hase.soprafs21.entity.Task;
 import ch.uzh.ifi.hase.soprafs21.repository.TaskRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -12,7 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
+import java.beans.FeatureDescriptor;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
@@ -57,16 +63,11 @@ public class TaskService {
             String errorMessage = "task was not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, errorMessage);
         }
+        BeanUtils.copyProperties(changesToTask, taskToBeUpdated, getNullPropertyNames(changesToTask));
+        taskRepository.save(taskToBeUpdated);
+        taskRepository.flush();
 
-        String newName = returnIfChangedElseKeepOld(changesToTask.getName(), taskToBeUpdated.getName());
-        String newDescription = returnIfChangedElseKeepOld(changesToTask.getDescription(), taskToBeUpdated.getDescription());
-        Task newParentTask = returnIfChangedElseKeepOld(changesToTask.getParentTask(), taskToBeUpdated.getParentTask());
-        Set<Task> newSubTasks = returnIfChangedElseKeepOld(changesToTask.getSubTasks(), taskToBeUpdated.getSubTasks());
-        Deadline newDeadline = returnIfChangedElseKeepOld(changesToTask.getDeadline(), taskToBeUpdated.getDeadline());
-
-        Task updatedTask = taskRepository.updateTaskById(newName, newDescription, newParentTask, newSubTasks, newDeadline, id);
-
-        log.debug("Updated information for Task: {}", updatedTask);
+        log.debug("Updated information for Task: {}", taskToBeUpdated);
     }
 
     public void deleteTask(Long id) {
@@ -74,16 +75,26 @@ public class TaskService {
     }
 
     public void createSubTask(Long parentTaskId, Task newSubTask) {
-        // TODO: isPresent() check
-        newSubTask.setParentTask(taskRepository.findById(parentTaskId).get());
+        Task parentTask;
+        if (taskRepository.findById(parentTaskId).isPresent()) {
+            parentTask = taskRepository.findById(parentTaskId).get();
+        }
+        else {
+            String errorMessage = "task was not found";
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, errorMessage);
+        }
+        newSubTask = taskRepository.save(newSubTask);
 
-        newSubTask = taskRepository.saveAndFlush(newSubTask);
-
+        parentTask.addSubTask(newSubTask);
+        taskRepository.flush();
         log.debug("Created information for sub task: {}", newSubTask);
     }
 
-    private static <V> V returnIfChangedElseKeepOld(V change, V old) {
-        return (change != null) ? change : old;
+    public String[] getNullPropertyNames(Object source) {
+        final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
+        return Stream.of(wrappedSource.getPropertyDescriptors())
+                .map(FeatureDescriptor::getName)
+                .filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null)
+                .toArray(String[]::new);
     }
-
 }

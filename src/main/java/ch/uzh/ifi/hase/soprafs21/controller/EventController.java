@@ -24,11 +24,9 @@ public class EventController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<EventDTO> getAllEvents() {
-        // fetch all users in the internal representation
         List<Event> events = eventService.getEvents();
         List<EventDTO> eventDTOs = new ArrayList<EventDTO>();
 
-        // convert each user to the API representation
         for (Event event: events) {
             eventDTOs.add(DTOMapper.INSTANCE.convertEntityToEventDTO(event));
         }
@@ -48,10 +46,8 @@ public class EventController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     public void editEvent(@PathVariable Long EventId, @RequestBody EventDTO eventDTO) {
-        Event eventInput = DTOMapper.INSTANCE.convertEventDTOtoEntity(eventDTO);
+        Event input = DTOMapper.INSTANCE.convertEventDTOtoEntity(eventDTO);
 
-        eventService.editEvent(eventInput, EventId);
+        eventService.updateEvent(EventId, input);
     }
-
-
 }
