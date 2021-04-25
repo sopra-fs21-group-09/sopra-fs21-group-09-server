@@ -19,7 +19,7 @@ import java.util.UUID;
  */
 @Service
 @Transactional
-public class UserService {
+public class UserService extends AService{
 
     private final Logger log = LoggerFactory.getLogger(UserService.class);
 

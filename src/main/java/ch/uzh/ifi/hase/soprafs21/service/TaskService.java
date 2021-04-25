@@ -6,8 +6,6 @@ import ch.uzh.ifi.hase.soprafs21.repository.TaskRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -15,14 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
-import java.beans.FeatureDescriptor;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Stream;
 
 @Service
 @Transactional
-public class TaskService {
+public class TaskService extends AService{
 
     private final Logger log = LoggerFactory.getLogger(TaskService.class);
 
@@ -88,13 +82,5 @@ public class TaskService {
         parentTask.addSubTask(newSubTask);
         taskRepository.flush();
         log.debug("Created information for sub task: {}", newSubTask);
-    }
-
-    public String[] getNullPropertyNames(Object source) {
-        final BeanWrapper wrappedSource = new BeanWrapperImpl(source);
-        return Stream.of(wrappedSource.getPropertyDescriptors())
-                .map(FeatureDescriptor::getName)
-                .filter(propertyName -> wrappedSource.getPropertyValue(propertyName) == null)
-                .toArray(String[]::new);
     }
 }

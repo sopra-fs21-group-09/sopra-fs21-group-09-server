@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class ModuleService {
+public class ModuleService extends AService{
     private final Logger log = LoggerFactory.getLogger(ModuleService.class);
 
     private final ModuleRepository moduleRepository;

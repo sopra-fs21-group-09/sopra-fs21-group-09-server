@@ -3,8 +3,10 @@ package ch.uzh.ifi.hase.soprafs21.rest.mapper;
 import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserPostDTO;
+
 import ch.uzh.ifi.hase.soprafs21.entity.Group;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupGetDTO;
+
 import ch.uzh.ifi.hase.soprafs21.embeddable.Deadline;
 import ch.uzh.ifi.hase.soprafs21.entity.Task;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.*;
@@ -13,7 +15,8 @@ import ch.uzh.ifi.hase.soprafs21.entity.Event;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventDTO;
 
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
-import ch.uzh.ifi.hase.soprafs21.rest.dto.ModuleGetDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Module.ModuleGetDTO;
+
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
@@ -30,35 +33,29 @@ public interface DTOMapper {
 
     DTOMapper INSTANCE = Mappers.getMapper(DTOMapper.class);
 
+    //User
     UserGetDTO convertEntityToUserGetDTO(User user);
-
     User convertUserPostDTOtoEntity(UserPostDTO userPostDTO);
+
+    //Module
     ModuleGetDTO convertEntityToModuleGetDTO(Module module);
+
+    //Group
     GroupGetDTO convertEntityToGroupGetDTO(Group group);
-    @Mapping(source = "name", target = "name")
-    @Mapping(source = "description", target = "description")
+
+    //Task
     @Mapping(source = "deadlinePostDTO", target = "deadline")
     Task convertTaskPostDTOtoEntity(TaskPostDTO taskPostDTO);
-
-    @Mapping(source = "name", target = "name")
-    @Mapping(source = "description", target = "description")
     @Mapping(source = "deadlinePostDTO", target = "deadline")
     Task convertTaskPutDTOtoEntity(TaskPutDTO taskPutDTO);
-
-    @Mapping(source = "name", target = "name")
-    @Mapping(source = "description", target = "description")
     @Mapping(source = "deadline", target = "deadlineGetDTO")
     @Mapping(source = "subTasks", target =  "subTasks")
     TaskGetDTO convertEntityToTaskGetDTO(Task task);
-
-    @Mapping(source = "time", target = "time")
-    @Mapping(source = "visible", target = "visible")
+    //Deadline
     Deadline convertDeadlinePostDTOtoEntity(DeadlinePostDTO deadlinePostDTO);
-
-    @Mapping(target = "time", source = "time")
-    @Mapping(target = "visible", source = "visible")
     DeadlineGetDTO convertEntityToDeadlineGetDTO(Deadline deadline);
 
+    //Event
     EventDTO convertEntityToEventDTO(Event event);
     Event convertEventDTOtoEntity(EventDTO eventDTO);
 

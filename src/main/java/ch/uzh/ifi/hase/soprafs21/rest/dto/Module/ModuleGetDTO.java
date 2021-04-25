@@ -1,4 +1,4 @@
-package ch.uzh.ifi.hase.soprafs21.rest.dto;
+package ch.uzh.ifi.hase.soprafs21.rest.dto.Module;
 
 public class ModuleGetDTO {
     private Long id;

@@ -1,7 +1,7 @@
 package ch.uzh.ifi.hase.soprafs21.controller;
 
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
-import ch.uzh.ifi.hase.soprafs21.rest.dto.ModuleGetDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Module.ModuleGetDTO;
 import ch.uzh.ifi.hase.soprafs21.service.ModuleService;
 import org.springframework.web.bind.annotation.RestController;
 import ch.uzh.ifi.hase.soprafs21.rest.mapper.DTOMapper;

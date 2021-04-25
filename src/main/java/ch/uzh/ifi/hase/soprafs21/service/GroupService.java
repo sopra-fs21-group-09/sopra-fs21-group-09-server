@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class GroupService {
+public class GroupService extends AService{
 
     private final Logger log = LoggerFactory.getLogger(GroupService.class);
 
