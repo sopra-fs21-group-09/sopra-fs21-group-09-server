@@ -1,5 +1,7 @@
 package ch.uzh.ifi.hase.soprafs21.rest.mapper;
 
+import ch.uzh.ifi.hase.soprafs21.entity.Group;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupGetDTO;
 import ch.uzh.ifi.hase.soprafs21.embeddable.Deadline;
 import ch.uzh.ifi.hase.soprafs21.entity.Task;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.*;
@@ -23,6 +25,7 @@ public interface DTOMapper {
 
     DTOMapper INSTANCE = Mappers.getMapper(DTOMapper.class);
 
+    GroupGetDTO convertEntityToGroupGetDTO(Group group);
     @Mapping(source = "name", target = "name")
     @Mapping(source = "description", target = "description")
     @Mapping(source = "deadlinePostDTO", target = "deadline")
