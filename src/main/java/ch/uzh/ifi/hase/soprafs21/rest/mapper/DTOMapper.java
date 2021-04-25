@@ -9,6 +9,8 @@ import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.*;
 import ch.uzh.ifi.hase.soprafs21.entity.Event;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventDTO;
 
+import ch.uzh.ifi.hase.soprafs21.entity.Module;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.ModuleGetDTO;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
@@ -25,6 +27,7 @@ public interface DTOMapper {
 
     DTOMapper INSTANCE = Mappers.getMapper(DTOMapper.class);
 
+    ModuleGetDTO convertEntityToModuleGetDTO(Module module);
     GroupGetDTO convertEntityToGroupGetDTO(Group group);
     @Mapping(source = "name", target = "name")
     @Mapping(source = "description", target = "description")
