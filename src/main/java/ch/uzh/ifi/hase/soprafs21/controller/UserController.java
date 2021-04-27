@@ -1,6 +1,8 @@
 package ch.uzh.ifi.hase.soprafs21.controller;
 
+import ch.uzh.ifi.hase.soprafs21.entity.Module;
 import ch.uzh.ifi.hase.soprafs21.entity.User;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Module.ModuleGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserPutDTO;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * User Controller
@@ -88,6 +91,18 @@ public class UserController {
         userService.addModuleToUser(userId, moduleId);
     }
 
-    //TODO: wo chommt de get modules for userId --> do (denn ModuleGetDTO do ine etc.) oder im ModuleController, iwie met userId als query doer pathvariable
+    @GetMapping("/users/{userId}/modules")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<ModuleGetDTO> getModulesFromUser(@PathVariable Long userId) {
+        Set<Module> modules = userService.getModulesFromUser(userId);
+        List<ModuleGetDTO> moduleGetDTOs = new ArrayList<>();
+
+        for (Module module : modules) {
+            moduleGetDTOs.add(DTOMapper.INSTANCE.convertEntityToModuleGetDTO(module));
+        }
+        return moduleGetDTOs;
+    }
+
 
 }

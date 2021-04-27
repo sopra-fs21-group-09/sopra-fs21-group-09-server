@@ -15,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -75,6 +76,11 @@ public class UserService extends AService{
         User user = getUserById(userId);
         Module module = moduleService.getModuleById(moduleId);
         user.addModule(module);
+    }
+
+    public Set<Module> getModulesFromUser(Long userId) {
+        User user = getUserById(userId);
+        return user.getModules();
     }
 
     public User getUserById(Long id){
