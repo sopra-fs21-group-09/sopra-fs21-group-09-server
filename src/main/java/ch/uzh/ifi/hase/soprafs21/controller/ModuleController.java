@@ -1,6 +1,8 @@
 package ch.uzh.ifi.hase.soprafs21.controller;
 
+import ch.uzh.ifi.hase.soprafs21.entity.Event;
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Module.ModuleGetDTO;
 import ch.uzh.ifi.hase.soprafs21.service.ModuleService;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class ModuleController {
@@ -33,6 +36,19 @@ public class ModuleController {
         }
         return moduleGetDTOs;
     }
-    //TODO: add further mappings (get /modules/{moduleID}, ...)
+
+    @GetMapping("/modules/{moduleId}/events")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<EventGetDTO> getEventsFromModule(@PathVariable Long moduleId) {
+        Set<Event> events = moduleService.getEventsFromModule(moduleId);
+        List<EventGetDTO> eventGetDTOs = new ArrayList<>();
+
+        // convert each module to the API representation
+        for (Event event: events) {
+            eventGetDTOs.add(DTOMapper.INSTANCE.convertEntityToEventGetDTO(event));
+        }
+        return eventGetDTOs;
+    }
 }
 

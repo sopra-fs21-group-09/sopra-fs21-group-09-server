@@ -35,6 +35,9 @@ public class Module implements Serializable {
     @ManyToMany(mappedBy = "modules")
     private Set<User> users = new HashSet<User>();
 
+    @OneToMany(mappedBy = "module")
+    private Set<Event> events = new HashSet<Event>();
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
@@ -85,5 +88,13 @@ public class Module implements Serializable {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
     }
 }
