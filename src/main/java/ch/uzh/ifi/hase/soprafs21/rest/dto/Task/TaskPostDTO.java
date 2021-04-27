@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs21.rest.dto.Task;
 
 public class TaskPostDTO {
-
     private String name;
     private String description;
     private DeadlinePostDTO deadlinePostDTO;
@@ -29,6 +28,5 @@ public class TaskPostDTO {
     public void setDeadlinePostDTO(DeadlinePostDTO deadlinePostDTO) {
         this.deadlinePostDTO = deadlinePostDTO;
     }
-
 }
 

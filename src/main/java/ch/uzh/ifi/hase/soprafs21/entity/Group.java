@@ -11,7 +11,7 @@ import java.io.Serializable;
  * - unique = true -> this value must be unqiue across the database -> composes the primary key
  */
 @Entity
-@Table(name = "GROUP")
+@Table(name = "GROUPS")
 public class Group implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -2,9 +2,11 @@ package ch.uzh.ifi.hase.soprafs21.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "MODULE")
+@Table(name = "MODULES")
 public class Module implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -29,6 +31,9 @@ public class Module implements Serializable {
 
     @Column
     private String zoom_link;
+
+    @ManyToMany(mappedBy = "modules")
+    private Set<User> users = new HashSet<User>();
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -72,5 +77,13 @@ public class Module implements Serializable {
 
     public void setZoom_link(String zoom_link) {
         this.zoom_link = zoom_link;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 }

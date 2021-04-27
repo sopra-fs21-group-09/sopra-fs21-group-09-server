@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * User Service
@@ -60,7 +61,7 @@ public class EventService extends AService{
     }
 
     private void checkIfEventExists(Event event){
-        Event eventById = eventRepository.findByEventId(event.getEventId());
+        Optional<Event> eventById = eventRepository.findById(event.getId());
 
         if (eventById == null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Event doesn't exist");

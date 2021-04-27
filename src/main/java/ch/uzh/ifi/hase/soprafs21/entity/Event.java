@@ -16,7 +16,7 @@ public class Event implements Serializable {
 
     @Id
     @GeneratedValue
-    private Long eventId;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -37,12 +37,12 @@ public class Event implements Serializable {
     @JoinColumn(name = "task_id")
     private Set<Task> tasks;
 
-    public Long getEventId() {
-        return eventId;
+    public Long getId() {
+        return id;
     }
 
-    public void setEventId(Long eventId) {
-        this.eventId = eventId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

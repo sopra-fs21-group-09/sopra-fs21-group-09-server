@@ -17,6 +17,7 @@ import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventDTO;
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Module.ModuleGetDTO;
 
+import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserPutDTO;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
@@ -36,6 +37,7 @@ public interface DTOMapper {
     //User
     UserGetDTO convertEntityToUserGetDTO(User user);
     User convertUserPostDTOtoEntity(UserPostDTO userPostDTO);
+    User convertUserPutDTOtoEntity(UserPutDTO userPutDTO);
 
     //Module
     ModuleGetDTO convertEntityToModuleGetDTO(Module module);
@@ -44,19 +46,30 @@ public interface DTOMapper {
     GroupGetDTO convertEntityToGroupGetDTO(Group group);
 
     //Task
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "description", target = "description")
     @Mapping(source = "deadlinePostDTO", target = "deadline")
     Task convertTaskPostDTOtoEntity(TaskPostDTO taskPostDTO);
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "description", target = "description")
     @Mapping(source = "deadlinePostDTO", target = "deadline")
     Task convertTaskPutDTOtoEntity(TaskPutDTO taskPutDTO);
+    @Mapping(source = "name", target = "name")
+    @Mapping(source = "description", target = "description")
     @Mapping(source = "deadline", target = "deadlineGetDTO")
     @Mapping(source = "subTasks", target =  "subTasks")
     TaskGetDTO convertEntityToTaskGetDTO(Task task);
     //Deadline
+    @Mapping(source = "time", target = "time")
+    @Mapping(source = "visible", target = "visible")
     Deadline convertDeadlinePostDTOtoEntity(DeadlinePostDTO deadlinePostDTO);
+    @Mapping(target = "time", source = "time")
+    @Mapping(target = "visible", source = "visible")
     DeadlineGetDTO convertEntityToDeadlineGetDTO(Deadline deadline);
 
     //Event
     EventDTO convertEntityToEventDTO(Event event);
     Event convertEventDTOtoEntity(EventDTO eventDTO);
+
 
 }

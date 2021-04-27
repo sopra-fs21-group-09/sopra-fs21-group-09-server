@@ -2,6 +2,8 @@ package ch.uzh.ifi.hase.soprafs21.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Internal User Representation
@@ -11,7 +13,7 @@ import java.io.Serializable;
  * - unique = true -> this value must be unqiue across the database -> composes the primary key
  */
 @Entity
-@Table(name = "USER")
+@Table(name = "USERS")
 public class User implements Serializable {
     //TODO: add Tasks
     //TODO: add Groups
@@ -35,6 +37,14 @@ public class User implements Serializable {
 
     @Column(nullable = false)
     private String name;
+
+    @ManyToMany
+    @JoinTable(
+            name = "USERS_MODULES",
+            joinColumns = @JoinColumn(name = "MODULE_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    )
+    private Set<Module> modules = new HashSet<Module>();
 
     @Column
     private String matrikelNr;
@@ -85,5 +95,23 @@ public class User implements Serializable {
 
     public void setMatrikelNr(String matrikelNr) {
         this.matrikelNr = matrikelNr;
+    }
+
+    public Set<Module> getModules() {
+        return modules;
+    }
+
+    public void setModules(Set<Module> modules) {
+        this.modules = modules;
+    }
+
+    public void addModule(Module module) {
+        this.modules.add(module);
+        module.getUsers().add(this);
+    }
+
+    public void removeModule(Module module) {
+        this.modules.remove(module);
+        module.getUsers().remove(this);
     }
 }

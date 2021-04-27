@@ -3,6 +3,7 @@ package ch.uzh.ifi.hase.soprafs21.controller;
 import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserPostDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserPutDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs21.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,16 @@ public class UserController {
         this.userService = userService;
     }
 
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public UserGetDTO loginUser(@RequestBody UserPostDTO userPostDTO) {
+        User userInput = DTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO);
+
+        User loggedInUser = userService.loginUser(userInput);
+
+        return DTOMapper.INSTANCE.convertEntityToUserGetDTO(loggedInUser);
+    }
 
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
@@ -43,16 +54,40 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public List<UserGetDTO> getAllUsers() {
-        // fetch all users in the internal representation
         List<User> users = userService.getUsers();
         List<UserGetDTO> userGetDTOs = new ArrayList<>();
 
-        // convert each user to the API representation
         for (User user : users) {
             userGetDTOs.add(DTOMapper.INSTANCE.convertEntityToUserGetDTO(user));
         }
         return userGetDTOs;
     }
 
-    //TODO: add further mappings (get /users/{userId}, ...)
+    @GetMapping("/users/{userId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public UserGetDTO getUserInformation(@PathVariable Long userId) {
+        User user = userService.getUserById(userId);
+        UserGetDTO userDTO= DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
+        return userDTO;
+    }
+
+    @PutMapping("/users/{userId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
+    public void edit(@PathVariable Long userId, @RequestBody UserPutDTO UserPutDTO) {
+        User input = DTOMapper.INSTANCE.convertUserPutDTOtoEntity(UserPutDTO);
+
+        userService.updateUser(userId, input);
+    }
+
+    @PostMapping("/users/{userId}/modules/{moduleId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public void addModule(@PathVariable Long userId, @PathVariable Long moduleId) {
+        userService.addModuleToUser(userId, moduleId);
+    }
+
+    //TODO: wo chommt de get modules for userId --> do (denn ModuleGetDTO do ine etc.) oder im ModuleController, iwie met userId als query doer pathvariable
+
 }

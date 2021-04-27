@@ -1,13 +1,16 @@
 package ch.uzh.ifi.hase.soprafs21.service;
 
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
+import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.repository.ModuleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -24,4 +27,15 @@ public class ModuleService extends AService{
     }
 
     public List<Module> getModules() {return this.moduleRepository.findAll();}
+
+    public Module getModuleById(Long id){
+        Module module;
+        if (moduleRepository.findById(id).isPresent()) {
+            module = moduleRepository.findById(id).get();
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "module was not found");
+        }
+        return module;
+    }
 }

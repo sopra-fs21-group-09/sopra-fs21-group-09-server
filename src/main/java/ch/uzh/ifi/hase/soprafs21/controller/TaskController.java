@@ -23,7 +23,6 @@ public class TaskController {
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public void createTask(@RequestBody TaskPostDTO taskPostDTO) {
-
         Task input = DTOMapper.INSTANCE.convertTaskPostDTOtoEntity(taskPostDTO);
 
         taskService.createTask(input);

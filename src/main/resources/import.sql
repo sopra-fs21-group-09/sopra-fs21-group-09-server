@@ -1,0 +1,1 @@
+insert into modules (id, description, name, prof_name, zoom_link) values(1, 'bestes Fach ever', 'SoPra', 'Dr. Fritz', 'zoom_link')
