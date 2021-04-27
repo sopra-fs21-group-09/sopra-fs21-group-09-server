@@ -1,7 +1,8 @@
 package ch.uzh.ifi.hase.soprafs21.service;
 
-import ch.uzh.ifi.hase.soprafs21.embeddable.Deadline;
+import ch.uzh.ifi.hase.soprafs21.entity.Deadline;
 import ch.uzh.ifi.hase.soprafs21.entity.Task;
+import ch.uzh.ifi.hase.soprafs21.repository.DeadlineRepository;
 import ch.uzh.ifi.hase.soprafs21.repository.TaskRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +22,12 @@ public class TaskService extends AService{
     private final Logger log = LoggerFactory.getLogger(TaskService.class);
 
     private final TaskRepository taskRepository;
+    private final DeadlineRepository deadlineRepository;
 
     @Autowired
-    public TaskService(@Qualifier("taskRepository") TaskRepository taskRepository) {
+    public TaskService(@Qualifier("taskRepository") TaskRepository taskRepository, @Qualifier("deadlineRepository") DeadlineRepository deadlineRepository) {
         this.taskRepository = taskRepository;
+        this.deadlineRepository = deadlineRepository;
     }
 
     public Task getTask(Long id) {
@@ -57,11 +60,37 @@ public class TaskService extends AService{
             String errorMessage = "task was not found";
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, errorMessage);
         }
+
+        Deadline changesToDeadline = changesToTask.getDeadline();
+        if (deadlineRepository.findById(id).isPresent()) {
+            changesToTask.setDeadline(null);
+        }
+
+
         BeanUtils.copyProperties(changesToTask, taskToBeUpdated, getNullPropertyNames(changesToTask));
         taskRepository.save(taskToBeUpdated);
         taskRepository.flush();
 
+        if (changesToDeadline != null) {
+            updateDeadline(id, changesToDeadline);
+        }
+
         log.debug("Updated information for Task: {}", taskToBeUpdated);
+    }
+
+    private void updateDeadline(Long id, Deadline changesToDeadline) {
+        if (deadlineRepository.findById(id).isPresent()) {
+            Deadline deadlineToBeUpdated = deadlineRepository.findById(id).get();
+
+            BeanUtils.copyProperties(changesToDeadline, deadlineToBeUpdated, getNullPropertyNames(changesToDeadline));
+            deadlineRepository.save(deadlineToBeUpdated);
+        }
+        else {
+            String errorMessage = "deadline was not found";
+
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, errorMessage);
+        }
+        deadlineRepository.flush();
     }
 
     public void deleteTask(Long id) {
@@ -80,6 +109,7 @@ public class TaskService extends AService{
         newSubTask = taskRepository.save(newSubTask);
 
         parentTask.addSubTask(newSubTask);
+        taskRepository.save(parentTask);
         taskRepository.flush();
         log.debug("Created information for sub task: {}", newSubTask);
     }

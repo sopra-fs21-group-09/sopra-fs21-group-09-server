@@ -7,7 +7,7 @@ import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs21.entity.Group;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupGetDTO;
 
-import ch.uzh.ifi.hase.soprafs21.embeddable.Deadline;
+import ch.uzh.ifi.hase.soprafs21.entity.Deadline;
 import ch.uzh.ifi.hase.soprafs21.entity.Task;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.*;
 

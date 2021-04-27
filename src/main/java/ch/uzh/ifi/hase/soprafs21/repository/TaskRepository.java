@@ -1,6 +1,6 @@
 package ch.uzh.ifi.hase.soprafs21.repository;
 
-import ch.uzh.ifi.hase.soprafs21.embeddable.Deadline;
+import ch.uzh.ifi.hase.soprafs21.entity.Deadline;
 import ch.uzh.ifi.hase.soprafs21.entity.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Set;
 
 @Repository("taskRepository")
 public interface TaskRepository extends JpaRepository<Task, Long> {

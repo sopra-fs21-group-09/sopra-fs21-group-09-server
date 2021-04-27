@@ -1,12 +1,9 @@
 package ch.uzh.ifi.hase.soprafs21.entity;
 
-import ch.uzh.ifi.hase.soprafs21.embeddable.Deadline;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity
@@ -17,7 +14,7 @@ public class Task implements Serializable {
 
     @Id
     @GeneratedValue
-    @Column(unique = true, nullable = false, insertable = false, updatable = false)
+    @Column(name = "id", unique = true, nullable = false, insertable = false, updatable = false)
     private Long id;
 
     @Column(nullable = false)
@@ -33,12 +30,12 @@ public class Task implements Serializable {
     @OneToMany(mappedBy = "parentTask")
     private List<Task> subTasks = new ArrayList<Task>();
 
-    @Embedded
+    @OneToOne(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     @AttributeOverrides(value = {
             @AttributeOverride(name = "time", column = @Column(name = "deadline_time")),
             @AttributeOverride(name = "visible", column = @Column(name = "deadline_visible"))
     })
-
+    @PrimaryKeyJoinColumn
     private Deadline deadline;
 
     public static long getSerialVersionUID() {
@@ -91,6 +88,7 @@ public class Task implements Serializable {
 
     public void setDeadline(Deadline deadline) {
         this.deadline = deadline;
+        if (this.deadline != null) this.deadline.setTask(this);
     }
 
     public void addSubTask(Task subTask) {
