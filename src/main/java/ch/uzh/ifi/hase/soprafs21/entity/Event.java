@@ -37,6 +37,10 @@ public class Event implements Serializable {
     @JoinColumn(name = "MODULE_ID", referencedColumnName = "ID")
     private Module module;
 
+    @ManyToOne
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    private User user;
+
     public Long getId() {
         return id;
     }
@@ -95,5 +99,13 @@ public class Event implements Serializable {
 
     public void setModule(Module module) {
         this.module = module;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

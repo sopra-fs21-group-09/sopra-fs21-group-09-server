@@ -1,5 +1,6 @@
 package ch.uzh.ifi.hase.soprafs21.service;
 
+import ch.uzh.ifi.hase.soprafs21.entity.Event;
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
 import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.repository.UserRepository;
@@ -81,6 +82,11 @@ public class UserService extends AService{
     public Set<Module> getModulesFromUser(Long userId) {
         User user = getUserById(userId);
         return user.getModules();
+    }
+
+    public Set<Event> getEventsFromUser(Long userId) {
+        User user = getUserById(userId);
+        return user.getEvents();
     }
 
     public User getUserById(Long id){

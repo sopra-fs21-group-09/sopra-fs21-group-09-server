@@ -38,6 +38,9 @@ public class User implements Serializable {
     @Column(nullable = false)
     private String name;
 
+    @Column
+    private String matrikelNr;
+
     @ManyToMany
     @JoinTable(
             name = "USERS_MODULES",
@@ -46,8 +49,8 @@ public class User implements Serializable {
     )
     private Set<Module> modules = new HashSet<Module>();
 
-    @Column
-    private String matrikelNr;
+    @OneToMany(mappedBy = "user")
+    private Set<Event> events = new HashSet<Event>();
 
     public Long getId() {
         return id;
@@ -103,6 +106,14 @@ public class User implements Serializable {
 
     public void setModules(Set<Module> modules) {
         this.modules = modules;
+    }
+
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
     }
 
     public void addModule(Module module) {
