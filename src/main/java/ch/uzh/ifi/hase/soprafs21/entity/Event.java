@@ -10,8 +10,6 @@ import java.util.Set;
 @Entity
 @Table(name = "EVENTS")
 public class Event implements Serializable {
-    //TODO: add User relations
-    //TODO: add Labels
     private static final long serialVersionUID = 1L;
 
     @Id

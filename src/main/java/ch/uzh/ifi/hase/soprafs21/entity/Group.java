@@ -2,6 +2,8 @@ package ch.uzh.ifi.hase.soprafs21.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Internal User Representation
@@ -27,7 +29,7 @@ public class Group implements Serializable {
     private String description;
 
     @Column
-    private Boolean priv;
+    private Boolean open;
 
     @Column
     private String password;
@@ -35,9 +37,11 @@ public class Group implements Serializable {
     @Column
     private int memberLimit;
 
-    //@Column
-    //private User creator;
+    @OneToOne
+    private User creator;
 
+    @ManyToMany(mappedBy = "groups")
+    private Set<User> members = new HashSet<User>();
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -67,12 +71,12 @@ public class Group implements Serializable {
         this.description = description;
     }
 
-    public Boolean getPriv() {
-        return priv;
+    public Boolean getOpen() {
+        return open;
     }
 
-    public void setPriv(Boolean priv) {
-        this.priv = priv;
+    public void setOpen(Boolean open) {
+        this.open = open;
     }
 
     public String getPassword() {
@@ -89,5 +93,16 @@ public class Group implements Serializable {
 
     public void setMemberLimit(int memberLimit) {
         this.memberLimit = memberLimit;
+    }
+
+    public Set<User> getMembers() {
+        return members;
+    }
+
+    public void setMembers(Set<User> members) {
+        this.members = members;
+    }
+    public void addCreator(User creator) {
+        this.creator = creator;
     }
 }

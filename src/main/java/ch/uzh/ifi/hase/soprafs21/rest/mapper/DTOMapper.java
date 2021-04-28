@@ -3,6 +3,7 @@ package ch.uzh.ifi.hase.soprafs21.rest.mapper;
 import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventPutDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserPostDTO;
 
@@ -46,6 +47,7 @@ public interface DTOMapper {
 
     //Group
     GroupGetDTO convertEntityToGroupGetDTO(Group group);
+    Group convertGroupPostDTOtoEntity(GroupPostDTO groupPostDTO);
 
     //Task
     @Mapping(source = "name", target = "name")
@@ -70,10 +72,7 @@ public interface DTOMapper {
     DeadlineGetDTO convertEntityToDeadlineGetDTO(Deadline deadline);
 
     //Event
-    EventPostDTO convertEntityToEventDTO(Event event);
-    Event convertEventDTOtoEntity(EventPostDTO eventPostDTO);
     EventGetDTO convertEntityToEventGetDTO(Event event);
     Event convertEventPutDTOtoEntity(EventPutDTO eventPutDTO);
-
-
+    Event convertEventPostDTOtoEntity(EventPostDTO eventPostDTO);
 }

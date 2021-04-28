@@ -89,8 +89,15 @@ public class UserController {
     @PostMapping("/users/{userId}/modules/{moduleId}")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public void addModule(@PathVariable Long userId, @PathVariable Long moduleId) {
+    public void joinModule(@PathVariable Long userId, @PathVariable Long moduleId) {
         userService.addModuleToUser(userId, moduleId);
+    }
+
+    @PostMapping("/users/{userId}/groups/{groupId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public void joinGroup(@PathVariable Long userId, @PathVariable Long groupId) {
+        userService.addGroupToUser(userId, groupId);
     }
 
     @GetMapping("/users/{userId}/modules")

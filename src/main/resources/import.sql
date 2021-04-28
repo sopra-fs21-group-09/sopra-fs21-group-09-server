@@ -1,4 +1,5 @@
 insert into users (id, username, token, password, name, matrikel_nr) values(1, 'test user', '1234', 'password', 'user test', '99-001-001')
+insert into users (id, username, token, password, name, matrikel_nr) values(2, 'test user 2', '12345', 'password', 'user test', '99-001-002')
 
 insert into modules (id, description, name, prof_name, zoom_link) values(1, 'bestes Fach ever', 'SoPra', 'Dr. Fritz', 'zoom_link')
 insert into modules (id, description, name, prof_name, zoom_link) values(2, 'zweit bestes Fach ever', 'Software Engineering', 'Auch Dr. Fritz', 'anderer_zoom_link')

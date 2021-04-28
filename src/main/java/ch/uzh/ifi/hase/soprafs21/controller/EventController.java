@@ -39,7 +39,7 @@ public class EventController {
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public void createEvent(@RequestBody EventPostDTO eventPostDTO){
-        Event eventInput = DTOMapper.INSTANCE.convertEventDTOtoEntity(eventPostDTO);
+        Event eventInput = DTOMapper.INSTANCE.convertEventPostDTOtoEntity(eventPostDTO);
 
         eventService.createEvent(eventInput);
     }

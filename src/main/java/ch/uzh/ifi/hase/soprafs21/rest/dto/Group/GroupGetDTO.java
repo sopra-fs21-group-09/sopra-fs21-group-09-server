@@ -3,7 +3,7 @@ package ch.uzh.ifi.hase.soprafs21.rest.dto.Group;
 public class GroupGetDTO {
     private String name;
     //private User creator;
-    private boolean priv;
+    private boolean open;
     private int member_limit;
     //private List<User> users;
 
@@ -16,12 +16,12 @@ public class GroupGetDTO {
         this.name = name;
     }
 
-    public boolean isPriv() {
-        return priv;
+    public boolean isOpen() {
+        return open;
     }
 
-    public void setPriv(boolean priv) {
-        this.priv = priv;
+    public void setOpen(boolean open) {
+        this.open = open;
     }
 
     public int getMember_limit() {

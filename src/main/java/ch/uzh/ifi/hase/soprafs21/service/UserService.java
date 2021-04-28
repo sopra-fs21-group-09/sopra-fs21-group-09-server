@@ -1,6 +1,7 @@
 package ch.uzh.ifi.hase.soprafs21.service;
 
 import ch.uzh.ifi.hase.soprafs21.entity.Event;
+import ch.uzh.ifi.hase.soprafs21.entity.Group;
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
 import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.repository.UserRepository;
@@ -32,11 +33,13 @@ public class UserService extends AService{
 
     private final UserRepository userRepository;
     private final ModuleService moduleService;
+    private final GroupService groupService;
 
     @Autowired
-    public UserService(@Qualifier("userRepository") UserRepository userRepository, ModuleService moduleService) {
+    public UserService(@Qualifier("userRepository") UserRepository userRepository, ModuleService moduleService, GroupService groupService) {
         this.userRepository = userRepository;
         this.moduleService = moduleService;
+        this.groupService = groupService;
     }
 
     public List<User> getUsers() {return this.userRepository.findAll();
@@ -79,6 +82,12 @@ public class UserService extends AService{
         user.addModule(module);
     }
 
+    public void addGroupToUser(Long userId, Long groupId) {
+        User user = getUserById(userId);
+        Group group = groupService.getGroupById(groupId);
+        user.addGroup(group);
+    }
+
     public Set<Module> getModulesFromUser(Long userId) {
         User user = getUserById(userId);
         return user.getModules();
@@ -118,5 +127,4 @@ public class UserService extends AService{
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password incorrect.");
         }
     }
-
 }

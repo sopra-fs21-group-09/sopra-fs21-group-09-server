@@ -49,6 +49,14 @@ public class User implements Serializable {
     )
     private Set<Module> modules = new HashSet<Module>();
 
+    @ManyToMany
+    @JoinTable(
+            name = "USERS_GROUPS",
+            joinColumns = @JoinColumn(name = "GROUPID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    )
+    private Set<Group> groups = new HashSet<Group>();
+
     @OneToMany(mappedBy = "user")
     private Set<Event> events = new HashSet<Event>();
 
@@ -124,5 +132,15 @@ public class User implements Serializable {
     public void removeModule(Module module) {
         this.modules.remove(module);
         module.getUsers().remove(this);
+    }
+
+    public void addGroup(Group group) {
+        this.groups.add(group);
+        group.getMembers().add(this);
+    }
+
+    public void removeGroup(Group group) {
+        this.groups.remove(group);
+        group.getMembers().remove(this);
     }
 }

@@ -51,6 +51,5 @@ public class ModuleController {
         return eventGetDTOs;
     }
 
-    //TODO: add addEventToUser
 }
 
