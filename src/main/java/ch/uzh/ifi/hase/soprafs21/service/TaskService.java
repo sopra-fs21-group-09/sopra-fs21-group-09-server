@@ -62,10 +62,7 @@ public class TaskService extends AService{
         }
 
         Deadline changesToDeadline = changesToTask.getDeadline();
-
-        //TODO: if the following is TRUE --> "PropertyValueException: not-null property references a null or transient value : ch.uzh.ifi.hase.soprafs21.entity.Task.name"
-        //chegge hert nöd wieso, han sch alles probiert
-        if (deadlineRepository.findById(id).isPresent()) {
+        if (deadlineRepository.findById(id).isPresent() && changesToDeadline != null) {
             updateDeadline(id, changesToDeadline);
             changesToTask.setDeadline(null);
         }
@@ -81,6 +78,8 @@ public class TaskService extends AService{
     private void updateDeadline(Long id, Deadline changesToDeadline) {
         if (deadlineRepository.findById(id).isPresent()) {
             Deadline deadlineToBeUpdated = deadlineRepository.findById(id).get();
+
+            changesToDeadline.setTask(getTask(id));
 
             BeanUtils.copyProperties(changesToDeadline, deadlineToBeUpdated, getNullPropertyNames(changesToDeadline));
             deadlineRepository.save(deadlineToBeUpdated);
