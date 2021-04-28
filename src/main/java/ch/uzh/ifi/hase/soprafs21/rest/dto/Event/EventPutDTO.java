@@ -4,7 +4,7 @@ import ch.uzh.ifi.hase.soprafs21.constant.EventLabel;
 
 import java.util.Date;
 
-public class EventDTO {
+public class EventPutDTO {
     private String name;
     private Date startTime;
     private Date endTime;

@@ -30,12 +30,16 @@ public class Event implements Serializable {
     @Column
     private String description;
 
-    @Column
+    @Enumerated(EnumType.STRING)
     private EventLabel label;
 
-    @OneToMany
-    @JoinColumn(name = "task_id")
-    private Set<Task> tasks;
+    @ManyToOne
+    @JoinColumn(name = "MODULE_ID", referencedColumnName = "ID")
+    private Module module;
+
+    @ManyToOne
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    private User user;
 
     public Long getId() {
         return id;
@@ -89,15 +93,19 @@ public class Event implements Serializable {
         return serialVersionUID;
     }
 
-    public Set<Task> getTasks() {
-        return tasks;
+    public Module getModule() {
+        return module;
     }
 
-    public void setTasks(Set<Task> tasks) {
-        this.tasks = tasks;
+    public void setModule(Module module) {
+        this.module = module;
     }
 
-    public void addTask(Task task) {
-        this.tasks.add(task);
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

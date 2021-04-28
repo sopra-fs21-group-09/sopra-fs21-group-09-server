@@ -1,6 +1,8 @@
 package ch.uzh.ifi.hase.soprafs21.rest.mapper;
 
 import ch.uzh.ifi.hase.soprafs21.entity.User;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventGetDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventPutDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserPostDTO;
 
@@ -12,7 +14,7 @@ import ch.uzh.ifi.hase.soprafs21.entity.Task;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.*;
 
 import ch.uzh.ifi.hase.soprafs21.entity.Event;
-import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventPostDTO;
 
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Module.ModuleGetDTO;
@@ -68,8 +70,10 @@ public interface DTOMapper {
     DeadlineGetDTO convertEntityToDeadlineGetDTO(Deadline deadline);
 
     //Event
-    EventDTO convertEntityToEventDTO(Event event);
-    Event convertEventDTOtoEntity(EventDTO eventDTO);
+    EventPostDTO convertEntityToEventDTO(Event event);
+    Event convertEventDTOtoEntity(EventPostDTO eventPostDTO);
+    EventGetDTO convertEntityToEventGetDTO(Event event);
+    Event convertEventPutDTOtoEntity(EventPutDTO eventPutDTO);
 
 
 }

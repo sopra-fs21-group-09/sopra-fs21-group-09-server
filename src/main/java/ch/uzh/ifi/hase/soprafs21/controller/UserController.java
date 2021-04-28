@@ -1,7 +1,9 @@
 package ch.uzh.ifi.hase.soprafs21.controller;
 
+import ch.uzh.ifi.hase.soprafs21.entity.Event;
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
 import ch.uzh.ifi.hase.soprafs21.entity.User;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Module.ModuleGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserPostDTO;
@@ -104,5 +106,19 @@ public class UserController {
         return moduleGetDTOs;
     }
 
+    @GetMapping("/users/{userId}/events")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<EventGetDTO> getEventsFromModule(@PathVariable Long userId) {
+        Set<Event> events = userService.getEventsFromUser(userId);
+        List<EventGetDTO> eventGetDTOs = new ArrayList<>();
 
+        // convert each module to the API representation
+        for (Event event: events) {
+            eventGetDTOs.add(DTOMapper.INSTANCE.convertEntityToEventGetDTO(event));
+        }
+        return eventGetDTOs;
+    }
+
+    //TODO: add addEventToUser
 }

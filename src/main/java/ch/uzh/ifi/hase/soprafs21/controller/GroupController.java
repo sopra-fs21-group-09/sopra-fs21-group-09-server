@@ -31,6 +31,7 @@ public class GroupController {
         }
         return groupGetDTOs;
     }
+
     //TODO: add further mappings (get /groups/{groupID}, ...)
 
 }
