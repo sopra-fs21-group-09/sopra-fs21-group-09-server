@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 @Entity(name = "DEADLINES")
 public class Deadline implements Serializable {
+    //TODO: BUG!!! "visible":null in json is mapped to visible = false and updates deadlines unwillingly!!!
 
     private static final long serialVersionUID = 1L;
 
