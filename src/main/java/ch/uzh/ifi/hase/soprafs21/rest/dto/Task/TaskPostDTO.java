@@ -3,7 +3,7 @@ package ch.uzh.ifi.hase.soprafs21.rest.dto.Task;
 public class TaskPostDTO {
     private String name;
     private String description;
-    private DeadlinePostDTO deadlinePostDTO;
+    private DeadlinePostDTO deadline;
 
     public String getName() {
         return name;
@@ -22,11 +22,11 @@ public class TaskPostDTO {
     }
 
     public DeadlinePostDTO getDeadlinePostDTO() {
-        return deadlinePostDTO;
+        return deadline;
     }
 
     public void setDeadlinePostDTO(DeadlinePostDTO deadlinePostDTO) {
-        this.deadlinePostDTO = deadlinePostDTO;
+        this.deadline = deadlinePostDTO;
     }
 }
 

@@ -31,10 +31,6 @@ public class Task implements Serializable {
     private List<Task> subTasks = new ArrayList<Task>();
 
     @OneToOne(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
-    @AttributeOverrides(value = {
-            @AttributeOverride(name = "time", column = @Column(name = "deadline_time")),
-            @AttributeOverride(name = "visible", column = @Column(name = "deadline_visible"))
-    })
     @PrimaryKeyJoinColumn
     private Deadline deadline;
 

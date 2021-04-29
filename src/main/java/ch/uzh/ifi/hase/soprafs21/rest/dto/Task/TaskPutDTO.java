@@ -7,7 +7,7 @@ public class TaskPutDTO {
     private String name;
     private String description;
     private Set<TaskPostDTO> subTasks;
-    private DeadlinePostDTO deadlinePostDTO;
+    private DeadlinePostDTO deadline;
 
     public String getName() {
         return name;
@@ -34,10 +34,10 @@ public class TaskPutDTO {
     }
 
     public DeadlinePostDTO getDeadlinePostDTO() {
-        return deadlinePostDTO;
+        return deadline;
     }
 
     public void setDeadlinePostDTO(DeadlinePostDTO deadlinePostDTO) {
-        this.deadlinePostDTO = deadlinePostDTO;
+        this.deadline = deadlinePostDTO;
     }
 }
