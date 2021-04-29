@@ -52,15 +52,15 @@ public interface DTOMapper {
     //Task
     @Mapping(source = "name", target = "name")
     @Mapping(source = "description", target = "description")
-    @Mapping(source = "deadlinePostDTO", target = "deadline")
+    @Mapping(source = "deadline", target = "deadline")
     Task convertTaskPostDTOtoEntity(TaskPostDTO taskPostDTO);
     @Mapping(source = "name", target = "name")
     @Mapping(source = "description", target = "description")
-    @Mapping(source = "deadlinePostDTO", target = "deadline")
+    @Mapping(source = "deadline", target = "deadline")
     Task convertTaskPutDTOtoEntity(TaskPutDTO taskPutDTO);
     @Mapping(source = "name", target = "name")
     @Mapping(source = "description", target = "description")
-    @Mapping(source = "deadline", target = "deadlineGetDTO")
+    @Mapping(source = "deadline", target = "deadline")
     @Mapping(source = "subTasks", target =  "subTasks")
     TaskGetDTO convertEntityToTaskGetDTO(Task task);
     //Deadline

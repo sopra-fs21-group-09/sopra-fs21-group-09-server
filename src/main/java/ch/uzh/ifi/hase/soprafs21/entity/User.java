@@ -52,7 +52,7 @@ public class User implements Serializable {
     @ManyToMany
     @JoinTable(
             name = "USERS_GROUPS",
-            joinColumns = @JoinColumn(name = "GROUPID", referencedColumnName = "ID"),
+            joinColumns = @JoinColumn(name = "GROUP_ID", referencedColumnName = "ID"),
             inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
     )
     private Set<Group> groups = new HashSet<Group>();

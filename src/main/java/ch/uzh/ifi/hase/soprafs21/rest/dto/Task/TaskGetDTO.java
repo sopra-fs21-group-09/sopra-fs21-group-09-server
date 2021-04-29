@@ -6,7 +6,7 @@ public class TaskGetDTO {
     private String name;
     private String description;
     private Set<TaskGetDTO> subTasks;
-    private DeadlineGetDTO deadlineGetDTO;
+    private DeadlineGetDTO deadline;
 
     public String getName() {
         return name;
@@ -33,10 +33,10 @@ public class TaskGetDTO {
     }
 
     public DeadlineGetDTO getDeadlineGetDTO() {
-        return deadlineGetDTO;
+        return deadline;
     }
 
     public void setDeadlineGetDTO(DeadlineGetDTO deadlineGetDTO) {
-        this.deadlineGetDTO = deadlineGetDTO;
+        this.deadline = deadlineGetDTO;
     }
 }
