@@ -40,7 +40,7 @@ public class GroupService extends AService{
     public List<Group> getGroups() {return this.groupRepository.findAll();
     }
 
-    public void createGroup(Group groupToBeCreated, Long creatorId) {
+    public void createGroupForUser(Group groupToBeCreated, Long creatorId) {
         User creator = userService.getUserById(creatorId);
         Group createdGroup = groupRepository.save(groupToBeCreated);
         groupRepository.flush();

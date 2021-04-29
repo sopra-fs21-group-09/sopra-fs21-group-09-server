@@ -1,10 +1,8 @@
 package ch.uzh.ifi.hase.soprafs21.controller;
 
 import ch.uzh.ifi.hase.soprafs21.entity.Group;
-import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupPostDTO;
-import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs21.service.GroupService;
 import org.springframework.http.HttpStatus;
@@ -41,7 +39,6 @@ public class GroupController {
     public void userCreateGroup(@RequestBody GroupPostDTO groupPostDTO, @PathVariable Long userId){
         Group input = DTOMapper.INSTANCE.convertGroupPostDTOtoEntity(groupPostDTO);
 
-        groupService.createGroup(input, userId);
+        groupService.createGroupForUser(input, userId);
     }
-
 }

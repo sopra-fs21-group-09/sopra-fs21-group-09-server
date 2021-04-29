@@ -5,6 +5,7 @@ import ch.uzh.ifi.hase.soprafs21.entity.Group;
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
 import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs21.rest.mapper.DTOMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -95,6 +96,12 @@ public class UserService extends AService{
 
     public Set<Event> getEventsFromUser(Long userId) {
         User user = getUserById(userId);
+        Set<Event> events = user.getEvents();
+
+        Set<Module> modules = user.getModules();
+        for (Module module: modules) {
+            events.addAll(module.getEvents());
+        }
         return user.getEvents();
     }
 

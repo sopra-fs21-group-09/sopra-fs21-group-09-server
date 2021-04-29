@@ -1,12 +1,15 @@
 package ch.uzh.ifi.hase.soprafs21.service;
 
 import ch.uzh.ifi.hase.soprafs21.entity.Event;
+import ch.uzh.ifi.hase.soprafs21.entity.Group;
+import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.repository.EventRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,10 +30,12 @@ public class EventService extends AService{
     private final Logger log = LoggerFactory.getLogger(EventService.class);
 
     private final EventRepository eventRepository;
+    private final UserService userService;
 
     @Autowired
-    public EventService(@Qualifier("eventRepository") EventRepository eventRepository) {
+    public EventService(@Qualifier("eventRepository") EventRepository eventRepository, @Lazy UserService userService) {
         this.eventRepository = eventRepository;
+        this.userService = userService;
     }
 
     public List<Event> getEvents() {
@@ -60,6 +65,13 @@ public class EventService extends AService{
         log.debug("Updated information for Task: {}", eventToBeUpdated);
     }
 
+    public void createEventForUser(Event eventToBeCreated, Long userId) {
+        User user = userService.getUserById(userId);
+        Event createdEvent = eventRepository.save(eventToBeCreated);
+        eventRepository.flush();
+        user.addEvent(createdEvent);
+    }
+
     private void checkIfEventExists(Event event){
         Optional<Event> eventById = eventRepository.findById(event.getId());
 
@@ -67,4 +79,5 @@ public class EventService extends AService{
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Event doesn't exist");
         }
     }
+
 }

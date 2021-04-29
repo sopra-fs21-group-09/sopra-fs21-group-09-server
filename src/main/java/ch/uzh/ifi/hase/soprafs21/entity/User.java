@@ -124,6 +124,14 @@ public class User implements Serializable {
         this.events = events;
     }
 
+    public Set<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Set<Group> groups) {
+        this.groups = groups;
+    }
+
     public void addModule(Module module) {
         this.modules.add(module);
         module.getUsers().add(this);
@@ -142,5 +150,15 @@ public class User implements Serializable {
     public void removeGroup(Group group) {
         this.groups.remove(group);
         group.getMembers().remove(this);
+    }
+
+    public void addEvent(Event event) {
+        this.events.add(event);
+        event.setUser(this);
+    }
+
+    public void removeEvent(Event event) {
+        this.events.remove(event);
+        event.setUser(this);
     }
 }

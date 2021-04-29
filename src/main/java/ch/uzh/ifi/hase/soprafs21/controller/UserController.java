@@ -118,14 +118,14 @@ public class UserController {
     @ResponseBody
     public List<EventGetDTO> getEventsFromModule(@PathVariable Long userId) {
         Set<Event> events = userService.getEventsFromUser(userId);
+
         List<EventGetDTO> eventGetDTOs = new ArrayList<>();
 
-        // convert each module to the API representation
         for (Event event: events) {
             eventGetDTOs.add(DTOMapper.INSTANCE.convertEntityToEventGetDTO(event));
         }
         return eventGetDTOs;
     }
 
-    //TODO: add addEventToUser
+
 }
