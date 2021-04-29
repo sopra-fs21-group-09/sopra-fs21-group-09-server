@@ -47,6 +47,9 @@ public class Group implements Serializable {
     @JoinColumn(name = "MODULE_ID", referencedColumnName = "ID")
     private Module module;
 
+    @OneToMany(mappedBy = "group")
+    private Set<Task> tasks = new HashSet<Task>();
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
@@ -124,5 +127,18 @@ public class Group implements Serializable {
     }
     public void addCreator(User creator) {
         this.creator = creator;
+    }
+
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public void addTask(Task task) {
+        this.tasks.add(task);
+        task.setGroup(this);
     }
 }

@@ -31,12 +31,20 @@ public class Task implements Serializable {
     private List<Task> subTasks = new ArrayList<Task>();
 
     @OneToOne(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
-    @AttributeOverrides(value = {
-            @AttributeOverride(name = "time", column = @Column(name = "deadline_time")),
-            @AttributeOverride(name = "visible", column = @Column(name = "deadline_visible"))
-    })
     @PrimaryKeyJoinColumn
     private Deadline deadline;
+
+    @ManyToOne
+    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "MODULE_ID", referencedColumnName = "ID")
+    private Module module;
+
+    @ManyToOne
+    @JoinColumn(name = "GROUP_ID", referencedColumnName = "ID")
+    private Group group;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -94,5 +102,29 @@ public class Task implements Serializable {
     public void addSubTask(Task subTask) {
         this.subTasks.add(subTask);
         subTask.setParentTask(this);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Module getModule() {
+        return module;
+    }
+
+    public void setModule(Module module) {
+        this.module = module;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }

@@ -1,9 +1,8 @@
 package ch.uzh.ifi.hase.soprafs21.service;
 
-import ch.uzh.ifi.hase.soprafs21.entity.Event;
-import ch.uzh.ifi.hase.soprafs21.entity.Group;
+import ch.uzh.ifi.hase.soprafs21.entity.*;
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
-import ch.uzh.ifi.hase.soprafs21.entity.User;
+import ch.uzh.ifi.hase.soprafs21.repository.TaskRepository;
 import ch.uzh.ifi.hase.soprafs21.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs21.rest.mapper.DTOMapper;
 import org.slf4j.Logger;
@@ -35,12 +34,17 @@ public class UserService extends AService{
     private final UserRepository userRepository;
     private final ModuleService moduleService;
     private final GroupService groupService;
+    private final TaskService taskService;
 
     @Autowired
-    public UserService(@Qualifier("userRepository") UserRepository userRepository, ModuleService moduleService, GroupService groupService) {
+    public UserService(@Qualifier("userRepository") UserRepository userRepository,
+                       ModuleService moduleService,
+                       GroupService groupService,
+                       TaskService taskService) {
         this.userRepository = userRepository;
         this.moduleService = moduleService;
         this.groupService = groupService;
+        this.taskService = taskService;
     }
 
     public List<User> getUsers() {return this.userRepository.findAll();
@@ -94,6 +98,10 @@ public class UserService extends AService{
         return user.getModules();
     }
 
+    public Set<Group> getGroupsFromUser(Long userId) {
+        return getUserById(userId).getGroups();
+    }
+
     public Set<Event> getEventsFromUser(Long userId) {
         User user = getUserById(userId);
         Set<Event> events = user.getEvents();
@@ -103,6 +111,27 @@ public class UserService extends AService{
             events.addAll(module.getEvents());
         }
         return user.getEvents();
+    }
+
+    public void createTaskForUser(Long id, Task newTask) {
+        User user = getUserById(id);
+        user.addTask(newTask);
+
+        userRepository.saveAndFlush(user);
+    }
+
+    public Set<Task> getTasksFromUser(Long userId) {
+        Set<Task> tasks = getUserById(userId).getTasks();
+
+        Set<Module> modules = getModulesFromUser(userId);
+        for (Module module : modules) {
+            tasks.addAll(module.getTasks());
+        }
+        Set<Group> groups = getGroupsFromUser(userId);
+        for (Group group : groups) {
+            tasks.addAll(group.getTasks());
+        }
+        return  tasks;
     }
 
     public User getUserById(Long id){

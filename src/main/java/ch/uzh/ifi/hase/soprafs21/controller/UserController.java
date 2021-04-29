@@ -2,9 +2,12 @@ package ch.uzh.ifi.hase.soprafs21.controller;
 
 import ch.uzh.ifi.hase.soprafs21.entity.Event;
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
+import ch.uzh.ifi.hase.soprafs21.entity.Task;
 import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Module.ModuleGetDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskGetDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserPutDTO;
@@ -116,7 +119,7 @@ public class UserController {
     @GetMapping("/users/{userId}/events")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<EventGetDTO> getEventsFromModule(@PathVariable Long userId) {
+    public List<EventGetDTO> getEventsFromUser(@PathVariable Long userId) {
         Set<Event> events = userService.getEventsFromUser(userId);
 
         List<EventGetDTO> eventGetDTOs = new ArrayList<>();
@@ -127,5 +130,27 @@ public class UserController {
         return eventGetDTOs;
     }
 
+    @PostMapping("/users/{userId}/tasks")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public void createTaskForUser(@PathVariable Long userId, @RequestBody TaskPostDTO taskPostDTO) {
+        Task input = DTOMapper.INSTANCE.convertTaskPostDTOtoEntity(taskPostDTO);
+
+        userService.createTaskForUser(userId, input);
+    }
+
+    @GetMapping("/users/{userId}/tasks")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<TaskGetDTO> getTasksFromUser(@PathVariable Long userId) {
+        Set<Task> tasks = userService.getTasksFromUser(userId);
+
+        List<TaskGetDTO> taskGetDTOs= new ArrayList<>();
+
+        for (Task task: tasks) {
+            taskGetDTOs.add(DTOMapper.INSTANCE.convertEntityToTaskGetDTO(task));
+        }
+        return taskGetDTOs;
+    }
 
 }

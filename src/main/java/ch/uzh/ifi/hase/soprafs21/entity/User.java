@@ -60,6 +60,9 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     private Set<Event> events = new HashSet<Event>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Task> tasks = new HashSet<Task>();
+
     public Long getId() {
         return id;
     }
@@ -160,5 +163,18 @@ public class User implements Serializable {
     public void removeEvent(Event event) {
         this.events.remove(event);
         event.setUser(this);
+    }
+
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public void addTask(Task task) {
+        this.tasks.add(task);
+        task.setUser(this);
     }
 }

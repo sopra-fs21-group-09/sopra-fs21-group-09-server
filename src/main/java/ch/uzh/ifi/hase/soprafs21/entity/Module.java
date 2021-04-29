@@ -41,6 +41,9 @@ public class Module implements Serializable {
     @OneToMany(mappedBy = "module")
     private Set<Group> groups = new HashSet<Group>();
 
+    @OneToMany(mappedBy = "module")
+    private Set<Task> tasks = new HashSet<Task>();
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
@@ -109,5 +112,18 @@ public class Module implements Serializable {
     public void removeGroup(Group group) {
         this.groups.remove(group);
         group.setModule(null);
+    }
+
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public void addTask(Task task) {
+        this.tasks.add(task);
+        task.setModule(this);
     }
 }
