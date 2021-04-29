@@ -30,11 +30,14 @@ public class GroupService extends AService{
 
     private final GroupRepository groupRepository;
     private final UserService userService;
+    private final ModuleService moduleService;
+
 
     @Autowired
-    public GroupService(@Qualifier("groupRepository") GroupRepository groupRepository, @Lazy UserService userService) {
+    public GroupService(@Qualifier("groupRepository") GroupRepository groupRepository, @Lazy UserService userService,  @Lazy ModuleService moduleService) {
         this.groupRepository = groupRepository;
         this.userService = userService;
+        this.moduleService = moduleService;
     }
 
     public List<Group> getGroups() {return this.groupRepository.findAll();
@@ -48,6 +51,16 @@ public class GroupService extends AService{
         creator.addGroup(createdGroup);
     }
 
+
+    public void createGroupForModule(Group groupToBeCreated, Long creatorId, Long moduleId) {
+        User creator = userService.getUserById(creatorId);
+        Module module = moduleService.getModuleById(moduleId);
+        Group createdGroup = groupRepository.save(groupToBeCreated);
+        groupRepository.flush();
+        createdGroup.addCreator(creator);
+        module.addGroup(createdGroup);
+    }
+
     public Group getGroupById(Long groupId) {
         Group group;
         if (groupRepository.findById(groupId).isPresent()) {
@@ -58,4 +71,5 @@ public class GroupService extends AService{
         }
         return group;
     }
+
 }

@@ -38,6 +38,9 @@ public class Module implements Serializable {
     @OneToMany(mappedBy = "module")
     private Set<Event> events = new HashSet<Event>();
 
+    @OneToMany(mappedBy = "module")
+    private Set<Group> groups = new HashSet<Group>();
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
@@ -96,5 +99,15 @@ public class Module implements Serializable {
 
     public void setEvents(Set<Event> events) {
         this.events = events;
+    }
+
+    public void addGroup(Group group) {
+        this.groups.add(group);
+        group.setModule(this);
+    }
+
+    public void removeGroup(Group group) {
+        this.groups.remove(group);
+        group.setModule(null);
     }
 }

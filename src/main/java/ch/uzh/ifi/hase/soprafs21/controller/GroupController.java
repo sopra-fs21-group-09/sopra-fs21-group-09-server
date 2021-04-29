@@ -41,4 +41,13 @@ public class GroupController {
 
         groupService.createGroupForUser(input, userId);
     }
+
+    @PostMapping("/modules/{moduleId}/users/{userId}/groups")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public void userCreateGroupInModule(@RequestBody GroupPostDTO groupPostDTO, @PathVariable Long userId, @PathVariable Long moduleId){
+        Group input = DTOMapper.INSTANCE.convertGroupPostDTOtoEntity(groupPostDTO);
+
+        groupService.createGroupForModule(input, userId, moduleId);
+    }
 }

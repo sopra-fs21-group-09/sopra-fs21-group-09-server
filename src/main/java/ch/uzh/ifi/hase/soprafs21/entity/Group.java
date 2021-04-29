@@ -43,6 +43,10 @@ public class Group implements Serializable {
     @ManyToMany(mappedBy = "groups")
     private Set<User> members = new HashSet<User>();
 
+    @ManyToOne
+    @JoinColumn(name = "MODULE_ID", referencedColumnName = "ID")
+    private Module module;
+
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
@@ -97,6 +101,22 @@ public class Group implements Serializable {
 
     public Set<User> getMembers() {
         return members;
+    }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
+
+    public Module getModule() {
+        return module;
+    }
+
+    public void setModule(Module module) {
+        this.module = module;
     }
 
     public void setMembers(Set<User> members) {

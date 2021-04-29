@@ -5,7 +5,6 @@ import ch.uzh.ifi.hase.soprafs21.entity.Group;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventPutDTO;
-import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.mapper.DTOMapper;
 import ch.uzh.ifi.hase.soprafs21.service.EventService;
 import org.springframework.http.HttpStatus;
