@@ -5,11 +5,20 @@ import ch.uzh.ifi.hase.soprafs21.constant.EventLabel;
 import java.util.Date;
 
 public class EventGetDTO {
+    private Long id;
     private String name;
     private Date startTime;
     private Date endTime;
     private String description;
     private EventLabel label;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
