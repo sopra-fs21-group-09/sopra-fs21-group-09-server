@@ -50,25 +50,25 @@ public interface DTOMapper {
     Group convertGroupPostDTOtoEntity(GroupPostDTO groupPostDTO);
 
     //Task
-    @Mapping(source = "name", target = "name")
-    @Mapping(source = "description", target = "description")
-    @Mapping(source = "deadline", target = "deadline")
+//    @Mapping(source = "name", target = "name")
+//    @Mapping(source = "description", target = "description")
+//    @Mapping(source = "deadline", target = "deadline")
     Task convertTaskPostDTOtoEntity(TaskPostDTO taskPostDTO);
-    @Mapping(source = "name", target = "name")
-    @Mapping(source = "description", target = "description")
-    @Mapping(source = "deadline", target = "deadline")
+//    @Mapping(source = "name", target = "name")
+//    @Mapping(source = "description", target = "description")
+//    @Mapping(source = "deadline", target = "deadline")
     Task convertTaskPutDTOtoEntity(TaskPutDTO taskPutDTO);
-    @Mapping(source = "name", target = "name")
-    @Mapping(source = "description", target = "description")
-    @Mapping(source = "deadline", target = "deadline")
-    @Mapping(source = "subTasks", target =  "subTasks")
+//    @Mapping(source = "name", target = "name")
+//    @Mapping(source = "description", target = "description")
+//    @Mapping(source = "deadline", target = "deadline")
+//    @Mapping(source = "subTasks", target =  "subTasks")
     TaskGetDTO convertEntityToTaskGetDTO(Task task);
     //Deadline
-    @Mapping(source = "time", target = "time")
-    @Mapping(source = "visible", target = "visible")
+//    @Mapping(source = "time", target = "time")
+//    @Mapping(source = "visible", target = "visible")
     Deadline convertDeadlinePostDTOtoEntity(DeadlinePostDTO deadlinePostDTO);
-    @Mapping(target = "time", source = "time")
-    @Mapping(target = "visible", source = "visible")
+//    @Mapping(target = "time", source = "time")
+//    @Mapping(target = "visible", source = "visible")
     DeadlineGetDTO convertEntityToDeadlineGetDTO(Deadline deadline);
 
     //Event

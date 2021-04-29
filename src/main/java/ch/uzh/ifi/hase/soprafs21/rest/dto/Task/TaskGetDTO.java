@@ -32,11 +32,11 @@ public class TaskGetDTO {
         this.subTasks = subTasks;
     }
 
-    public DeadlineGetDTO getDeadlineGetDTO() {
+    public DeadlineGetDTO getDeadline() {
         return deadline;
     }
 
-    public void setDeadlineGetDTO(DeadlineGetDTO deadlineGetDTO) {
-        this.deadline = deadlineGetDTO;
+    public void setDeadline(DeadlineGetDTO deadline) {
+        this.deadline = deadline;
     }
 }
