@@ -7,13 +7,15 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 
+@SequenceGenerator(name="seq", initialValue=3, allocationSize=100)
+
 @Entity
 @Table(name = "EVENTS")
 public class Event implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
     private Long id;
 
     @Column(nullable = false)

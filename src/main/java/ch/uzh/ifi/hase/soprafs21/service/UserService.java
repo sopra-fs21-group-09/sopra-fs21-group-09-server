@@ -135,14 +135,13 @@ public class UserService extends AService{
     }
 
     public User getUserById(Long id){
-        User user;
-        if (userRepository.findById(id).isPresent()) {
-            user = userRepository.findById(id).get();
+        Optional<User> checkUser = userRepository.findById(id);
+        if (checkUser.isPresent()) {
+            return checkUser.get();
         }
         else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user was not found");
         }
-        return user;
     }
 
     private void checkIfUserExists(User user) {

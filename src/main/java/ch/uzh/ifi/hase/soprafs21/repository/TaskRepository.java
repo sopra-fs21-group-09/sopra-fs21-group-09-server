@@ -11,9 +11,4 @@ import java.util.List;
 
 @Repository("taskRepository")
 public interface TaskRepository extends JpaRepository<Task, Long> {
-
-    @Modifying
-    @Query("update Task t set t.name = ?1, t.description = ?2, t.parentTask = ?3, t.subTasks = ?4, t.deadline = ?5 where t.id = ?6")
-    Task updateTaskById(String name, String description, Task parentTask, List<Task> subTasks, Deadline deadline, Long id);
-
 }

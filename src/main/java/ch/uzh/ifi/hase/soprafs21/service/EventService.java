@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs21.service;
 
 import ch.uzh.ifi.hase.soprafs21.entity.Event;
 import ch.uzh.ifi.hase.soprafs21.entity.Group;
+import ch.uzh.ifi.hase.soprafs21.entity.Module;
 import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.repository.EventRepository;
 import org.slf4j.Logger;
@@ -49,15 +50,7 @@ public class EventService extends AService{
 
     public void updateEvent(Long id, Event changesToEvent) {
         // TODO: change rest specification to status code 404
-
-        Event eventToBeUpdated;
-        if (eventRepository.findById(id).isPresent()) {
-            eventToBeUpdated = eventRepository.findById(id).get();
-        }
-        else {
-            String errorMessage = "event was not found";
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, errorMessage);
-        }
+        Event eventToBeUpdated = getEventById(id);
         BeanUtils.copyProperties(changesToEvent, eventToBeUpdated, getNullPropertyNames(changesToEvent));
         eventRepository.save(eventToBeUpdated);
         eventRepository.flush();
@@ -72,12 +65,13 @@ public class EventService extends AService{
         user.addEvent(createdEvent);
     }
 
-    private void checkIfEventExists(Event event){
-        Optional<Event> eventById = eventRepository.findById(event.getId());
-
-        if (eventById == null) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Event doesn't exist");
+    public Event getEventById(Long id){
+        Optional<Event> checkEvent = eventRepository.findById(id);
+        if (checkEvent.isPresent()) {
+            return checkEvent.get();
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "event was not found");
         }
     }
-
 }

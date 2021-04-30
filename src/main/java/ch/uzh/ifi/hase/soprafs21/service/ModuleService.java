@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -35,14 +36,13 @@ public class ModuleService extends AService{
     }
 
     public Module getModuleById(Long id){
-        Module module;
-        if (moduleRepository.findById(id).isPresent()) {
-            module = moduleRepository.findById(id).get();
+        Optional<Module> checkModule = moduleRepository.findById(id);
+        if (checkModule.isPresent()) {
+            return checkModule.get();
         }
         else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "module was not found");
         }
-        return module;
     }
 
 

@@ -12,6 +12,8 @@ import java.util.Set;
  * - nullable = false -> this cannot be left empty
  * - unique = true -> this value must be unqiue across the database -> composes the primary key
  */
+@SequenceGenerator(name="seq", initialValue=3, allocationSize=100)
+
 @Entity
 @Table(name = "USERS")
 public class User implements Serializable {
@@ -23,7 +25,7 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
     private Long id;
 
     @Column(nullable = false, unique = true)
