@@ -4,6 +4,7 @@ import ch.uzh.ifi.hase.soprafs21.entity.*;
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupGetDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Module.ModuleGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskPostDTO;
@@ -102,11 +103,12 @@ public class UserController {
         userService.addGroupToUser(userId, groupId);
     }
 
-    @PostMapping("/users/{userId}/groups/{groupId/private}")
+    @PostMapping("/users/{userId}/groups/{groupId}/private")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public void joinPrivateGroup(@PathVariable Long userId, @PathVariable Long groupId) {
-        userService.addGroupToUser(userId, groupId);
+    public void joinPrivateGroup(@PathVariable Long userId, @PathVariable Long groupId, @RequestBody GroupPostDTO groupPostDTO) {
+        Group input = DTOMapper.INSTANCE.convertGroupPostDTOtoEntity(groupPostDTO);
+        userService.addPrivateGroupToUser(userId, groupId, input);
     }
 
     @GetMapping("/users/{userId}/modules")

@@ -62,7 +62,7 @@ public class UserService extends AService{
 
     public void updateUser(Long id, User changesToUser){
         User userToBeUpdated = getUserById(id);
-        if (changesToUser.getUsername() != userToBeUpdated.getUsername()){
+        if (!changesToUser.getUsername().equals(userToBeUpdated.getUsername())){
             checkIfUserExists(changesToUser);
         }
         BeanUtils.copyProperties(changesToUser, userToBeUpdated, getNullPropertyNames(changesToUser));
@@ -90,6 +90,19 @@ public class UserService extends AService{
     public void addGroupToUser(Long userId, Long groupId) {
         User user = getUserById(userId);
         Group group = groupService.getGroupById(groupId);
+        if(user.getGroups().contains(group)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You're already in this group. Why would you join again?");
+        }
+        user.addGroup(group);
+    }
+
+    public void addPrivateGroupToUser(Long userId, Long groupId, Group input) {
+        User user = getUserById(userId);
+        Group group = groupService.getGroupById(groupId);
+        if(user.getGroups().contains(group)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You're already in this group. Why would you join again?");
+        }
+        groupService.checkPassword(group, input);
         user.addGroup(group);
     }
 
@@ -170,4 +183,5 @@ public class UserService extends AService{
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password incorrect.");
         }
     }
+
 }

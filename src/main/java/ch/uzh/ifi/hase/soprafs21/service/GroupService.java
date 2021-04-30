@@ -73,4 +73,9 @@ public class GroupService extends AService{
         return group;
     }
 
+    public void checkPassword(Group groupToBeChecked, Group input) {
+        if (!groupToBeChecked.getPassword().equals(input.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password incorrect.");
+        }
+    }
 }
