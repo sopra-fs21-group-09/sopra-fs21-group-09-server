@@ -1,12 +1,22 @@
 package ch.uzh.ifi.hase.soprafs21.rest.dto.Group;
 
-public class GroupGetDTO {
-    private String name;
-    //private User creator;
-    private boolean open;
-    private int member_limit;
-    //private List<User> users;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserGetDTO;
 
+public class GroupGetDTO {
+    private int id;
+    private String name;
+    private UserGetDTO creator;
+    private boolean open;
+    private int memberLimit;
+    private int memberCount;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -14,6 +24,14 @@ public class GroupGetDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public UserGetDTO getCreator() {
+        return creator;
+    }
+
+    public void setCreator(UserGetDTO creator) {
+        this.creator = creator;
     }
 
     public boolean isOpen() {
@@ -24,11 +42,19 @@ public class GroupGetDTO {
         this.open = open;
     }
 
-    public int getMember_limit() {
-        return member_limit;
+    public int getMemberLimit() {
+        return memberLimit;
     }
 
-    public void setMember_limit(int member_limit) {
-        this.member_limit = member_limit;
+    public void setMemberLimit(int memberLimit) {
+        this.memberLimit = memberLimit;
+    }
+
+    public int getMemberCount() {
+        return memberCount;
+    }
+
+    public void setMemberCount(int memberCount) {
+        this.memberCount = memberCount;
     }
 }

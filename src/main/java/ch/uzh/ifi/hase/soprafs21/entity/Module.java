@@ -106,6 +106,14 @@ public class Module implements Serializable {
         this.events = events;
     }
 
+    public Set<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Set<Group> groups) {
+        this.groups = groups;
+    }
+
     public void addGroup(Group group) {
         this.groups.add(group);
         group.setModule(this);

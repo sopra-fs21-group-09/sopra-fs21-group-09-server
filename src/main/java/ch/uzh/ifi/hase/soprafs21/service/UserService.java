@@ -99,7 +99,14 @@ public class UserService extends AService{
     }
 
     public Set<Group> getGroupsFromUser(Long userId) {
-        return getUserById(userId).getGroups();
+        User user = getUserById(userId);
+        Set<Group> groups = user.getGroups();
+
+        Set<Module> modules = user.getModules();
+        for (Module module: modules) {
+            groups.addAll(module.getGroups());
+        }
+        return groups;
     }
 
     public Set<Event> getEventsFromUser(Long userId) {
@@ -110,7 +117,7 @@ public class UserService extends AService{
         for (Module module: modules) {
             events.addAll(module.getEvents());
         }
-        return user.getEvents();
+        return events;
     }
 
     public void createTaskForUser(Long id, Task newTask) {
@@ -121,13 +128,14 @@ public class UserService extends AService{
     }
 
     public Set<Task> getTasksFromUser(Long userId) {
-        Set<Task> tasks = getUserById(userId).getTasks();
+        User user = getUserById(userId);
+        Set<Task> tasks = user.getTasks();
 
-        Set<Module> modules = getModulesFromUser(userId);
+        Set<Module> modules = user.getModules();
         for (Module module : modules) {
             tasks.addAll(module.getTasks());
         }
-        Set<Group> groups = getGroupsFromUser(userId);
+        Set<Group> groups = user.getGroups();
         for (Group group : groups) {
             tasks.addAll(group.getTasks());
         }

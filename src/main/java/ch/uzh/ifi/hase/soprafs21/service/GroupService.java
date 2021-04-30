@@ -59,6 +59,7 @@ public class GroupService extends AService{
         groupRepository.flush();
         createdGroup.addCreator(creator);
         module.addGroup(createdGroup);
+        creator.addGroup(createdGroup);
     }
 
     public Group getGroupById(Long groupId) {

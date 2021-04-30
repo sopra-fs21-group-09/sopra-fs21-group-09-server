@@ -1,10 +1,9 @@
 package ch.uzh.ifi.hase.soprafs21.controller;
 
-import ch.uzh.ifi.hase.soprafs21.entity.Event;
+import ch.uzh.ifi.hase.soprafs21.entity.*;
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
-import ch.uzh.ifi.hase.soprafs21.entity.Task;
-import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventGetDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Module.ModuleGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskPostDTO;
@@ -99,7 +98,14 @@ public class UserController {
     @PostMapping("/users/{userId}/groups/{groupId}")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public void joinGroup(@PathVariable Long userId, @PathVariable Long groupId) {
+    public void joinPublicGroup(@PathVariable Long userId, @PathVariable Long groupId) {
+        userService.addGroupToUser(userId, groupId);
+    }
+
+    @PostMapping("/users/{userId}/groups/{groupId/private}")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public void joinPrivateGroup(@PathVariable Long userId, @PathVariable Long groupId) {
         userService.addGroupToUser(userId, groupId);
     }
 
@@ -114,6 +120,19 @@ public class UserController {
             moduleGetDTOs.add(DTOMapper.INSTANCE.convertEntityToModuleGetDTO(module));
         }
         return moduleGetDTOs;
+    }
+
+    @GetMapping("/users/{userId}/groups")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<GroupGetDTO> getGroupsFromUser(@PathVariable Long userId) {
+        Set<Group> groups = userService.getGroupsFromUser(userId);
+        List<GroupGetDTO> groupGetDTOs = new ArrayList<>();
+
+        for (Group group: groups) {
+            groupGetDTOs.add(DTOMapper.INSTANCE.convertEntityToGroupGetDTO(group));
+        }
+        return groupGetDTOs;
     }
 
     @GetMapping("/users/{userId}/events")

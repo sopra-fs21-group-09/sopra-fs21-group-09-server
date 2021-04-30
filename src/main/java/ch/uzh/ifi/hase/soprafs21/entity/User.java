@@ -17,11 +17,6 @@ import java.util.Set;
 @Entity
 @Table(name = "USERS")
 public class User implements Serializable {
-    //TODO: add Tasks
-    //TODO: add Groups
-    //TODO: add Events
-    //TODO: add Modules
-
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -150,11 +145,13 @@ public class User implements Serializable {
     public void addGroup(Group group) {
         this.groups.add(group);
         group.getMembers().add(this);
+        group.setMemberCount(group.getMemberCount()+1);
     }
 
     public void removeGroup(Group group) {
         this.groups.remove(group);
         group.getMembers().remove(this);
+        group.setMemberCount(group.getMemberCount()-1);
     }
 
     public void addEvent(Event event) {

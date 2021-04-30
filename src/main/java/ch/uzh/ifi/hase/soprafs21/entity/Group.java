@@ -37,6 +37,9 @@ public class Group implements Serializable {
     @Column
     private int memberLimit;
 
+    @Column
+    private int memberCount = 0;
+
     @OneToOne
     private User creator;
 
@@ -102,6 +105,14 @@ public class Group implements Serializable {
         this.memberLimit = memberLimit;
     }
 
+    public int getMemberCount() {
+        return memberCount;
+    }
+
+    public void setMemberCount(int memberCount) {
+        this.memberCount = memberCount;
+    }
+
     public Set<User> getMembers() {
         return members;
     }
@@ -125,6 +136,7 @@ public class Group implements Serializable {
     public void setMembers(Set<User> members) {
         this.members = members;
     }
+
     public void addCreator(User creator) {
         this.creator = creator;
     }
