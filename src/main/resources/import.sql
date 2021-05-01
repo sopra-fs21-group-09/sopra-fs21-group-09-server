@@ -11,4 +11,4 @@ insert into events (id, description, end_time, label, name, start_time, user_id)
 
 insert into USERS_MODULES values (1,1)
 
-insert into tasks(id, name, description, module_id) values(1, 'task 1', 'task')
+insert into tasks(id, name, description, module_id) values(1, 'task 1', 'task',1 )

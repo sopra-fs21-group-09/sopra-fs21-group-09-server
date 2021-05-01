@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * This tests if the UserController works.
  */
 @WebMvcTest(UserController.class)
-public class UserControllerTest {
+public class UserControllerTest extends ControllerTest{
 
     @Autowired
     private MockMvc mockMvc;
@@ -64,13 +64,43 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.username", is(user.getUsername())));
     }
 
-    private String asJsonString(final Object object) {
-        try {
-            return new ObjectMapper().writeValueAsString(object);
-        }
-        catch (JsonProcessingException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format("The request body could not be created.%s", e.toString()));
-        }
+    @Test
+    public void createUser_invalidInput_excThrown() throws Exception {
+        // given
+        UserPostDTO userPostDTO = new UserPostDTO();
+        userPostDTO.setPassword("Test User");
+        userPostDTO.setUsername("testUsername");
 
-}
+        given(userService.createUser(Mockito.any())).willThrow(new ResponseStatusException(HttpStatus.CONFLICT));
+
+        // when/then -> do the request + validate the result
+        MockHttpServletRequestBuilder postRequest = post("/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(userPostDTO));
+
+        // then
+        mockMvc.perform(postRequest)
+                .andExpect(status().isConflict());
+    }
+
+    @Test
+    public void givenUsers_whenGetOneUser_thenReturnJson() throws Exception {
+        // given
+        User user = new User();
+        user.setId(1L);
+        user.setPassword("Firstname Lastname");
+        user.setUsername("firstname@lastname");
+
+
+        // this mocks the UserService -> we define above what the userService should return when getUsers() is called
+        given(userService.getUserById(1L)).willReturn(user);
+
+        // when
+        MockHttpServletRequestBuilder getRequest = get("/users/1").contentType(MediaType.APPLICATION_JSON);
+
+        // then
+        mockMvc.perform(getRequest).andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(user.getId().intValue())))
+                .andExpect(jsonPath("$.username", is(user.getUsername())));
+    }
 }
