@@ -10,3 +10,5 @@ insert into events (id, description, end_time, label, name, start_time, module_i
 insert into events (id, description, end_time, label, name, start_time, user_id) values(2, 'even more fun', '2021-04-05T17:00:00', 'MEETING', 'meeting with sopragroup', '2021-04-05T16:00:00', 1)
 
 insert into USERS_MODULES values (1,1)
+
+insert into tasks(id, name, description, module_id) values(1, 'task 1', 'task')
