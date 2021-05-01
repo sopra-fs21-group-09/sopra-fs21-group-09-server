@@ -1,25 +1,26 @@
 package ch.uzh.ifi.hase.soprafs21.rest.dto.Task;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class DeadlineGetDTO {
 
-    private Date time;
-    private boolean visible;
+    private LocalDateTime time;
+    private Boolean visible;
 
-    public Date getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 
-    public boolean isVisible() {
+    public Boolean getVisible() {
         return visible;
     }
 
-    public void setVisible(boolean visible) {
+    public void setVisible(Boolean visible) {
         this.visible = visible;
     }
 }

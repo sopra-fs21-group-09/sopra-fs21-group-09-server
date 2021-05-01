@@ -1,13 +1,26 @@
 package ch.uzh.ifi.hase.soprafs21.rest.mapper;
 
+import ch.uzh.ifi.hase.soprafs21.entity.Deadline;
+import ch.uzh.ifi.hase.soprafs21.entity.Task;
 import ch.uzh.ifi.hase.soprafs21.entity.User;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.DeadlinePostDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskGetDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskPostDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskPutDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserPutDTO;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import javax.persistence.Temporal;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * DTOMapperTest
@@ -51,7 +64,8 @@ public class DTOMapperTest {
         assertEquals(user.getMatrikelNr(), userGetDTO.getMatrikelNr());
     }
 
-    @Test void testUpdateUser_fromUserPutDTO_toUser_success() {
+    @Test
+    public void testUpdateUser_fromUserPutDTO_toUser_success() {
         // create UserPutDTO
         UserPutDTO userPutDTO = new UserPutDTO();
         userPutDTO.setName("name");
@@ -68,5 +82,84 @@ public class DTOMapperTest {
         assertNull(user.getPassword());
         assertNull(user.getId());
         assertNull(user.getToken());
+    }
+
+    @Test
+    public void testCreateTask_fromTaskPostDTO_toTask_success() {
+        // create TaskPostDTO and DeadlinePostDTO
+        DeadlinePostDTO deadlinePostDTO = new DeadlinePostDTO();
+        deadlinePostDTO.setTime(LocalDateTime.parse("2021-01-01T00:00:00"));
+        deadlinePostDTO.setVisible(true);
+
+        TaskPostDTO taskPostDTO = new TaskPostDTO();
+        taskPostDTO.setName("name");
+        taskPostDTO.setDescription("description");
+        taskPostDTO.setDeadline(deadlinePostDTO);
+
+        // MAP -> Create Task
+        Task task = DTOMapper.INSTANCE.convertTaskPostDTOtoEntity(taskPostDTO);
+
+        // chek content
+        assertEquals(taskPostDTO.getName(), task.getName());
+        assertEquals(taskPostDTO.getDescription(), task.getDescription());
+        assertEquals(taskPostDTO.getDeadline().getTime(), task.getDeadline().getTime());
+        assertEquals(taskPostDTO.getDeadline().getVisible(), task.getDeadline().getVisible());
+    }
+
+    @Test
+    public void testUpdateTask_fromTaskPutDTO_toTask_success() {
+        // Create TaskPutDTO and DeadlinePostDTO
+        DeadlinePostDTO deadlinePostDTO = new DeadlinePostDTO();
+        deadlinePostDTO.setTime(LocalDateTime.parse("2021-01-01T00:00:00"));
+
+        TaskPutDTO taskPutDTO = new TaskPutDTO();
+        taskPutDTO.setName("name");
+        taskPutDTO.setDeadline(deadlinePostDTO);
+
+        // MAP -> Create Task
+        Task task = DTOMapper.INSTANCE.convertTaskPutDTOtoEntity(taskPutDTO);
+
+        // check content
+        assertEquals(taskPutDTO.getName(), task.getName());
+        assertEquals(taskPutDTO.getDeadline().getTime(), task.getDeadline().getTime());
+        assertNull(task.getDescription());
+        assertNull(task.getDeadline().getVisible());
+        assertNull(task.getId());
+        assertNull(task.getParentTask());
+        assertNull(task.getSubTasks());
+        assertNull(task.getUser());
+        assertNull(task.getModule());
+        assertNull(task.getGroup());
+    }
+
+    @Test
+    public void testGetTask_fromTask_toTaskGetDTO_success() {
+        // Create Task
+        Task task = new Task();
+        task.setName("name");
+        task.setDescription("description");
+
+        Deadline deadline = new Deadline();
+        deadline.setTime(LocalDateTime.parse("2021-01-01T00:00:00"));
+        deadline.setVisible(true);
+        task.setDeadline(deadline);
+
+        Task subTask = new Task();
+        subTask.setName("sub_name");
+        subTask.setDescription("sub_desc");
+        task.setSubTasks(new ArrayList<>());
+        task.addSubTask(subTask);
+
+        // MAP -> Create TaskGetDTO
+        TaskGetDTO taskGetDTO = DTOMapper.INSTANCE.convertEntityToTaskGetDTO(task);
+
+        // check content
+        assertEquals(task.getName(), taskGetDTO.getName());
+        assertEquals(task.getDescription(), taskGetDTO.getDescription());
+        assertEquals(task.getDeadline().getTime(), taskGetDTO.getDeadline().getTime());
+        assertEquals(task.getDeadline().getVisible(), taskGetDTO.getDeadline().getVisible());
+        assertEquals(subTask.getName(), taskGetDTO.getSubTasks().get(0).getName());
+        assertEquals(subTask.getDescription(), taskGetDTO.getSubTasks().get(0).getDescription());
+        assertNull(taskGetDTO.getSubTasks().get(0).getDeadline());
     }
 }

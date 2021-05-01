@@ -15,10 +15,9 @@ public class Deadline implements Serializable {
     @Column(name = "task_id")
     private Long id;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date time;
+    private LocalDateTime time;
 
-    private boolean visible;
+    private Boolean visible;
 
     @OneToOne
     @MapsId
@@ -47,19 +46,19 @@ public class Deadline implements Serializable {
         this.task = task;
     }
 
-    public Date getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(LocalDateTime time) {
         this.time = time;
     }
 
-    public boolean isVisible() {
+    public Boolean getVisible() {
         return visible;
     }
 
-    public void setVisible(boolean visible) {
+    public void setVisible(Boolean visible) {
         this.visible = visible;
     }
 }

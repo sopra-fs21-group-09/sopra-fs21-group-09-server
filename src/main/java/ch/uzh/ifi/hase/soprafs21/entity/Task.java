@@ -28,7 +28,7 @@ public class Task implements Serializable {
     private Task parentTask;
 
     @OneToMany(mappedBy = "parentTask")
-    private List<Task> subTasks = new ArrayList<Task>();
+    private List<Task> subTasks;
 
     @OneToOne(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     @PrimaryKeyJoinColumn

@@ -1,11 +1,12 @@
 package ch.uzh.ifi.hase.soprafs21.rest.dto.Task;
 
+import java.util.List;
 import java.util.Set;
 
 public class TaskGetDTO {
     private String name;
     private String description;
-    private Set<TaskGetDTO> subTasks;
+    private List<TaskGetDTO> subTasks;
     private DeadlineGetDTO deadline;
 
     public String getName() {
@@ -24,11 +25,11 @@ public class TaskGetDTO {
         this.description = description;
     }
 
-    public Set<TaskGetDTO> getSubTasks() {
+    public List<TaskGetDTO> getSubTasks() {
         return subTasks;
     }
 
-    public void setSubTasks(Set<TaskGetDTO> subTasks) {
+    public void setSubTasks(List<TaskGetDTO> subTasks) {
         this.subTasks = subTasks;
     }
 
