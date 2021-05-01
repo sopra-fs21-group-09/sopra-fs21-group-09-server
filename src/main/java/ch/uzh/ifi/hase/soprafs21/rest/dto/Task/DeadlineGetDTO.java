@@ -4,14 +4,14 @@ import java.util.Date;
 
 public class DeadlineGetDTO {
 
-    private String time;
+    private Date time;
     private boolean visible;
 
-    public String getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 

@@ -3,6 +3,7 @@ package ch.uzh.ifi.hase.soprafs21.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity(name = "DEADLINES")
 public class Deadline implements Serializable {
@@ -14,7 +15,9 @@ public class Deadline implements Serializable {
     @Column(name = "task_id")
     private Long id;
 
-    private LocalDateTime time;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date time;
+
     private boolean visible;
 
     @OneToOne
@@ -44,11 +47,11 @@ public class Deadline implements Serializable {
         this.task = task;
     }
 
-    public LocalDateTime getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(LocalDateTime time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 
