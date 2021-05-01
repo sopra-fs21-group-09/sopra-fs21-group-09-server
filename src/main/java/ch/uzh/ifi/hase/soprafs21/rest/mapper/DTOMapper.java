@@ -72,7 +72,21 @@ public interface DTOMapper {
     DeadlineGetDTO convertEntityToDeadlineGetDTO(Deadline deadline);
 
     //Event
+    @Mapping(target = "title", source = "name")
+    @Mapping(target = "start", source = "startTime")
+    @Mapping(target = "end", source = "endTime")
+    @Mapping(target = "desc", source = "description")
     EventGetDTO convertEntityToEventGetDTO(Event event);
+
+    @Mapping(target = "name", source = "title")
+    @Mapping(target = "startTime", source = "start")
+    @Mapping(target = "endTime", source = "end")
+    @Mapping(target = "description", source = "desc")
     Event convertEventPutDTOtoEntity(EventPutDTO eventPutDTO);
+
+    @Mapping(target = "name", source = "title")
+    @Mapping(target = "startTime", source = "start")
+    @Mapping(target = "endTime", source = "end")
+    @Mapping(target = "description", source = "desc")
     Event convertEventPostDTOtoEntity(EventPostDTO eventPostDTO);
 }

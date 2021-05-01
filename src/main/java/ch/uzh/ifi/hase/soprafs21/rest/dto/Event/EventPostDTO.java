@@ -5,42 +5,42 @@ import ch.uzh.ifi.hase.soprafs21.constant.EventLabel;
 import java.util.Date;
 
 public class EventPostDTO {
-    private String name;
-    private Date startTime;
-    private Date endTime;
-    private String description;
+    private String title;
+    private Date start;
+    private Date end;
+    private String desc;
     private EventLabel label;
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public Date getStartTime() {
-        return startTime;
+    public Date getStart() {
+        return start;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setStart(Date start) {
+        this.start = start;
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public Date getEnd() {
+        return end;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setEnd(Date end) {
+        this.end = end;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public EventLabel getLabel() {
