@@ -2,11 +2,13 @@ package ch.uzh.ifi.hase.soprafs21.rest.mapper;
 
 import ch.uzh.ifi.hase.soprafs21.constant.EventLabel;
 import ch.uzh.ifi.hase.soprafs21.entity.*;
+import ch.uzh.ifi.hase.soprafs21.entity.Module;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventPutDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupPostDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Module.ModuleGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.DeadlinePostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskPostDTO;
@@ -286,5 +288,26 @@ public class DTOMapperTest {
         assertEquals(event.getStartTime(), eventGetDTO.getStart());
         assertEquals(event.getEndTime(), eventGetDTO.getEnd());
         assertEquals(event.getLabel(), eventGetDTO.getLabel());
+    }
+
+    @Test
+    public void testGetModule_fromModule_toModuleGetDTO_success() {
+        // create Module
+        Module module = new Module();
+        module.setId(1L);
+        module.setName("name");
+        module.setDescription("description");
+        module.setProf_name("Prof. Mustermann");
+        module.setZoom_link("www.link.com");
+
+        // MAP -> create ModuleGetDTO
+        ModuleGetDTO moduleGetDTO = DTOMapper.INSTANCE.convertEntityToModuleGetDTO(module);
+
+        // check content
+        assertEquals(module.getId(), moduleGetDTO.getId());
+        assertEquals(module.getName(), moduleGetDTO.getName());
+        assertEquals(module.getDescription(), moduleGetDTO.getDescription());
+        assertEquals(module.getProf_name(), moduleGetDTO.getProf_name());
+        assertEquals(module.getZoom_link(), moduleGetDTO.getZoom_link());
     }
 }
