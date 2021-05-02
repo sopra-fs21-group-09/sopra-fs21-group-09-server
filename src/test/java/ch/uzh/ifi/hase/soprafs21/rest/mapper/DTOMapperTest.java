@@ -1,8 +1,11 @@
 package ch.uzh.ifi.hase.soprafs21.rest.mapper;
 
 import ch.uzh.ifi.hase.soprafs21.entity.Deadline;
+import ch.uzh.ifi.hase.soprafs21.entity.Group;
 import ch.uzh.ifi.hase.soprafs21.entity.Task;
 import ch.uzh.ifi.hase.soprafs21.entity.User;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupGetDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.DeadlinePostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskPostDTO;
@@ -162,5 +165,58 @@ public class DTOMapperTest {
         assertEquals(subTask.getName(), taskGetDTO.getSubTasks().get(0).getName());
         assertEquals(subTask.getDescription(), taskGetDTO.getSubTasks().get(0).getDescription());
         assertNull(taskGetDTO.getSubTasks().get(0).getDeadline());
+    }
+
+    @Test
+    public void testCreateGroup_fromGroupPostDTO_toGroup_success() {
+        // Create GroupPostDTO
+        GroupPostDTO groupPostDTO = new GroupPostDTO();
+        groupPostDTO.setName("name");
+        groupPostDTO.setDescription("description");
+        groupPostDTO.setOpen(false);
+        groupPostDTO.setPassword("password");
+        groupPostDTO.setMemberLimit(10);
+
+        // MAP -> create group
+        Group group =DTOMapper.INSTANCE.convertGroupPostDTOtoEntity(groupPostDTO);
+
+        // check content
+        assertEquals(groupPostDTO.getName(), group.getName());
+        assertEquals(groupPostDTO.getDescription(), group.getDescription());
+        assertEquals(groupPostDTO.getOpen(), group.getOpen());
+        assertEquals(groupPostDTO.getPassword(), group.getPassword());
+        assertEquals(groupPostDTO.getMemberLimit(), group.getMemberLimit());
+        assertNull(group.getId());
+        assertNull(group.getCreator());
+        assertEquals(0, group.getMemberCount());
+//        assertNull(group.getMembers());
+        assertNull(group.getModule());
+//        assertNull(group.getTasks());
+    }
+
+    @Test
+    public void testGetGroup_fromGroup_toGroupGetDTO_success() {
+        // Create Group
+        Group group = new Group();
+        group.setId(1L);
+        group.setName("name");
+        group.setOpen(true);
+        group.setMemberCount(5);
+        group.setMemberLimit(10);
+        group.setCreator(new User());
+        group.getCreator().setId(1L);
+        group.getCreator().setUsername("username");
+
+        // MAP -> create GroupGetDTO
+        GroupGetDTO groupGetDTO = DTOMapper.INSTANCE.convertEntityToGroupGetDTO(group);
+
+        // check content
+        assertEquals(group.getId(), groupGetDTO.getId());
+        assertEquals(group.getName(), groupGetDTO.getName());
+        assertEquals(group.getOpen(), groupGetDTO.getOpen());
+        assertEquals(group.getMemberCount(), groupGetDTO.getMemberCount());
+        assertEquals(group.getMemberLimit(), groupGetDTO.getMemberLimit());
+        assertEquals(group.getCreator().getId(), groupGetDTO.getCreator().getId());
+        assertEquals(groupGetDTO.getCreator().getUsername(), groupGetDTO.getCreator().getUsername());
     }
 }

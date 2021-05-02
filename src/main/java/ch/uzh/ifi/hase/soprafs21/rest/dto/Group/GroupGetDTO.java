@@ -6,7 +6,7 @@ public class GroupGetDTO {
     private int id;
     private String name;
     private UserGetDTO creator;
-    private boolean open;
+    private Boolean open;
     private int memberLimit;
     private int memberCount;
 
@@ -34,11 +34,11 @@ public class GroupGetDTO {
         this.creator = creator;
     }
 
-    public boolean isOpen() {
+    public Boolean getOpen() {
         return open;
     }
 
-    public void setOpen(boolean open) {
+    public void setOpen(Boolean open) {
         this.open = open;
     }
 
