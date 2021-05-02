@@ -1,9 +1,10 @@
 package ch.uzh.ifi.hase.soprafs21.rest.mapper;
 
-import ch.uzh.ifi.hase.soprafs21.entity.Deadline;
-import ch.uzh.ifi.hase.soprafs21.entity.Group;
-import ch.uzh.ifi.hase.soprafs21.entity.Task;
-import ch.uzh.ifi.hase.soprafs21.entity.User;
+import ch.uzh.ifi.hase.soprafs21.constant.EventLabel;
+import ch.uzh.ifi.hase.soprafs21.entity.*;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventGetDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventPostDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventPutDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.DeadlinePostDTO;
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.Test;
 
 import javax.persistence.Temporal;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -218,5 +220,71 @@ public class DTOMapperTest {
         assertEquals(group.getMemberLimit(), groupGetDTO.getMemberLimit());
         assertEquals(group.getCreator().getId(), groupGetDTO.getCreator().getId());
         assertEquals(groupGetDTO.getCreator().getUsername(), groupGetDTO.getCreator().getUsername());
+    }
+
+    @Test
+    public void testCreateEvent_fromEventPostDTO_toEvent_success() {
+        // create EventPostDTO
+        EventPostDTO eventPostDTO = new EventPostDTO();
+        eventPostDTO.setTitle("title");
+        eventPostDTO.setDesc("desc");
+        eventPostDTO.setStart(Date.from(Instant.parse("2021-01-01T10:00:00+00:00")));
+        eventPostDTO.setEnd(Date.from(Instant.parse("2021-01-01T10:00:00+00:00")));
+        eventPostDTO.setLabel(EventLabel.LECTURE);
+
+        // MAP -> create Event
+        Event event = DTOMapper.INSTANCE.convertEventPostDTOtoEntity(eventPostDTO);
+
+        // check content
+        assertEquals(eventPostDTO.getTitle(), event.getName());
+        assertEquals(eventPostDTO.getDesc(), event.getDescription());
+        assertEquals(eventPostDTO.getStart(), event.getStartTime());
+        assertEquals(eventPostDTO.getEnd(), event.getEndTime());
+        assertEquals(eventPostDTO.getLabel(), event.getLabel());
+    }
+
+    @Test
+    public void testUpdateEvent_fromEventPutDTO_toEvent_success() {
+        // create EventPutDTO
+        EventPutDTO eventPutDTO = new EventPutDTO();
+        eventPutDTO.setTitle("title");
+        eventPutDTO.setDesc("desc");
+        eventPutDTO.setStart(Date.from(Instant.parse("2021-01-01T10:00:00+00:00")));
+        eventPutDTO.setEnd(Date.from(Instant.parse("2021-01-01T10:00:00+00:00")));
+        eventPutDTO.setLabel(EventLabel.LECTURE);
+        eventPutDTO.setTaskId(1L);
+
+        // MAP -> crate Event
+        Event event = DTOMapper.INSTANCE.convertEventPutDTOtoEntity(eventPutDTO);
+
+        // check content
+        assertEquals(eventPutDTO.getTitle(), event.getName());
+        assertEquals(eventPutDTO.getDesc(), event.getDescription());
+        assertEquals(eventPutDTO.getStart(), event.getStartTime());
+        assertEquals(eventPutDTO.getEnd(), event.getEndTime());
+        assertEquals(eventPutDTO.getLabel(), event.getLabel());
+    }
+
+    @Test
+    public void testGetEvent_fromEvent_toEventGetDTO_success() {
+        // create Event
+        Event event = new Event();
+        event.setId(1L);
+        event.setName("name");
+        event.setDescription("desc");
+        event.setStartTime(Date.from(Instant.parse("2021-01-01T10:00:00+00:00")));
+        event.setEndTime(Date.from(Instant.parse("2021-01-01T10:00:00+00:00")));
+        event.setLabel(EventLabel.LECTURE);
+
+        // MAP -> create EventGetDTO
+        EventGetDTO eventGetDTO = DTOMapper.INSTANCE.convertEntityToEventGetDTO(event);
+
+        // check content
+        assertEquals(event.getId(), eventGetDTO.getId());
+        assertEquals(event.getName(), eventGetDTO.getTitle());
+        assertEquals(event.getDescription(), eventGetDTO.getDesc());
+        assertEquals(event.getStartTime(), eventGetDTO.getStart());
+        assertEquals(event.getEndTime(), eventGetDTO.getEnd());
+        assertEquals(event.getLabel(), eventGetDTO.getLabel());
     }
 }
