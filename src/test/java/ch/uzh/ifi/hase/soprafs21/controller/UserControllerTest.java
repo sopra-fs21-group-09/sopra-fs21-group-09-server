@@ -103,4 +103,6 @@ public class UserControllerTest extends ControllerTest{
                 .andExpect(jsonPath("$.id", is(user.getId().intValue())))
                 .andExpect(jsonPath("$.username", is(user.getUsername())));
     }
+
+
 }
