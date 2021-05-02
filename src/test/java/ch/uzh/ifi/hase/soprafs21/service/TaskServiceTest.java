@@ -95,21 +95,26 @@ public class TaskServiceTest {
         assertEquals(testSubTaskA.getName(), createdTask.getSubTasks().get(2).getName());
     }
 
+    @Test
+    public void createSubTask_invalidInputs_throwExc() {
+        //given
+        testSubTaskA = new Task();
+
+        //when
+        Mockito.when(taskRepository.findById(Mockito.any())).thenThrow(ResponseStatusException.class);
+
+        //validate
+        assertThrows(ResponseStatusException.class, () -> taskService.createSubTask(testTask.getId(), testSubTaskA));
+    }
+
 
     @Test
     public void getTask_validInput_success() {
         // when
-        Mockito.when(taskRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testTask));
-        Task foundTask = taskService.getTask(testTask.getId());
+        Mockito.when(taskRepository.findById(Mockito.any())).thenThrow(ResponseStatusException.class);
 
-        // then
-        Mockito.verify(taskRepository, Mockito.times(2)).findById(Mockito.any());
-
-        assertEquals(testTask.getId(), foundTask.getId());
-        assertEquals(testTask.getName(), foundTask.getName());
-        assertEquals(testTask.getDescription(), foundTask.getDescription());
-        assertEquals(testDeadline.getId(), foundTask.getDeadline().getId());
-        assertEquals(testTask.getSubTasks(), foundTask.getSubTasks());
+        //then
+        assertThrows(ResponseStatusException.class, () -> taskService.getTask(testTask.getId()));
     }
 
     @Test

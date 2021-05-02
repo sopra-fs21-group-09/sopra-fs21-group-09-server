@@ -58,7 +58,6 @@ public class TaskServiceIntegrationTest {
         taskService.createSubTask(1L, testSubTaskA);
 
         // then
-
         assertNotNull(taskRepository.findById(2L));
         assertEquals(taskRepository.findById(2L).get().getParentTask().getId(), testTask.getId());
         assertEquals(taskRepository.findById(2L).get().getName(), testSubTaskA.getName());
@@ -67,13 +66,12 @@ public class TaskServiceIntegrationTest {
 
     @Test
     public void createSubTask_invalidInputs_throwsException() {
-        /*
         Task testSubTaskA = new Task();
         testSubTaskA.setId(2L);
         testSubTaskA.setName("subA_name");
 
         // when then
-        assertThrows(ResponseStatusException.class, () -> taskService.createSubTask(1L, testSubTaskA));*/
+        assertThrows(ResponseStatusException.class, () -> taskService.createSubTask(1L, testSubTaskA));
     }
 
 }
