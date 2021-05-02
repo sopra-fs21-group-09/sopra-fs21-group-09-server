@@ -39,7 +39,27 @@ public interface DTOMapper {
 
     //User
     UserGetDTO convertEntityToUserGetDTO(User user);
+    @Mapping(target = "username", source = "username")
+    @Mapping(target = "password", source = "password")
+    @Mapping(target = "name", source = "name")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "token", ignore = true)
+    @Mapping(target = "matrikelNr", ignore = true)
+    @Mapping(target = "modules", ignore = true)
+    @Mapping(target = "events", ignore = true)
+    @Mapping(target = "groups", ignore = true)
+    @Mapping(target = "tasks", ignore = true)
     User convertUserPostDTOtoEntity(UserPostDTO userPostDTO);
+    @Mapping(target = "username", source = "username")
+    @Mapping(target = "password", ignore = true)
+    @Mapping(target = "name", source = "name")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "token", ignore = true)
+    @Mapping(target = "matrikelNr", source = "matrikelNr")
+    @Mapping(target = "modules", ignore = true)
+    @Mapping(target = "events", ignore = true)
+    @Mapping(target = "groups", ignore = true)
+    @Mapping(target = "tasks", ignore = true)
     User convertUserPutDTOtoEntity(UserPutDTO userPutDTO);
 
     //Module
@@ -47,6 +67,17 @@ public interface DTOMapper {
 
     //Group
     GroupGetDTO convertEntityToGroupGetDTO(Group group);
+    @Mapping(target = "name", source = "name")
+    @Mapping(target = "description", source = "description")
+    @Mapping(target = "open", source = "open")
+    @Mapping(target = "password", source = "password")
+    @Mapping(target = "memberLimit", source = "memberLimit")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "memberCount", ignore = true)
+    @Mapping(target = "creator", ignore = true)
+    @Mapping(target = "module", ignore = true)
+    @Mapping(target = "members", ignore = true)
+    @Mapping(target = "tasks", ignore = true)
     Group convertGroupPostDTOtoEntity(GroupPostDTO groupPostDTO);
 
     //Task
@@ -69,6 +100,7 @@ public interface DTOMapper {
     @Mapping(target = "module", ignore = true)
     @Mapping(target = "group", ignore = true)
     Task convertTaskPutDTOtoEntity(TaskPutDTO taskPutDTO);
+    @Mapping(source = "id", target = "id")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "description", target = "description")
     @Mapping(source = "deadline", target = "deadline")
@@ -95,11 +127,17 @@ public interface DTOMapper {
     @Mapping(target = "startTime", source = "start")
     @Mapping(target = "endTime", source = "end")
     @Mapping(target = "description", source = "desc")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "module", ignore = true)
+    @Mapping(target = "user", ignore = true)
     Event convertEventPutDTOtoEntity(EventPutDTO eventPutDTO);
 
     @Mapping(target = "name", source = "title")
     @Mapping(target = "startTime", source = "start")
     @Mapping(target = "endTime", source = "end")
     @Mapping(target = "description", source = "desc")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "module", ignore = true)
+    @Mapping(target = "user", ignore = true)
     Event convertEventPostDTOtoEntity(EventPostDTO eventPostDTO);
 }
