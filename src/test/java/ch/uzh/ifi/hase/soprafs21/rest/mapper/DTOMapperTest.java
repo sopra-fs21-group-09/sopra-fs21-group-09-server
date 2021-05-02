@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import javax.persistence.Temporal;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -88,7 +89,7 @@ public class DTOMapperTest {
     public void testCreateTask_fromTaskPostDTO_toTask_success() {
         // create TaskPostDTO and DeadlinePostDTO
         DeadlinePostDTO deadlinePostDTO = new DeadlinePostDTO();
-        deadlinePostDTO.setTime(LocalDateTime.parse("2021-01-01T00:00:00"));
+        deadlinePostDTO.setTime("2021-01-01");
         deadlinePostDTO.setVisible(true);
 
         TaskPostDTO taskPostDTO = new TaskPostDTO();
@@ -102,7 +103,7 @@ public class DTOMapperTest {
         // chek content
         assertEquals(taskPostDTO.getName(), task.getName());
         assertEquals(taskPostDTO.getDescription(), task.getDescription());
-        assertEquals(taskPostDTO.getDeadline().getTime(), task.getDeadline().getTime());
+        assertEquals(taskPostDTO.getDeadline().getTime(), task.getDeadline().getTime().toLocalDate().toString());
         assertEquals(taskPostDTO.getDeadline().getVisible(), task.getDeadline().getVisible());
     }
 
@@ -110,7 +111,7 @@ public class DTOMapperTest {
     public void testUpdateTask_fromTaskPutDTO_toTask_success() {
         // Create TaskPutDTO and DeadlinePostDTO
         DeadlinePostDTO deadlinePostDTO = new DeadlinePostDTO();
-        deadlinePostDTO.setTime(LocalDateTime.parse("2021-01-01T00:00:00"));
+        deadlinePostDTO.setTime("2021-01-01");
 
         TaskPutDTO taskPutDTO = new TaskPutDTO();
         taskPutDTO.setName("name");
@@ -121,7 +122,7 @@ public class DTOMapperTest {
 
         // check content
         assertEquals(taskPutDTO.getName(), task.getName());
-        assertEquals(taskPutDTO.getDeadline().getTime(), task.getDeadline().getTime());
+        assertEquals(taskPutDTO.getDeadline().getTime(), task.getDeadline().getTime().toLocalDate().toString());
         assertNull(task.getDescription());
         assertNull(task.getDeadline().getVisible());
         assertNull(task.getId());

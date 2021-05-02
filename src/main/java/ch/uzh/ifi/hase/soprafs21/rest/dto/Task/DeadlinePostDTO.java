@@ -1,19 +1,19 @@
 package ch.uzh.ifi.hase.soprafs21.rest.dto.Task;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class DeadlinePostDTO {
 
 
-    private LocalDateTime time;
+    private String time;
     private Boolean visible;
 
-    public LocalDateTime getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(LocalDateTime time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
