@@ -58,13 +58,12 @@ public class TaskServiceTest {
 
         testSubTaskB.setId(3L);
         testSubTaskB.setDescription("subB_desc");
-
-        Mockito.when(taskRepository.save(Mockito.any())).thenReturn(testTask);
     }
 
     @Test
     public void createTask_validInputs_success() {
         // when
+        Mockito.when(taskRepository.save(Mockito.any())).thenReturn(testTask);
         Task createdTask = taskService.createTask(testTask);
 
         // then
@@ -79,19 +78,21 @@ public class TaskServiceTest {
 
     @Test
     public void createSubTask_validInputs_success() {
-        /* when
+        // when
+        Mockito.when(taskRepository.save(Mockito.any())).thenReturn(testSubTaskA);
         Mockito.when(taskRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testTask));
 
         Task createdTask = taskService.createSubTask(testTask.getId(), testSubTaskA);
 
         // then
+        Mockito.verify(taskRepository, Mockito.times(2)).findById(Mockito.any());
         Mockito.verify(taskRepository, Mockito.times(2)).save(Mockito.any());
 
         assertEquals(testTask.getId(), createdTask.getId());
         assertEquals(testTask.getName(), createdTask.getName());
-        assertEquals(testTask.getDescription(), createdTask.getDescription());
-        assertEquals(testDeadline.getId(), createdTask.getDeadline().getId());
-        assertEquals(testTask.getSubTasks(), createdTask.getSubTasks());*/
+        assertEquals(testTask.getSubTasks(), createdTask.getSubTasks());
+        assertEquals(testSubTaskA.getId(), createdTask.getSubTasks().get(2).getId());
+        assertEquals(testSubTaskA.getName(), createdTask.getSubTasks().get(2).getName());
     }
 
 

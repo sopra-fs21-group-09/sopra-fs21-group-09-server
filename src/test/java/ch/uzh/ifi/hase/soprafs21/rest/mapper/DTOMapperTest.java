@@ -182,7 +182,7 @@ public class DTOMapperTest {
         groupPostDTO.setMemberLimit(10);
 
         // MAP -> create group
-        Group group =DTOMapper.INSTANCE.convertGroupPostDTOtoEntity(groupPostDTO);
+        Group group = DTOMapper.INSTANCE.convertGroupPostDTOtoEntity(groupPostDTO);
 
         // check content
         assertEquals(groupPostDTO.getName(), group.getName());
