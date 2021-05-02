@@ -97,7 +97,7 @@ public class TaskService extends AService{
         taskRepository.deleteById(id);
     }
 
-    public void createSubTask(Long parentTaskId, Task newSubTask) {
+    public Task createSubTask(Long parentTaskId, Task newSubTask) {
         Task parentTask;
         if (taskRepository.findById(parentTaskId).isPresent()) {
             parentTask = taskRepository.findById(parentTaskId).get();
@@ -112,5 +112,6 @@ public class TaskService extends AService{
         taskRepository.save(parentTask);
         taskRepository.flush();
         log.debug("Created information for sub task: {}", newSubTask);
+        return parentTask;
     }
 }

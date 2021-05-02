@@ -78,6 +78,24 @@ public class TaskServiceTest {
     }
 
     @Test
+    public void createSubTask_validInputs_success() {
+        /* when
+        Mockito.when(taskRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testTask));
+
+        Task createdTask = taskService.createSubTask(testTask.getId(), testSubTaskA);
+
+        // then
+        Mockito.verify(taskRepository, Mockito.times(2)).save(Mockito.any());
+
+        assertEquals(testTask.getId(), createdTask.getId());
+        assertEquals(testTask.getName(), createdTask.getName());
+        assertEquals(testTask.getDescription(), createdTask.getDescription());
+        assertEquals(testDeadline.getId(), createdTask.getDeadline().getId());
+        assertEquals(testTask.getSubTasks(), createdTask.getSubTasks());*/
+    }
+
+
+    @Test
     public void getTask_validInput_success() {
         // when
         Mockito.when(taskRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testTask));

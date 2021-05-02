@@ -10,9 +10,11 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.web.server.ResponseStatusException;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
@@ -88,5 +90,56 @@ public class TaskControllerTest extends ControllerTest {
                 .andExpect(jsonPath("$.deadline.visible", is(deadline.getVisible())));
     }
 
+    @Test
+    public void createSubTask_validInput_subTaskCreated() throws Exception {
+        // given
+        Task task = new Task();
 
+        TaskPostDTO taskPostDTO = new TaskPostDTO();
+        taskPostDTO.setName("name");
+        taskPostDTO.setDescription("description");
+
+        DeadlinePostDTO deadlinePostDTO = new DeadlinePostDTO();
+        deadlinePostDTO.setTime("2021-01-01");
+        deadlinePostDTO.setVisible(true);
+        taskPostDTO.setDeadline(deadlinePostDTO);
+
+        //when
+        Mockito.doNothing().when(taskService).createSubTask(Mockito.any(), Mockito.any());
+
+        //do the request
+        MockHttpServletRequestBuilder postRequest = post("/tasks/1/sub-tasks")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(taskPostDTO));
+
+        //validate the result
+        mockMvc.perform(postRequest)
+                .andExpect(status().isCreated());
+
+    }
+
+    @Test
+    public void createSubTask_invalidInput_ExceptionThrown() throws Exception {
+        //given
+        TaskPostDTO taskPostDTO = new TaskPostDTO();
+        taskPostDTO.setName("name");
+        taskPostDTO.setDescription("description");
+
+        DeadlinePostDTO deadlinePostDTO = new DeadlinePostDTO();
+        deadlinePostDTO.setTime("2021-01-01");
+        deadlinePostDTO.setVisible(true);
+        taskPostDTO.setDeadline(deadlinePostDTO);
+
+        //when
+        Mockito.doThrow(new ResponseStatusException(HttpStatus.NOT_FOUND)).when(taskService).createSubTask(Mockito.any(), Mockito.any());
+
+        //do the request
+        MockHttpServletRequestBuilder postRequest = post("/tasks/1/sub-tasks")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(taskPostDTO));
+
+        //validate the result
+        mockMvc.perform(postRequest)
+                .andExpect(status().isNotFound());
+    }
 }
