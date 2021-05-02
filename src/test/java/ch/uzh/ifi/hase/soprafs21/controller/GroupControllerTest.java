@@ -117,7 +117,7 @@ public class GroupControllerTest extends ControllerTest {
                 .andExpect(jsonPath("$[0].memberCount", is(group1.getMemberCount())))
                 .andExpect(jsonPath("$[1].id", is(group2.getId().intValue())))
                 .andExpect(jsonPath("$[1].name", is(group2.getName())))
-                .andExpect(jsonPath("$[0].creator.username", is(group2.getCreator().getUsername())))
+                .andExpect(jsonPath("$[1].creator.username", is(group2.getCreator().getUsername())))
                 .andExpect(jsonPath("$[1].open", is(group2.getOpen())))
                 .andExpect(jsonPath("$[1].memberLimit", is(group2.getMemberLimit())))
                 .andExpect(jsonPath("$[1].memberCount", is(group2.getMemberCount())));
