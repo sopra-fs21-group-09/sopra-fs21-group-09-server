@@ -5,7 +5,6 @@ import ch.uzh.ifi.hase.soprafs21.constant.EventLabel;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 
 @SequenceGenerator(name="seq", initialValue=3, allocationSize=100)
 

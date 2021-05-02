@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs21.rest.dto.Task;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class DeadlineGetDTO {
 

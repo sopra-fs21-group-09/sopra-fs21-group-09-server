@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs21.rest.dto.Task;
 
 import java.util.List;
-import java.util.Set;
 
 public class TaskGetDTO {
     private Long id;

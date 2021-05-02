@@ -1,7 +1,5 @@
 package ch.uzh.ifi.hase.soprafs21.rest.dto.Task;
 
-import java.time.LocalDate;
-import java.util.Date;
 
 public class DeadlinePostDTO {
 
