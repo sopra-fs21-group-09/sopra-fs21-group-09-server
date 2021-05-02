@@ -105,7 +105,7 @@ public class TaskControllerTest extends ControllerTest {
         taskPostDTO.setDeadline(deadlinePostDTO);
 
         //when
-        Mockito.doNothing().when(taskService).createSubTask(Mockito.any(), Mockito.any());
+        given(taskService.createSubTask(Mockito.any(), Mockito.any())).willReturn(task);
 
         //do the request
         MockHttpServletRequestBuilder postRequest = post("/tasks/1/sub-tasks")

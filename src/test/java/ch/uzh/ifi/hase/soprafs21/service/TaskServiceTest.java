@@ -76,24 +76,24 @@ public class TaskServiceTest {
         assertEquals(testTask.getSubTasks(), createdTask.getSubTasks());
     }
 
-    @Test
-    public void createSubTask_validInputs_success() {
-        // when
-        Mockito.when(taskRepository.save(Mockito.any())).thenReturn(testSubTaskA);
-        Mockito.when(taskRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testTask));
+        @Test
+        public void createSubTask_validInputs_success() {
+            // when
+            Mockito.when(taskRepository.save(Mockito.any())).thenReturn(testSubTaskA);
+            Mockito.when(taskRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testTask));
 
-        Task createdTask = taskService.createSubTask(testTask.getId(), testSubTaskA);
+            Task createdTask = taskService.createSubTask(testTask.getId(), testSubTaskA);
 
-        // then
-        Mockito.verify(taskRepository, Mockito.times(2)).findById(Mockito.any());
-        Mockito.verify(taskRepository, Mockito.times(2)).save(Mockito.any());
+            // then
+            Mockito.verify(taskRepository, Mockito.times(2)).findById(Mockito.any());
+            Mockito.verify(taskRepository, Mockito.times(2)).save(Mockito.any());
 
-        assertEquals(testTask.getId(), createdTask.getId());
-        assertEquals(testTask.getName(), createdTask.getName());
-        assertEquals(testTask.getSubTasks(), createdTask.getSubTasks());
-        assertEquals(testSubTaskA.getId(), createdTask.getSubTasks().get(2).getId());
-        assertEquals(testSubTaskA.getName(), createdTask.getSubTasks().get(2).getName());
-    }
+            assertEquals(testTask.getId(), createdTask.getId());
+            assertEquals(testTask.getName(), createdTask.getName());
+            assertEquals(testTask.getSubTasks(), createdTask.getSubTasks());
+            assertEquals(testSubTaskA.getId(), createdTask.getSubTasks().get(2).getId());
+            assertEquals(testSubTaskA.getName(), createdTask.getSubTasks().get(2).getName());
+        }
 
     @Test
     public void createSubTask_invalidInputs_throwExc() {
