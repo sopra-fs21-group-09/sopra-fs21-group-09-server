@@ -43,7 +43,7 @@ public class TaskControllerTest extends ControllerTest {
         taskPostDTO.setDescription("description");
 
         DeadlinePostDTO deadlinePostDTO = new DeadlinePostDTO();
-//        deadlinePostDTO.setTime(LocalDateTime.parse("2021-01-01T00:00:00"));
+        deadlinePostDTO.setTime("2021-01-01");
         deadlinePostDTO.setVisible(true);
         taskPostDTO.setDeadline(deadlinePostDTO);
 
@@ -69,7 +69,7 @@ public class TaskControllerTest extends ControllerTest {
         task.setDescription("description");
 
         Deadline deadline = new Deadline();
-        deadline.setTime(LocalDateTime.parse("2021-01-01T00:00"));
+        deadline.setTime(LocalDateTime.parse("2021-01-01T12:00:01"));
         deadline.setVisible(true);
         task.setDeadline(deadline);
 
@@ -84,7 +84,7 @@ public class TaskControllerTest extends ControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", is(task.getName())))
                 .andExpect(jsonPath("$.description", is(task.getDescription())))
-//                .andExpect(jsonPath("$.deadline.time", is(deadline.getTime().toString())))
+                .andExpect(jsonPath("$.deadline.time", is(deadline.getTime().toString())))
                 .andExpect(jsonPath("$.deadline.visible", is(deadline.getVisible())));
     }
 
