@@ -2,8 +2,10 @@ package ch.uzh.ifi.hase.soprafs21.controller;
 
 import ch.uzh.ifi.hase.soprafs21.entity.Event;
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
+import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Module.ModuleGetDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs21.service.ModuleService;
 import org.springframework.web.bind.annotation.RestController;
 import ch.uzh.ifi.hase.soprafs21.rest.mapper.DTOMapper;
@@ -35,6 +37,15 @@ public class ModuleController {
             moduleGetDTOs.add(DTOMapper.INSTANCE.convertEntityToModuleGetDTO(module));
         }
         return moduleGetDTOs;
+    }
+
+    @GetMapping("/modules/{moduleId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public ModuleGetDTO getModuleInformation(@PathVariable Long moduleId) {
+        Module module = moduleService.getModuleById(moduleId);
+        ModuleGetDTO moduleDTO = DTOMapper.INSTANCE.convertEntityToModuleGetDTO(module);
+        return moduleDTO;
     }
 
     @GetMapping("/modules/{moduleId}/events")

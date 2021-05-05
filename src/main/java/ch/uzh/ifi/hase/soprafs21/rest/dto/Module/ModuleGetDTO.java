@@ -1,14 +1,18 @@
 package ch.uzh.ifi.hase.soprafs21.rest.dto.Module;
 
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupGetDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskGetDTO;
+
+import java.util.List;
+
 public class ModuleGetDTO {
     private Long id;
     private String name;
     private String description;
     private String prof_name;
     private String zoom_link;
-    //private Event lecture_time;
-    //private Event exam;
-
+    private List<GroupGetDTO> groups;
+    private List<TaskGetDTO> tasks;
 
     public Long getId() {
         return id;
@@ -48,5 +52,21 @@ public class ModuleGetDTO {
 
     public void setZoom_link(String zoom_link) {
         this.zoom_link = zoom_link;
+    }
+
+    public List<GroupGetDTO> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<GroupGetDTO> groups) {
+        this.groups = groups;
+    }
+
+    public List<TaskGetDTO> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<TaskGetDTO> tasks) {
+        this.tasks = tasks;
     }
 }
