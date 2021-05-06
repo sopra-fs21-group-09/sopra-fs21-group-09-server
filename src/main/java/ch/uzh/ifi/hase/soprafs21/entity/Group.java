@@ -50,8 +50,8 @@ public class Group implements Serializable {
     @JoinColumn(name = "MODULE_ID", referencedColumnName = "ID")
     private Module module;
 
-    @OneToMany(mappedBy = "group")
-    private Set<Task> tasks = new HashSet<Task>();
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Task> tasks;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

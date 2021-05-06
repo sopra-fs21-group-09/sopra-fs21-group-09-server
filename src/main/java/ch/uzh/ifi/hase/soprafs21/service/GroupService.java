@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs21.service;
 
 import ch.uzh.ifi.hase.soprafs21.entity.Group;
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
+import ch.uzh.ifi.hase.soprafs21.entity.Task;
 import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.repository.GroupRepository;
 import org.slf4j.Logger;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * User Service
@@ -70,6 +72,19 @@ public class GroupService extends AService{
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "group was not found");
         }
         return group;
+    }
+
+    public void createTaskForGroup(Long id, Task newTask) {
+        var group = getGroupById(id);
+        group.addTask(newTask);
+
+        groupRepository.saveAndFlush(group);
+    }
+
+    public Set<Task> getTasksFromGroup(Long userId) {
+        var group = getGroupById(userId);
+
+        return group.getTasks();
     }
 
     public void checkPassword(Group groupToBeChecked, Group input) {

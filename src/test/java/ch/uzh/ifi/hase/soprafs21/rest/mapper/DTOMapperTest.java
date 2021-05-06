@@ -195,7 +195,7 @@ public class DTOMapperTest {
         assertEquals(0, group.getMemberCount());
 //        assertNull(group.getMembers());
         assertNull(group.getModule());
-//        assertNull(group.getTasks());
+        assertNull(group.getTasks());
     }
 
     @Test
