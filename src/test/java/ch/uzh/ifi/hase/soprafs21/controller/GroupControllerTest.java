@@ -3,8 +3,6 @@ package ch.uzh.ifi.hase.soprafs21.controller;
 import ch.uzh.ifi.hase.soprafs21.entity.Group;
 import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupPostDTO;
-import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserGetDTO;
-import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs21.service.GroupService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -121,6 +119,38 @@ public class GroupControllerTest extends ControllerTest {
                 .andExpect(jsonPath("$[1].open", is(group2.getOpen())))
                 .andExpect(jsonPath("$[1].memberLimit", is(group2.getMemberLimit())))
                 .andExpect(jsonPath("$[1].memberCount", is(group2.getMemberCount())));
+    }
+
+    @Test
+    public void givenGroup_whenGetGroup_thenReturnJson() throws Exception {
+        // given
+        var user = new User();
+        user.setId(1L);
+        user.setPassword("Firstname Lastname");
+        user.setUsername("creator");
+
+        var group = new Group();
+        group.setId(1L);
+        group.setName("group1");
+        group.setCreator(user);
+        group.setOpen(true);
+        group.setMemberLimit(10);
+        group.setMemberCount(1);
+
+        // this mocks the UserService -> we define above what the userService should return when getGroupById() is called
+        given(groupService.getGroupById(Mockito.any())).willReturn(group);
+
+        // when
+        MockHttpServletRequestBuilder getRequest = get("/groups/1").contentType(MediaType.APPLICATION_JSON);
+
+        // then
+        mockMvc.perform(getRequest).andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(group.getId().intValue())))
+                .andExpect(jsonPath("$.name", is(group.getName())))
+                .andExpect(jsonPath("$.creator.username", is(group.getCreator().getUsername())))
+                .andExpect(jsonPath("$.open", is(group.getOpen())))
+                .andExpect(jsonPath("$.memberLimit", is(group.getMemberLimit())))
+                .andExpect(jsonPath("$.memberCount", is(group.getMemberCount())));
     }
 
 }

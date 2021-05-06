@@ -33,6 +33,15 @@ public class GroupController {
         return groupGetDTOs;
     }
 
+    @GetMapping("/groups/{groupId}")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public GroupGetDTO getGroupById(@PathVariable Long groupId) {
+        var group = groupService.getGroupById(groupId);
+
+        return DTOMapper.INSTANCE.convertEntityToGroupGetDTO(group);
+    }
+
     @PostMapping("/users/{userId}/groups")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
