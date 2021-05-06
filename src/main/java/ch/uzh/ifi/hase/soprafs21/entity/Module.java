@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-@SequenceGenerator(name="seq", initialValue=3, allocationSize=100)
+@SequenceGenerator(name="moduleseq", initialValue=5, allocationSize=500)
 
 @Entity
 @Table(name = "MODULES")
@@ -13,7 +13,7 @@ public class Module implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="moduleseq")
     private Long id;
 
     @Column(nullable = false)
@@ -25,26 +25,23 @@ public class Module implements Serializable {
     @Column
     private String prof_name;
 
-    //@Column
-    //private Event lecture_time;
-
-    //@Column
-    //private Event exam;
+    @Column
+    private Long uzhId;
 
     @Column
     private String zoom_link;
 
     @ManyToMany(mappedBy = "modules")
-    private Set<User> users = new HashSet<User>();
+    private Set<User> users = new HashSet<>();
 
     @OneToMany(mappedBy = "module")
-    private Set<Event> events = new HashSet<Event>();
+    private Set<Event> events = new HashSet<>();
 
     @OneToMany(mappedBy = "module")
-    private Set<Group> groups = new HashSet<Group>();
+    private Set<Group> groups = new HashSet<>();
 
     @OneToMany(mappedBy = "module")
-    private Set<Task> tasks = new HashSet<Task>();
+    private Set<Task> tasks = new HashSet<>();
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -88,6 +85,14 @@ public class Module implements Serializable {
 
     public void setZoom_link(String zoom_link) {
         this.zoom_link = zoom_link;
+    }
+
+    public Long getUzhId() {
+        return uzhId;
+    }
+
+    public void setUzhId(Long uzhId) {
+        this.uzhId = uzhId;
     }
 
     public Set<User> getUsers() {
