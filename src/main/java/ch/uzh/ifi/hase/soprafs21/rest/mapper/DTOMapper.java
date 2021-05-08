@@ -120,12 +120,14 @@ public interface DTOMapper {
     @Mapping(target = "title", source = "name")
     @Mapping(target = "start", source = "startTime")
     @Mapping(target = "end", source = "endTime")
+    @Mapping(target = "allDay", source = "allDay")
     @Mapping(target = "desc", source = "description")
     EventGetDTO convertEntityToEventGetDTO(Event event);
 
     @Mapping(target = "name", source = "title")
     @Mapping(target = "startTime", source = "start")
     @Mapping(target = "endTime", source = "end")
+    @Mapping(target = "allDay", source = "allDay")
     @Mapping(target = "description", source = "desc")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "module", ignore = true)
@@ -135,6 +137,7 @@ public interface DTOMapper {
     @Mapping(target = "name", source = "title")
     @Mapping(target = "startTime", source = "start")
     @Mapping(target = "endTime", source = "end")
+    @Mapping(target = "allDay", source = "allDay")
     @Mapping(target = "description", source = "desc")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "module", ignore = true)

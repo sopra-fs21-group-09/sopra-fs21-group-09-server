@@ -8,6 +8,7 @@ public class EventPutDTO {
     private String title;
     private Date start;
     private Date end;
+    private Boolean allDay;
     private String desc;
     private EventLabel label;
     private Long taskId;
@@ -34,6 +35,14 @@ public class EventPutDTO {
 
     public void setEnd(Date end) {
         this.end = end;
+    }
+
+    public boolean getAllDay() {
+        return allDay;
+    }
+
+    public void setAllDay(boolean allDay) {
+        this.allDay = allDay;
     }
 
     public String getDesc() {

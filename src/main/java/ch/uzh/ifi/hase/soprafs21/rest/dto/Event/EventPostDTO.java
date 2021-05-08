@@ -8,6 +8,7 @@ public class EventPostDTO {
     private String title;
     private Date start;
     private Date end;
+    private Boolean allDay;
     private String desc;
     private EventLabel label;
 
@@ -33,6 +34,14 @@ public class EventPostDTO {
 
     public void setEnd(Date end) {
         this.end = end;
+    }
+    
+    public boolean getAllDay() {
+        return allDay;
+    }
+
+    public void setAllDay(boolean allDay) {
+        this.allDay = allDay;
     }
 
     public String getDesc() {

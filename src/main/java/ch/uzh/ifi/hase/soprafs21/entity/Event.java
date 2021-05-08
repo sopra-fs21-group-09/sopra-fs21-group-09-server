@@ -27,6 +27,9 @@ public class Event implements Serializable {
     private Date endTime;
 
     @Column
+    private Boolean allDay;
+
+    @Column
     private String description;
 
     @Enumerated(EnumType.STRING)
@@ -78,6 +81,14 @@ public class Event implements Serializable {
 
     public void setDescription(String desc) {
         this.description = desc;
+    }
+
+    public Boolean getAllDay() {
+        return allDay;
+    }
+
+    public void setAllDay(Boolean allDay) {
+        this.allDay = allDay;
     }
 
     public EventLabel getLabel() {
