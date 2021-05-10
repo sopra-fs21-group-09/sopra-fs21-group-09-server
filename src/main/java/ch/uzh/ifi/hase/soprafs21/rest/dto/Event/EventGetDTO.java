@@ -45,11 +45,11 @@ public class EventGetDTO {
         this.end = end;
     }
 
-    public boolean getAllDay() {
+    public Boolean getAllDay() {
         return allDay;
     }
 
-    public void setAllDay(boolean allDay) {
+    public void setAllDay(Boolean allDay) {
         this.allDay = allDay;
     }
 
