@@ -13,8 +13,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +29,8 @@ import java.util.UUID;
 
 @RestController
 @SpringBootApplication
-public class Application {
+@EnableJpaRepositories(basePackages = "ch.uzh.ifi.hase.soprafs21.repository")
+public class Application{
     private static final Logger log = LoggerFactory.getLogger(Application.class);
 
     @Qualifier("moduleRepository")

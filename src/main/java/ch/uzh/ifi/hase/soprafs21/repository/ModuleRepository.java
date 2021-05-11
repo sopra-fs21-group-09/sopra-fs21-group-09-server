@@ -7,5 +7,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository("moduleRepository")
 public interface ModuleRepository extends JpaRepository<Module, Long> {
-    //TODO: add api call to module list
 }
