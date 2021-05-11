@@ -88,8 +88,7 @@ public interface DTOMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "parentTask", ignore = true)
     @Mapping(target = "subTasks", ignore = true)
-    @Mapping(target = "user", ignore = true)
-    @Mapping(target = "module", ignore = true)
+//    @Mapping(target = "module", ignore = true)
     @Mapping(target = "group", ignore = true)
     Task convertTaskPostDTOtoEntity(TaskPostDTO taskPostDTO);
     @Mapping(source = "name", target = "name")
@@ -97,8 +96,7 @@ public interface DTOMapper {
     @Mapping(source = "deadline", target = "deadline")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "parentTask", ignore = true)
-    @Mapping(target = "user", ignore = true)
-    @Mapping(target = "module", ignore = true)
+//    @Mapping(target = "module", ignore = true)
     @Mapping(target = "group", ignore = true)
     Task convertTaskPutDTOtoEntity(TaskPutDTO taskPutDTO);
     @Mapping(source = "name", target = "name")

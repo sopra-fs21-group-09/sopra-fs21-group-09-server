@@ -1,5 +1,7 @@
 package ch.uzh.ifi.hase.soprafs21.entity;
 
+import ch.uzh.ifi.hase.soprafs21.embeddable.UserTaskKey;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -58,7 +60,7 @@ public class User implements Serializable {
     private Set<Event> events = new HashSet<Event>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Task> tasks = new HashSet<Task>();
+    private Set<UserTask> tasks;
 
     public Long getId() {
         return id;
@@ -135,6 +137,9 @@ public class User implements Serializable {
     public void addModule(Module module) {
         this.modules.add(module);
         module.getUsers().add(this);
+        for (var task : module.getTasks()) {
+            this.addTask(task);
+        }
     }
 
     public void removeModule(Module module) {
@@ -164,16 +169,24 @@ public class User implements Serializable {
         event.setUser(this);
     }
 
-    public Set<Task> getTasks() {
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public Set<UserTask> getTasks() {
         return tasks;
     }
 
-    public void setTasks(Set<Task> tasks) {
+    public void setTasks(Set<UserTask> tasks) {
         this.tasks = tasks;
     }
 
     public void addTask(Task task) {
-        this.tasks.add(task);
-        task.setUser(this);
+        var userTask = new UserTask();
+        userTask.setId(new UserTaskKey());
+        userTask.setUser(this);
+        userTask.setTask(task);
+        userTask.setCompleted(false);
+        this.tasks.add(userTask);
     }
 }

@@ -13,10 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * User Service
@@ -133,24 +130,28 @@ public class UserService extends AService{
 
     public void createTaskForUser(Long id, Task newTask) {
         User user = getUserById(id);
-        user.addTask(newTask);
+        var taskToAdd = taskService.createTask(newTask);
+        user.addTask(taskToAdd);
 
         userRepository.saveAndFlush(user);
     }
 
     public Set<Task> getTasksFromUser(Long userId) {
         User user = getUserById(userId);
-        Set<Task> tasks = user.getTasks();
-
-        Set<Module> modules = user.getModules();
-        for (Module module : modules) {
-            tasks.addAll(module.getTasks());
+        Set<Task> tasks = new HashSet<>();
+        for (UserTask userTask : user.getTasks()) {
+            tasks.add(userTask.getTask());
         }
+
         Set<Group> groups = user.getGroups();
         for (Group group : groups) {
             tasks.addAll(group.getTasks());
         }
         return  tasks;
+    }
+
+    public void changeUserTaskCompleted(Long userId, Long taskId) {
+        //TODO: find out how
     }
 
     public User getUserById(Long id){
