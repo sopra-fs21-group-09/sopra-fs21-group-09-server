@@ -135,7 +135,6 @@ public class DTOMapperTest {
         assertNull(task.getId());
         assertNull(task.getParentTask());
         assertNull(task.getSubTasks());
-        assertNull(task.getGroup());
     }
 
     @Test
