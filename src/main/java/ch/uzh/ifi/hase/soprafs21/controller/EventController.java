@@ -66,6 +66,6 @@ public class EventController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     public void deleteEvent(@PathVariable Long EventId) {
-        eventService.deleteTask((EventId));
+        eventService.deleteEvent((EventId));
     }
 }

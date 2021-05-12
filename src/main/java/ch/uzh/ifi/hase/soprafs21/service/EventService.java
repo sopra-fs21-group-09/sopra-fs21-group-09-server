@@ -73,7 +73,7 @@ public class EventService extends AService{
         }
     }
 
-    public void deletEvent(Long id) {
+    public void deleteEvent(Long id) {
         eventRepository.deleteById(id);
     }
 }
