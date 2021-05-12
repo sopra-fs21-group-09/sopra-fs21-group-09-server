@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs21.service;
 
 import ch.uzh.ifi.hase.soprafs21.entity.*;
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
+import ch.uzh.ifi.hase.soprafs21.repository.TaskRepository;
 import ch.uzh.ifi.hase.soprafs21.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * User Service
@@ -32,16 +30,19 @@ public class UserService extends AService{
     private final UserRepository userRepository;
     private final ModuleService moduleService;
     private final GroupService groupService;
+    private final TaskRepository taskRepository;
     private final TaskService taskService;
 
     @Autowired
     public UserService(@Qualifier("userRepository") UserRepository userRepository,
                        ModuleService moduleService,
                        GroupService groupService,
+                       @Qualifier("taskRepository") TaskRepository taskRepository,
                        TaskService taskService) {
         this.userRepository = userRepository;
         this.moduleService = moduleService;
         this.groupService = groupService;
+        this.taskRepository = taskRepository;
         this.taskService = taskService;
     }
 
@@ -133,24 +134,27 @@ public class UserService extends AService{
 
     public void createTaskForUser(Long id, Task newTask) {
         User user = getUserById(id);
-        user.addTask(newTask);
+        var taskToAdd = taskService.createTask(newTask);
+        user.addTask(taskToAdd);
 
         userRepository.saveAndFlush(user);
     }
 
     public Set<Task> getTasksFromUser(Long userId) {
-        User user = getUserById(userId);
-        Set<Task> tasks = user.getTasks();
+        var tasks = taskRepository.findAllByUsersUserId(userId);
+//        for (UserTask userTask : user.getTasks()) {
+//            tasks.add(userTask.getTask());
+//        }
 
-        Set<Module> modules = user.getModules();
-        for (Module module : modules) {
-            tasks.addAll(module.getTasks());
+        for (var group : getUserById(userId).getGroups()) {
+            tasks.addAll(taskRepository.findAllByGroupsGroupId(group.getId()));
         }
-        Set<Group> groups = user.getGroups();
-        for (Group group : groups) {
-            tasks.addAll(group.getTasks());
-        }
+
         return  tasks;
+    }
+
+    public void changeUserTaskCompleted(Long userId, Long taskId) {
+        //TODO: find out how
     }
 
     public User getUserById(Long id){

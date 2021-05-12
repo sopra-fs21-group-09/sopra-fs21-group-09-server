@@ -3,6 +3,7 @@ package ch.uzh.ifi.hase.soprafs21.entity;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -33,17 +34,15 @@ public class Task implements Serializable {
     @PrimaryKeyJoinColumn
     private Deadline deadline;
 
-    @ManyToOne
-    @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
-    private User user;
+    @OneToMany(mappedBy = "task")
+    Set<UserTask> users;
 
-    @ManyToOne
-    @JoinColumn(name = "MODULE_ID", referencedColumnName = "ID")
-    private Module module;
+//    @ManyToOne
+//    @JoinColumn(name = "GROUP_ID", referencedColumnName = "ID")
+//    private Group group;
 
-    @ManyToOne
-    @JoinColumn(name = "GROUP_ID", referencedColumnName = "ID")
-    private Group group;
+    @OneToMany(mappedBy = "task")
+    Set<GroupTask> groups;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -103,27 +102,28 @@ public class Task implements Serializable {
         subTask.setParentTask(this);
     }
 
-    public User getUser() {
-        return user;
+    public Set<UserTask> getUsers() {
+        return users;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsers(Set<UserTask> users) {
+        this.users = users;
     }
 
-    public Module getModule() {
-        return module;
+//    public Group getGroup() {
+//        return group;
+//    }
+//
+//    public void setGroup(Group group) {
+//        this.group = group;
+//    }
+
+
+    public Set<GroupTask> getGroups() {
+        return groups;
     }
 
-    public void setModule(Module module) {
-        this.module = module;
-    }
-
-    public Group getGroup() {
-        return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setGroups(Set<GroupTask> groups) {
+        this.groups = groups;
     }
 }

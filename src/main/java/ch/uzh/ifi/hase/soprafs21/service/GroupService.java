@@ -5,6 +5,7 @@ import ch.uzh.ifi.hase.soprafs21.entity.Module;
 import ch.uzh.ifi.hase.soprafs21.entity.Task;
 import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.repository.GroupRepository;
+import ch.uzh.ifi.hase.soprafs21.repository.TaskRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +33,19 @@ public class GroupService extends AService{
     private final GroupRepository groupRepository;
     private final UserService userService;
     private final ModuleService moduleService;
+    private final TaskRepository taskRepository;
+    private final TaskService taskService;
 
 
     @Autowired
-    public GroupService(@Qualifier("groupRepository") GroupRepository groupRepository, @Lazy UserService userService,  @Lazy ModuleService moduleService) {
+    public GroupService(@Qualifier("groupRepository") GroupRepository groupRepository, @Lazy UserService userService,  @Lazy ModuleService moduleService,
+                        @Qualifier("taskRepository") TaskRepository taskRepository,
+                        @Lazy TaskService taskService) {
         this.groupRepository = groupRepository;
         this.userService = userService;
         this.moduleService = moduleService;
+        this.taskRepository = taskRepository;
+        this.taskService = taskService;
     }
 
     public List<Group> getGroups() {return this.groupRepository.findAll();
@@ -76,15 +83,18 @@ public class GroupService extends AService{
 
     public void createTaskForGroup(Long id, Task newTask) {
         var group = getGroupById(id);
-        group.addTask(newTask);
+        var taskToAdd = taskService.createTask(newTask);
+        group.addTask(taskToAdd);
 
         groupRepository.saveAndFlush(group);
     }
 
-    public Set<Task> getTasksFromGroup(Long userId) {
-        var group = getGroupById(userId);
+    public Set<Task> getTasksFromGroup(Long groupId) {
+//        var group = getGroupById(userId);
+//
+//        return group.getTasks();
 
-        return group.getTasks();
+        return taskRepository.findAllByGroupsGroupId(groupId);
     }
 
     public void checkPassword(Group groupToBeChecked, Group input) {

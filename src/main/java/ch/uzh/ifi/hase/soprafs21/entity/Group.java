@@ -1,5 +1,7 @@
 package ch.uzh.ifi.hase.soprafs21.entity;
 
+import ch.uzh.ifi.hase.soprafs21.embeddable.GroupTaskKey;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -51,7 +53,7 @@ public class Group implements Serializable {
     private Module module;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Task> tasks;
+    private Set<GroupTask> tasks;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -141,16 +143,20 @@ public class Group implements Serializable {
         this.creator = creator;
     }
 
-    public Set<Task> getTasks() {
+    public Set<GroupTask> getTasks() {
         return tasks;
     }
 
-    public void setTasks(Set<Task> tasks) {
+    public void setTasks(Set<GroupTask> tasks) {
         this.tasks = tasks;
     }
 
     public void addTask(Task task) {
-        this.tasks.add(task);
-        task.setGroup(this);
+        var groupTask = new GroupTask();
+        groupTask.setId(new GroupTaskKey());
+        groupTask.setGroup(this);
+        groupTask.setTask(task);
+        groupTask.setCompleted(false);
+        this.tasks.add(groupTask);
     }
 }

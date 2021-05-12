@@ -40,7 +40,7 @@ public class Module implements Serializable {
     @OneToMany(mappedBy = "module")
     private Set<Group> groups = new HashSet<>();
 
-    @OneToMany(mappedBy = "module")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Task> tasks = new HashSet<>();
 
     public static long getSerialVersionUID() {
@@ -139,6 +139,8 @@ public class Module implements Serializable {
 
     public void addTask(Task task) {
         this.tasks.add(task);
-        task.setModule(this);
+        for (var user : this.users) {
+            user.addTask(task);
+        }
     }
 }
