@@ -61,4 +61,11 @@ public class EventController {
 
         eventService.createEventForUser(input, userId);
     }
+
+    @DeleteMapping("/events/{EventId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
+    public void deleteEvent(@PathVariable Long EventId) {
+        eventService.deleteTask((EventId));
+    }
 }

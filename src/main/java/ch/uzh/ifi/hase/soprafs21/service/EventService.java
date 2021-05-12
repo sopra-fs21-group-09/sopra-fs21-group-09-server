@@ -72,4 +72,8 @@ public class EventService extends AService{
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "event was not found");
         }
     }
+
+    public void deletEvent(Long id) {
+        eventRepository.deleteById(id);
+    }
 }
