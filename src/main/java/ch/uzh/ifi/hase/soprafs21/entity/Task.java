@@ -34,12 +34,15 @@ public class Task implements Serializable {
     @PrimaryKeyJoinColumn
     private Deadline deadline;
 
-//    @OneToMany(mappedBy = "task")
-//    Set<UserTask> users;
+    @OneToMany(mappedBy = "task")
+    Set<UserTask> users;
 
-    @ManyToOne
-    @JoinColumn(name = "GROUP_ID", referencedColumnName = "ID")
-    private Group group;
+//    @ManyToOne
+//    @JoinColumn(name = "GROUP_ID", referencedColumnName = "ID")
+//    private Group group;
+
+    @OneToMany(mappedBy = "task")
+    Set<GroupTask> groups;
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -99,19 +102,28 @@ public class Task implements Serializable {
         subTask.setParentTask(this);
     }
 
-//    public Set<UserTask> getUsers() {
-//        return users;
-//    }
-//
-//    public void setUsers(Set<UserTask> users) {
-//        this.users = users;
-//    }
-
-    public Group getGroup() {
-        return group;
+    public Set<UserTask> getUsers() {
+        return users;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setUsers(Set<UserTask> users) {
+        this.users = users;
+    }
+
+//    public Group getGroup() {
+//        return group;
+//    }
+//
+//    public void setGroup(Group group) {
+//        this.group = group;
+//    }
+
+
+    public Set<GroupTask> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Set<GroupTask> groups) {
+        this.groups = groups;
     }
 }

@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs21.service;
 
 import ch.uzh.ifi.hase.soprafs21.entity.*;
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
+import ch.uzh.ifi.hase.soprafs21.repository.TaskRepository;
 import ch.uzh.ifi.hase.soprafs21.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,16 +30,19 @@ public class UserService extends AService{
     private final UserRepository userRepository;
     private final ModuleService moduleService;
     private final GroupService groupService;
+    private final TaskRepository taskRepository;
     private final TaskService taskService;
 
     @Autowired
     public UserService(@Qualifier("userRepository") UserRepository userRepository,
                        ModuleService moduleService,
                        GroupService groupService,
+                       @Qualifier("taskRepository") TaskRepository taskRepository,
                        TaskService taskService) {
         this.userRepository = userRepository;
         this.moduleService = moduleService;
         this.groupService = groupService;
+        this.taskRepository = taskRepository;
         this.taskService = taskService;
     }
 
@@ -137,16 +141,15 @@ public class UserService extends AService{
     }
 
     public Set<Task> getTasksFromUser(Long userId) {
-        User user = getUserById(userId);
-        Set<Task> tasks = new HashSet<>();
-        for (UserTask userTask : user.getTasks()) {
-            tasks.add(userTask.getTask());
+        var tasks = taskRepository.findAllByUsersUserId(userId);
+//        for (UserTask userTask : user.getTasks()) {
+//            tasks.add(userTask.getTask());
+//        }
+
+        for (var group : getUserById(userId).getGroups()) {
+            tasks.addAll(taskRepository.findAllByGroupsGroupId(group.getId()));
         }
 
-        Set<Group> groups = user.getGroups();
-        for (Group group : groups) {
-            tasks.addAll(group.getTasks());
-        }
         return  tasks;
     }
 
