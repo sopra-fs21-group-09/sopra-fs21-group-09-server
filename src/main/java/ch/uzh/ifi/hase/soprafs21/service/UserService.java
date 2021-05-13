@@ -142,13 +142,7 @@ public class UserService extends AService{
 
     public Set<Task> getTasksFromUser(Long userId) {
         var tasks = taskRepository.findAllByUsersUserId(userId);
-//        for (UserTask userTask : user.getTasks()) {
-//            tasks.add(userTask.getTask());
-//        }
-
-        for (var group : getUserById(userId).getGroups()) {
-            tasks.addAll(taskRepository.findAllByGroupsGroupId(group.getId()));
-        }
+        tasks.addAll(taskRepository.findAllGroupTasksForUserByUserId(userId));
 
         return  tasks;
     }
