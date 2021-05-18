@@ -11,12 +11,12 @@ public class UserTask {
     @EmbeddedId
     UserTaskKey id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("userId")
     @JoinColumn(name = "user_id")
     User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("taskId")
     @JoinColumn(name = "task_id")
     Task task;

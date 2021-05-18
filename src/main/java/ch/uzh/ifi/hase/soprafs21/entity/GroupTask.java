@@ -11,12 +11,12 @@ public class GroupTask {
     @EmbeddedId
     GroupTaskKey id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("groupId")
     @JoinColumn(name = "group_id")
     Group group;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("taskId")
     @JoinColumn(name = "task_id")
     Task task;

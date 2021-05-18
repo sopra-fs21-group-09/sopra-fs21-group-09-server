@@ -94,7 +94,7 @@ public class GroupService extends AService{
 //
 //        return group.getTasks();
 
-        return taskRepository.findAllByGroupsGroupId(groupId);
+        return taskRepository.findAllTasksForGroupByGroupId(groupId);
     }
 
     public void checkPassword(Group groupToBeChecked, Group input) {
