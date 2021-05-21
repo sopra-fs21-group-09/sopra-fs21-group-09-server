@@ -63,7 +63,7 @@ public class Application{
                     Module module = new Module();
                     module.setName(objNode.get("SmStext").asText());
                     module.setDescription(objNode.get("Description").asText());
-                    module.setUzhId(objNode.get("Objid").asLong());
+                    module.setId(objNode.get("Objid").asLong());
                     moduleRepository.saveAndFlush(module);
                 }
             }

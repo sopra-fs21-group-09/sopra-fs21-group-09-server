@@ -14,15 +14,13 @@ import java.util.Set;
  * - nullable = false -> this cannot be left empty
  * - unique = true -> this value must be unqiue across the database -> composes the primary key
  */
-@SequenceGenerator(name="seq", initialValue=3, allocationSize=100)
-
 @Entity
 @Table(name = "USERS")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seq")
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -43,8 +41,8 @@ public class User implements Serializable {
     @ManyToMany
     @JoinTable(
             name = "USERS_MODULES",
-            joinColumns = @JoinColumn(name = "MODULE_ID", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
+            joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "MODULE_ID", referencedColumnName = "ID")
     )
     private Set<Module> modules = new HashSet<Module>();
 

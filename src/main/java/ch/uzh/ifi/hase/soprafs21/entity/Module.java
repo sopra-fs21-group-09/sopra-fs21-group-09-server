@@ -5,28 +5,22 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-@SequenceGenerator(name="moduleseq", initialValue=5, allocationSize=500)
-
 @Entity
 @Table(name = "MODULES")
 public class Module implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="moduleseq")
     private Long id;
 
     @Column(nullable = false)
     private String name;
 
-    @Column
+    @Column(columnDefinition="LONGTEXT")
     private String description;
 
     @Column
     private String prof_name;
-
-    @Column
-    private Long uzhId;
 
     @Column
     private String zoom_link;
@@ -87,14 +81,6 @@ public class Module implements Serializable {
         this.zoom_link = zoom_link;
     }
 
-    public Long getUzhId() {
-        return uzhId;
-    }
-
-    public void setUzhId(Long uzhId) {
-        this.uzhId = uzhId;
-    }
-
     public Set<User> getUsers() {
         return users;
     }
@@ -119,6 +105,10 @@ public class Module implements Serializable {
         this.groups = groups;
     }
 
+    public void addEvent(Event event) {
+        this.events.add(event);
+        event.setModule(this);
+    }
     public void addGroup(Group group) {
         this.groups.add(group);
         group.setModule(this);

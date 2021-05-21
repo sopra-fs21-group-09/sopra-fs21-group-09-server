@@ -83,6 +83,7 @@ public class UserService extends AService{
     public void addModuleToUser(Long userId, Long moduleId) {
         User user = getUserById(userId);
         Module module = moduleService.getModuleById(moduleId);
+        moduleService.loadModuleDetails(module);
         user.addModule(module);
     }
 
