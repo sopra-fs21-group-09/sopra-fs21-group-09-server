@@ -13,13 +13,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -29,7 +28,6 @@ import java.util.UUID;
 
 @RestController
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = "ch.uzh.ifi.hase.soprafs21.repository")
 public class Application{
     private static final Logger log = LoggerFactory.getLogger(Application.class);
 
@@ -51,7 +49,7 @@ public class Application{
     }
 
     @Bean
-    public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
+    public CommandLineRunner run(RestTemplate restTemplate) {
         return args -> {
             String results = restTemplate.getForObject(
                     "https://studentservices.uzh.ch/sap/opu/odata/uzh/vvz_data_srv/SmSearchSet?$skip=0&$top=5&$orderby=SmStext asc&$format=json", String.class);
@@ -103,5 +101,10 @@ public class Application{
                 registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
             }
         };
+    }
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

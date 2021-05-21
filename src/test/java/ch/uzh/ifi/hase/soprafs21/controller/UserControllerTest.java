@@ -16,6 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.security.Principal;
+
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -29,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * This tests if the UserController works.
  */
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 public class UserControllerTest extends ControllerTest{
 
     @Autowired
@@ -90,12 +92,14 @@ public class UserControllerTest extends ControllerTest{
         user.setPassword("Firstname Lastname");
         user.setUsername("firstname@lastname");
 
+        Principal mockPrincipal = Mockito.mock(Principal.class);
+        Mockito.when(mockPrincipal.getName()).thenReturn("firstname@lastname");
 
         // this mocks the UserService -> we define above what the userService should return when getUsers() is called
         given(userService.getUserById(1L)).willReturn(user);
 
         // when
-        MockHttpServletRequestBuilder getRequest = get("/users/1").contentType(MediaType.APPLICATION_JSON);
+        MockHttpServletRequestBuilder getRequest = get("/users/1").contentType(MediaType.APPLICATION_JSON).principal(mockPrincipal);
 
         // then
         mockMvc.perform(getRequest).andExpect(status().isOk())
