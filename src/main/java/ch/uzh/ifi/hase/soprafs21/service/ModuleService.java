@@ -81,6 +81,7 @@ public class ModuleService extends AService{
                     event.setName(moduleName);
                     event.setStartTime(startDate);
                     event.setEndTime(endDate);
+                    event.setAllDay(Boolean.FALSE);
                     event.setLabel(EventLabel.LECTURE);
                     eventRepository.saveAndFlush(event);
                     module.addEvent(event);
