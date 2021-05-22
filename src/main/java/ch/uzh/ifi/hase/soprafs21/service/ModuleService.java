@@ -3,6 +3,8 @@ package ch.uzh.ifi.hase.soprafs21.service;
 import ch.uzh.ifi.hase.soprafs21.constant.EventLabel;
 import ch.uzh.ifi.hase.soprafs21.entity.Event;
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
+import ch.uzh.ifi.hase.soprafs21.entity.Task;
+import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.repository.EventRepository;
 import ch.uzh.ifi.hase.soprafs21.repository.ModuleRepository;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -34,12 +36,15 @@ public class ModuleService extends AService{
     private final ModuleRepository moduleRepository;
     private final EventRepository eventRepository;
     private final RestTemplate restTemplate;
+    private final TaskService taskService;
 
     @Autowired
     public ModuleService(@Qualifier("moduleRepository") ModuleRepository moduleRepository,
                          @Qualifier("eventRepository") EventRepository eventRepository,
+                         TaskService taskService,
                          RestTemplate restTemplate) {
         this.moduleRepository = moduleRepository;
+        this.taskService = taskService;
         this.restTemplate = restTemplate;
         this.eventRepository = eventRepository;
     }
@@ -109,5 +114,11 @@ public class ModuleService extends AService{
         }
     }
 
+    public void createTaskForModule(Long moduleId, Task input) {
+        Module module = getModuleById(moduleId);
+        var taskToAdd = taskService.createTask(input);
+        module.addTask(taskToAdd);
+        moduleRepository.saveAndFlush(module);
+    }
 
 }

@@ -2,9 +2,11 @@ package ch.uzh.ifi.hase.soprafs21.controller;
 
 import ch.uzh.ifi.hase.soprafs21.entity.Event;
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
+import ch.uzh.ifi.hase.soprafs21.entity.Task;
 import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Module.ModuleGetDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs21.service.ModuleService;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,10 +58,18 @@ public class ModuleController {
         List<EventGetDTO> eventGetDTOs = new ArrayList<>();
 
         // convert each module to the API representation
-        for (Event event: events) {
+        for (Event event : events) {
             eventGetDTOs.add(DTOMapper.INSTANCE.convertEntityToEventGetDTO(event));
         }
         return eventGetDTOs;
+    }
+
+    @PostMapping("/modules/{moduleId}/tasks")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createTaskForModule(@PathVariable Long moduleId, @RequestBody TaskPostDTO taskPostDTO) {
+        Task input = DTOMapper.INSTANCE.convertTaskPostDTOtoEntity(taskPostDTO);
+
+        moduleService.createTaskForModule(moduleId, input);
     }
 
 }
