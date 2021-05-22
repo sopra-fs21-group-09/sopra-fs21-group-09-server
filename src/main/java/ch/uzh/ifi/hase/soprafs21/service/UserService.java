@@ -147,8 +147,22 @@ public class UserService extends AService{
         return  tasks;
     }
 
-    public void changeUserTaskCompleted(Long userId, Long taskId) {
-        //TODO: find out how
+    public Set<Task> getClosedTasksFromUser(Long userId) {
+        var tasks = taskRepository.findAllClosedTasksForUserByUserId(userId);
+        tasks.addAll(taskRepository.findAllClosedGroupTasksForUserByUserId(userId));
+
+        return tasks;
+    }
+
+    public Set<Task> getOpenTasksFromUser(Long userId) {
+        var tasks = taskRepository.findAllOpenTasksForUserByUserId(userId);
+        tasks.addAll(taskRepository.findAllOpenGroupTasksForUserByUserId(userId));
+
+        return tasks;
+    }
+
+    public void toggle(Long userId, Long taskId) {
+        taskRepository.toggleUserTaskCompleted(userId, taskId);
     }
 
     public User getUserById(Long id){
