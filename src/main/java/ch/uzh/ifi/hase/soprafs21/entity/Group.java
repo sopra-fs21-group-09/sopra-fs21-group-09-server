@@ -46,7 +46,7 @@ public class Group implements Serializable {
     private User creator;
 
     @ManyToMany(mappedBy = "groups")
-    private Set<User> members = new HashSet<User>();
+    private Set<User> members;
 
     @ManyToOne
     @JoinColumn(name = "MODULE_ID", referencedColumnName = "ID")

@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -49,11 +50,18 @@ public class EventService extends AService{
     public void updateEvent(Long id, Event changesToEvent) {
         // TODO: change rest specification to status code 404
         Event eventToBeUpdated = getEventById(id);
+        checkEventParent(eventToBeUpdated);
         BeanUtils.copyProperties(changesToEvent, eventToBeUpdated, getNullPropertyNames(changesToEvent));
         eventRepository.save(eventToBeUpdated);
         eventRepository.flush();
 
         log.debug("Updated information for Task: {}", eventToBeUpdated);
+    }
+
+    private void checkEventParent(Event eventToBeUpdated) {
+        if(Objects.isNull(eventToBeUpdated.getUser())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Editing an Event from a module is not allowed");
+        }
     }
 
     public void createEventForUser(Event eventToBeCreated, Long userId) {

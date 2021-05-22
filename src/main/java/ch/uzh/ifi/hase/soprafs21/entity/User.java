@@ -44,7 +44,7 @@ public class User implements Serializable {
             joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"),
             inverseJoinColumns = @JoinColumn(name = "MODULE_ID", referencedColumnName = "ID")
     )
-    private Set<Module> modules = new HashSet<Module>();
+    private Set<Module> modules;
 
     @ManyToMany
     @JoinTable(
@@ -52,10 +52,10 @@ public class User implements Serializable {
             joinColumns = @JoinColumn(name = "USER_ID", referencedColumnName = "ID"),
             inverseJoinColumns = @JoinColumn(name = "GROUP_ID", referencedColumnName = "ID")
     )
-    private Set<Group> groups = new HashSet<Group>();
+    private Set<Group> groups;
 
     @OneToMany(mappedBy = "user")
-    private Set<Event> events = new HashSet<Event>();
+    private Set<Event> events;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserTask> tasks;
