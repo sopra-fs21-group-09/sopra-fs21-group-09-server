@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -165,8 +166,20 @@ public class UserController {
     @GetMapping("/users/{userId}/tasks")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<TaskGetDTO> getTasksFromUser(@PathVariable Long userId) {
-        Set<Task> tasks = userService.getTasksFromUser(userId);
+    public List<TaskGetDTO> getTasksFromUser(@PathVariable Long userId, @RequestParam(required = false) Boolean completed) {
+        Set<Task> tasks;
+
+        if (completed == null) {
+            tasks = userService.getTasksFromUser(userId);
+        }
+        else {
+            if (completed) {
+                tasks = userService.getClosedTasksFromUser(userId);
+            }
+            else {
+                tasks = userService.getOpenTasksFromUser(userId);
+            }
+        }
 
         List<TaskGetDTO> taskGetDTOs= new ArrayList<>();
 
@@ -190,4 +203,11 @@ public class UserController {
         return CustomDeadlineGetDTOs;
     }
 
+    @PatchMapping("/users/{userId}/tasks/{taskId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseBody
+    public void toggle(@PathVariable Long userId, @PathVariable Long taskId) {
+
+        userService.toggle(userId, taskId);
+    }
 }
