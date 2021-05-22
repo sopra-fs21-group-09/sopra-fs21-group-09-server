@@ -13,7 +13,7 @@ public class DocumentController {
 
     @MessageMapping("/documents")
     public SharedDocument getDocument(SharedDocument document) {
-        webSocketMessagingTemplate.convertAndSend("/topic/" + document.getGroupId().toString() + ".public.messages", document);
+        webSocketMessagingTemplate.convertAndSend("/topic/" + document.getGroupId().toString() + ".public.document", document);
 
         return document;
     }
