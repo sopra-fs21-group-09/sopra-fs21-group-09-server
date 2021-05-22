@@ -120,5 +120,4 @@ public class ModuleService extends AService{
         module.addTask(taskToAdd);
         moduleRepository.saveAndFlush(module);
     }
-
 }

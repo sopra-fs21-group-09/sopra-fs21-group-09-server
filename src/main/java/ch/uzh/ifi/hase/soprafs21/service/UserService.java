@@ -145,7 +145,14 @@ public class UserService extends AService{
         var tasks = taskRepository.findAllTasksForUserByUserId(userId);
         tasks.addAll(taskRepository.findAllGroupTasksForUserByUserId(userId));
 
-        return  tasks;
+        return tasks;
+    }
+
+    public Set<Task> getTasksWithDeadlineFromUser(Long userId) {
+        var deadlines = taskRepository.findAllTasksWithDeadlineForUserByUserId(userId);
+        deadlines.addAll(taskRepository.findAllGroupTasksWithDeadlineForGroupByUserId(userId));
+
+        return deadlines;
     }
 
     public void changeUserTaskCompleted(Long userId, Long taskId) {

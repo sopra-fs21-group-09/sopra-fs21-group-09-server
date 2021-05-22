@@ -6,6 +6,8 @@ import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Module.ModuleGetDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.CustomDeadlineGetDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.DeadlineGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserGetDTO;
@@ -174,6 +176,18 @@ public class UserController {
         return taskGetDTOs;
     }
 
+    @GetMapping("/users/{userId}/deadlines")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<CustomDeadlineGetDTO> getDeadlinesFromUser(@PathVariable Long userId){
+        Set<Task> deadlines = userService.getTasksWithDeadlineFromUser(userId);
 
+        List<CustomDeadlineGetDTO> CustomDeadlineGetDTOs= new ArrayList<>();
+
+        for (Task deadline: deadlines) {
+            CustomDeadlineGetDTOs.add(DTOMapper.INSTANCE.convertEntityToCustomDeadlineGetDTO(deadline));
+        }
+        return CustomDeadlineGetDTOs;
+    }
 
 }

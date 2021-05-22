@@ -106,6 +106,15 @@ public interface DTOMapper {
     @Mapping(source = "deadline", target = "deadline")
     @Mapping(source = "subTasks", target =  "subTasks")
     TaskGetDTO convertEntityToTaskGetDTO(Task task);
+
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "name", target = "title")
+    @Mapping(source = "description", target = "desc")
+    @Mapping(source = "deadline.time", target = "start")
+    @Mapping(source = "deadline.time", target = "end")
+    @Mapping(target = "allDay", ignore = true)
+    @Mapping(target = "label", ignore = true)
+    CustomDeadlineGetDTO convertEntityToCustomDeadlineGetDTO(Task deadline);
     //Deadline
     @Mapping(source = "time", target = "time")
     @Mapping(source = "visible", target = "visible")
@@ -143,4 +152,5 @@ public interface DTOMapper {
     @Mapping(target = "module", ignore = true)
     @Mapping(target = "user", ignore = true)
     Event convertEventPostDTOtoEntity(EventPostDTO eventPostDTO);
+
 }
