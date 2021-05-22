@@ -99,6 +99,13 @@ public class UserController {
         userService.addModuleToUser(userId, moduleId);
     }
 
+    @DeleteMapping("/users/{userId}/modules/{moduleId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public void leaveModule(@PathVariable Long userId, @PathVariable Long moduleId) {
+        userService.removeModuleFromUser(userId, moduleId);
+    }
+
     @PostMapping("/users/{userId}/groups/{groupId}")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
@@ -112,6 +119,13 @@ public class UserController {
     public void joinPrivateGroup(@PathVariable Long userId, @PathVariable Long groupId, @RequestBody GroupPostDTO groupPostDTO) {
         Group input = DTOMapper.INSTANCE.convertGroupPostDTOtoEntity(groupPostDTO);
         userService.addPrivateGroupToUser(userId, groupId, input);
+    }
+
+    @DeleteMapping("/users/{userId}/groups/{groupId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseBody
+    public void leaveGroup(@PathVariable Long userId, @PathVariable Long groupId) {
+        userService.removeGroupFromUser(userId, groupId);
     }
 
     @GetMapping("/users/{userId}/modules")

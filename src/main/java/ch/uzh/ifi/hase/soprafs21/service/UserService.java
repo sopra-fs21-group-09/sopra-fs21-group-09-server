@@ -87,11 +87,20 @@ public class UserService extends AService{
         user.addModule(module);
     }
 
+    public void removeModuleFromUser(Long userId, Long moduleId) {
+        User user = getUserById(userId);
+        Module module = moduleService.getModuleById(moduleId);
+        user.removeModule(module);
+    }
+
     public void addGroupToUser(Long userId, Long groupId) {
         User user = getUserById(userId);
         Group group = groupService.getGroupById(groupId);
         if(user.getGroups().contains(group)){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You're already in this group. Why would you join again?");
+        }
+        if(group.getMemberCount() == group.getMemberLimit()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This group is already full");
         }
         user.addGroup(group);
     }
@@ -106,6 +115,13 @@ public class UserService extends AService{
         user.addGroup(group);
     }
 
+    public void removeGroupFromUser(Long userId, Long groupId) {
+        User user = getUserById(userId);
+        Group group = groupService.getGroupById(groupId);
+        user.removeGroup(group);
+        groupService.checkDelete(group);
+    }
+
     public Set<Module> getModulesFromUser(Long userId) {
         User user = getUserById(userId);
         return user.getModules();
@@ -114,11 +130,6 @@ public class UserService extends AService{
     public Set<Group> getGroupsFromUser(Long userId) {
         User user = getUserById(userId);
         Set<Group> groups = user.getGroups();
-
-        Set<Module> modules = user.getModules();
-        for (Module module: modules) {
-            groups.addAll(module.getGroups());
-        }
         return groups;
     }
 

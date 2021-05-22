@@ -143,6 +143,7 @@ public class User implements Serializable {
     public void removeModule(Module module) {
         this.modules.remove(module);
         module.getUsers().remove(this);
+        //TODO: remove moduleTasks from User
     }
 
     public void addGroup(Group group) {

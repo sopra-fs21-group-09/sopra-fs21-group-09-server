@@ -40,7 +40,7 @@ public class Group implements Serializable {
     private int memberLimit;
 
     @Column
-    private int memberCount = 0;
+    private int memberCount;
 
     @OneToOne
     private User creator;

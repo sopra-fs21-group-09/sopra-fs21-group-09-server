@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -53,6 +54,9 @@ public class GroupService extends AService{
 
     public void createGroupForUser(Group groupToBeCreated, Long creatorId) {
         User creator = userService.getUserById(creatorId);
+        groupToBeCreated.setMemberCount(0);
+        groupToBeCreated.setMembers(new HashSet<>());
+        groupToBeCreated.setTasks(new HashSet<>());
         Group createdGroup = groupRepository.save(groupToBeCreated);
         groupRepository.flush();
         createdGroup.addCreator(creator);
@@ -63,6 +67,9 @@ public class GroupService extends AService{
     public void createGroupForModule(Group groupToBeCreated, Long creatorId, Long moduleId) {
         User creator = userService.getUserById(creatorId);
         Module module = moduleService.getModuleById(moduleId);
+        groupToBeCreated.setMemberCount(0);
+        groupToBeCreated.setMembers(new HashSet<>());
+        groupToBeCreated.setTasks(new HashSet<>());
         Group createdGroup = groupRepository.save(groupToBeCreated);
         groupRepository.flush();
         createdGroup.addCreator(creator);
@@ -97,9 +104,17 @@ public class GroupService extends AService{
         return taskRepository.findAllTasksForGroupByGroupId(groupId);
     }
 
+    public void checkDelete(Group group) {
+        if(group.getMemberCount() == 0){
+            groupRepository.delete(group);
+        }
+    }
+
     public void checkPassword(Group groupToBeChecked, Group input) {
         if (!groupToBeChecked.getPassword().equals(input.getPassword())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Password incorrect.");
         }
     }
+
+
 }
