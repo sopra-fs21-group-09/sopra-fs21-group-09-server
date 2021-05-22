@@ -54,7 +54,7 @@ public class Application{
     public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
         return args -> {
             String results = restTemplate.getForObject(
-                    "https://studentservices.uzh.ch/sap/opu/odata/uzh/vvz_data_srv/SmSearchSet?$skip=0&$top=5&$orderby=SmStext asc&$format=json", String.class);
+                    "https://studentservices.uzh.ch/sap/opu/odata/uzh/vvz_data_srv/SmSearchSet?$skip=0&$top=10&$orderby=SmStext asc&$format=json", String.class);
             ObjectMapper mapper = new ObjectMapper();
             JsonNode uzhModuleNode = mapper.readTree(results);
             JsonNode result = uzhModuleNode.get("d").get("results");
