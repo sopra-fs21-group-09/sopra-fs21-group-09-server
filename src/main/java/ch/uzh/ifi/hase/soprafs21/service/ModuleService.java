@@ -19,6 +19,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -67,7 +69,9 @@ public class ModuleService extends AService{
                     Long dateLong = Long.valueOf(objNode.get("Evdat").asText().replaceAll("[^0-9]", ""));
 
                     Date date = new Date(dateLong);
-                    Instant instant = date.toInstant();
+                    Instant instant_off = date.toInstant();
+                    LocalDate localDate = instant_off.atZone(ZoneId.systemDefault()).toLocalDate();
+                    Instant instant = localDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
                     Duration startDuration = Duration.parse(objNode.get("Beguz").asText());
                     Duration endDuration = Duration.parse(objNode.get("Enduz").asText());
                     Date startDate = Date.from(instant.plus(startDuration));
