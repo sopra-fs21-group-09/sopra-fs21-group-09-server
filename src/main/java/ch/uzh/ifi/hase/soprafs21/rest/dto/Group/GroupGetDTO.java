@@ -2,7 +2,7 @@ package ch.uzh.ifi.hase.soprafs21.rest.dto.Group;
 
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserGetDTO;
 
-public class GroupGetDTO {
+public class GroupGetDTO implements Comparable<GroupGetDTO>{
     private int id;
     private String name;
     private UserGetDTO creator;
@@ -56,5 +56,10 @@ public class GroupGetDTO {
 
     public void setMemberCount(int memberCount) {
         this.memberCount = memberCount;
+    }
+
+    @Override
+    public int compareTo(GroupGetDTO o) {
+        return this.id - o.id;
     }
 }

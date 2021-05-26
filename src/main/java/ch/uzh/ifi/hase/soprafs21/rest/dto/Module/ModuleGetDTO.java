@@ -1,9 +1,13 @@
 package ch.uzh.ifi.hase.soprafs21.rest.dto.Module;
 
+import ch.uzh.ifi.hase.soprafs21.entity.Group;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskGetDTO;
 
-import java.util.List;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class ModuleGetDTO {
     private Long id;
@@ -11,8 +15,8 @@ public class ModuleGetDTO {
     private String description;
     private String prof_name;
     private String zoom_link;
-    private List<GroupGetDTO> groups;
-    private List<TaskGetDTO> tasks;
+    private SortedSet<GroupGetDTO> groups;
+    private HashSet<TaskGetDTO> tasks;
 
     public Long getId() {
         return id;
@@ -54,19 +58,19 @@ public class ModuleGetDTO {
         this.zoom_link = zoom_link;
     }
 
-    public List<GroupGetDTO> getGroups() {
+    public SortedSet<GroupGetDTO> getGroups() {
         return groups;
     }
 
-    public void setGroups(List<GroupGetDTO> groups) {
+    public void setGroups(SortedSet<GroupGetDTO> groups) {
         this.groups = groups;
     }
 
-    public List<TaskGetDTO> getTasks() {
+    public HashSet<TaskGetDTO> getTasks() {
         return tasks;
     }
 
-    public void setTasks(List<TaskGetDTO> tasks) {
+    public void setTasks(HashSet<TaskGetDTO> tasks) {
         this.tasks = tasks;
     }
 }
