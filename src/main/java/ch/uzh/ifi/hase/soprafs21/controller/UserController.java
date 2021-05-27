@@ -18,10 +18,7 @@ import ch.uzh.ifi.hase.soprafs21.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * User Controller
@@ -157,10 +154,10 @@ public class UserController {
     @GetMapping("/users/{userId}/events")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<EventGetDTO> getEventsFromUser(@PathVariable Long userId) {
+    public SortedSet<EventGetDTO> getEventsFromUser(@PathVariable Long userId) {
         Set<Event> events = userService.getEventsFromUser(userId);
 
-        List<EventGetDTO> eventGetDTOs = new ArrayList<>();
+        SortedSet<EventGetDTO> eventGetDTOs = new TreeSet<>();
 
         for (Event event: events) {
             eventGetDTOs.add(DTOMapper.INSTANCE.convertEntityToEventGetDTO(event));
@@ -180,7 +177,7 @@ public class UserController {
     @GetMapping("/users/{userId}/tasks")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<TaskGetDTO> getTasksFromUser(@PathVariable Long userId, @RequestParam(required = false) Boolean completed) {
+    public SortedSet<TaskGetDTO> getTasksFromUser(@PathVariable Long userId, @RequestParam(required = false) Boolean completed) {
         Set<Task> tasks;
 
         if (completed == null) {
@@ -195,7 +192,7 @@ public class UserController {
             }
         }
 
-        List<TaskGetDTO> taskGetDTOs= new ArrayList<>();
+        SortedSet<TaskGetDTO> taskGetDTOs= new TreeSet<>();
 
         for (Task task: tasks) {
             taskGetDTOs.add(DTOMapper.INSTANCE.convertEntityToTaskGetDTO(task));

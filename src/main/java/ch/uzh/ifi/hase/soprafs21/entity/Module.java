@@ -4,8 +4,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 @Entity
 @Table(name = "MODULES")
@@ -25,7 +23,13 @@ public class Module implements Serializable {
     private String prof_name;
 
     @Column
-    private String Category;
+    private String category;
+
+    @Column
+    private String lectureTimeStart;
+
+    @Column
+    private String lectureTimeEnd;
 
     @ManyToMany(mappedBy = "modules")
     private Set<User> users = new HashSet<>();
@@ -76,11 +80,27 @@ public class Module implements Serializable {
     }
 
     public String getCategory() {
-        return Category;
+        return category;
     }
 
     public void setCategory(String category) {
-        Category = category;
+        this.category = category;
+    }
+
+    public String getLectureTimeStart() {
+        return lectureTimeStart;
+    }
+
+    public void setLectureTimeStart(String lectureTimeStart) {
+        this.lectureTimeStart = lectureTimeStart;
+    }
+
+    public String getLectureTimeEnd() {
+        return lectureTimeEnd;
+    }
+
+    public void setLectureTimeEnd(String lectureTimeEnd) {
+        this.lectureTimeEnd = lectureTimeEnd;
     }
 
     public Set<User> getUsers() {

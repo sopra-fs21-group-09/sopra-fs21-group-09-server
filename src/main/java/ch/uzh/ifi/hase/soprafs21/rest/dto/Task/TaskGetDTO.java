@@ -2,18 +2,18 @@ package ch.uzh.ifi.hase.soprafs21.rest.dto.Task;
 
 import java.util.List;
 
-public class TaskGetDTO {
-    private Long id;
+public class TaskGetDTO implements Comparable<TaskGetDTO>{
+    private int id;
     private String name;
     private String description;
     private List<TaskGetDTO> subTasks;
     private DeadlineGetDTO deadline;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -47,5 +47,10 @@ public class TaskGetDTO {
 
     public void setDeadline(DeadlineGetDTO deadline) {
         this.deadline = deadline;
+    }
+
+    @Override
+    public int compareTo(TaskGetDTO o) {
+        return this.id - o.id;
     }
 }

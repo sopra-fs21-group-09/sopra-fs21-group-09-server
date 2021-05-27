@@ -295,7 +295,6 @@ public class DTOMapperTest {
         module.setName("name");
         module.setDescription("description");
         module.setProf_name("Prof. Mustermann");
-        module.setZoom_link("www.link.com");
 
         // MAP -> create ModuleGetDTO
         ModuleGetDTO moduleGetDTO = DTOMapper.INSTANCE.convertEntityToModuleGetDTO(module);
@@ -305,6 +304,5 @@ public class DTOMapperTest {
         assertEquals(module.getName(), moduleGetDTO.getName());
         assertEquals(module.getDescription(), moduleGetDTO.getDescription());
         assertEquals(module.getProf_name(), moduleGetDTO.getProf_name());
-        assertEquals(module.getZoom_link(), moduleGetDTO.getZoom_link());
     }
 }

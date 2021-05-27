@@ -1,6 +1,5 @@
 package ch.uzh.ifi.hase.soprafs21.rest.dto.Module;
 
-import ch.uzh.ifi.hase.soprafs21.entity.Group;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskGetDTO;
 
@@ -13,6 +12,8 @@ public class ModuleGetDTO {
     private String description;
     private String prof_name;
     private String category;
+    private String lectureTimeStart;
+    private String lectureTimeEnd;
     private SortedSet<GroupGetDTO> groups;
     private HashSet<TaskGetDTO> tasks;
 
@@ -54,6 +55,22 @@ public class ModuleGetDTO {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getLectureTimeStart() {
+        return lectureTimeStart;
+    }
+
+    public void setLectureTimeStart(String lectureTimeStart) {
+        this.lectureTimeStart = lectureTimeStart;
+    }
+
+    public String getLectureTimeEnd() {
+        return lectureTimeEnd;
+    }
+
+    public void setLectureTimeEnd(String lectureTimeEnd) {
+        this.lectureTimeEnd = lectureTimeEnd;
     }
 
     public SortedSet<GroupGetDTO> getGroups() {

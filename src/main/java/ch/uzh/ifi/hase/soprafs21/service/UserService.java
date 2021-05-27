@@ -202,7 +202,7 @@ public class UserService extends AService{
         }
     }
 
-    private void checkIfCredentialsWrong(User userToBeLoggedIn) {
+    public void checkIfCredentialsWrong(User userToBeLoggedIn) {
         User userByUsername = userRepository.findByUsername(userToBeLoggedIn.getUsername());
 
         if (userByUsername == null) {

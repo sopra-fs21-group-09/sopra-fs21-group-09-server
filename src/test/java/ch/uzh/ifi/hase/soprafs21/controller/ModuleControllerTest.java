@@ -41,14 +41,12 @@ public class ModuleControllerTest {
         module1.setName("module1");
         module1.setDescription("description");
         module1.setProf_name("prof");
-        module1.setZoom_link("zoomLink");
 
         Module module2 = new Module();
         module2.setId(1L);
         module2.setName("module2");
         module2.setDescription("description2");
         module2.setProf_name("prof2");
-        module2.setZoom_link("zoomLink2");
 
         List<Module> allModules= new ArrayList<>();
         allModules.add(module1);
@@ -67,12 +65,10 @@ public class ModuleControllerTest {
                 .andExpect(jsonPath("$[0].name", is(module1.getName())))
                 .andExpect(jsonPath("$[0].description", is(module1.getDescription())))
                 .andExpect(jsonPath("$[0].prof_name", is(module1.getProf_name())))
-                .andExpect(jsonPath("$[0].zoom_link", is(module1.getZoom_link())))
                 .andExpect(jsonPath("$[1].id", is(module2.getId().intValue())))
                 .andExpect(jsonPath("$[1].name", is(module2.getName())))
                 .andExpect(jsonPath("$[1].description", is(module2.getDescription())))
-                .andExpect(jsonPath("$[1].prof_name", is(module2.getProf_name())))
-                .andExpect(jsonPath("$[1].zoom_link", is(module2.getZoom_link())));
+                .andExpect(jsonPath("$[1].prof_name", is(module2.getProf_name())));
     }
 
 }

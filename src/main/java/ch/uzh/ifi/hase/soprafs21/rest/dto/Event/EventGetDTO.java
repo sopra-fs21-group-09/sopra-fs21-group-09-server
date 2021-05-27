@@ -4,8 +4,8 @@ import ch.uzh.ifi.hase.soprafs21.constant.EventLabel;
 
 import java.util.Date;
 
-public class EventGetDTO {
-    private Long id;
+public class EventGetDTO implements Comparable<EventGetDTO> {
+    private int id;
     private String title;
     private Date start;
     private Date end;
@@ -13,11 +13,11 @@ public class EventGetDTO {
     private String desc;
     private EventLabel label;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -69,4 +69,8 @@ public class EventGetDTO {
         this.label = label;
     }
 
+    @Override
+    public int compareTo(EventGetDTO o) {
+        return this.id - o.id;
+    }
 }

@@ -63,8 +63,8 @@ public class ModuleService extends AService{
                 String moduleName = uzhModuleDetails.get("SmText").asText();
                 JsonNode responsible = uzhModuleDetails.get("Responsible").get("results").get(0);
                 String professor = responsible.get("Title").asText();
-                professor = professor + responsible.get("FirstName").asText();
-                professor = professor + responsible.get("LastName").asText();
+                professor = professor + " " + responsible.get("FirstName").asText();
+                professor = professor + " " + responsible.get("LastName").asText();
                 module.setProf_name(professor);
 
                 JsonNode ModuleEvents = ModuleDetailsResponse.get("d").get("Events").get("results");
@@ -86,6 +86,11 @@ public class ModuleService extends AService{
                     Duration endDuration = Duration.parse(objNode.get("Enduz").asText());
                     Date startDate = Date.from(instant.plus(startDuration));
                     Date endDate = Date.from(instant.plus(endDuration));
+                    if (objNode.equals(events.get(0))){
+                        module.setLectureTimeStart(startDate.toString());
+                        module.setLectureTimeEnd(endDate.toString());
+                    }
+                    log.info(startDate.toString());
                     log.info(endDate.toString());
                     Event event = new Event();
                     event.setName(moduleName);
