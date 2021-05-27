@@ -61,6 +61,11 @@ public class ModuleService extends AService{
                 JsonNode uzhModuleDetails = ModuleDetailsResponse.get("d");
                 module.setDescription(uzhModuleDetails.get("ObjectiveDescription").asText());
                 String moduleName = uzhModuleDetails.get("SmText").asText();
+                JsonNode responsible = uzhModuleDetails.get("Responsible").get("results").get(0);
+                String professor = responsible.get("Title").asText();
+                professor = professor + responsible.get("FirstName").asText();
+                professor = professor + responsible.get("LastName").asText();
+                module.setProf_name(professor);
 
                 JsonNode ModuleEvents = ModuleDetailsResponse.get("d").get("Events").get("results");
                 JsonNode vorlesungId = ModuleEvents.get(0).get("Objid");
@@ -95,6 +100,7 @@ public class ModuleService extends AService{
             }
             catch (Exception e){
                 e.printStackTrace();
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You joined the module but be aware, some information could not be fetched from UZH.");
             }
         }
     }

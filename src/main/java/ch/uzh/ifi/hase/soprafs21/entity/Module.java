@@ -25,7 +25,7 @@ public class Module implements Serializable {
     private String prof_name;
 
     @Column
-    private String zoom_link;
+    private String Category;
 
     @ManyToMany(mappedBy = "modules")
     private Set<User> users = new HashSet<>();
@@ -75,12 +75,12 @@ public class Module implements Serializable {
         this.prof_name = prof_name;
     }
 
-    public String getZoom_link() {
-        return zoom_link;
+    public String getCategory() {
+        return Category;
     }
 
-    public void setZoom_link(String zoom_link) {
-        this.zoom_link = zoom_link;
+    public void setCategory(String category) {
+        Category = category;
     }
 
     public Set<User> getUsers() {

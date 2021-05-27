@@ -55,16 +55,16 @@ public class Application{
     public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
         return args -> {
             String results = restTemplate.getForObject(
-                    "https://studentservices.uzh.ch/sap/opu/odata/uzh/vvz_data_srv/SmSearchSet?$skip=0&$top=10&$orderby=SmStext asc&$format=json", String.class);
+                    "https://studentservices.uzh.ch/sap/opu/odata/uzh/vvz_data_srv/SmListSet?sap-client=001&$skip=0&$top=30&$orderby=ObligCore4Cg desc&$filter=CgId eq '50772519' and PiqYear eq '2020' and PiqSession eq '004'&search=&$inlinecount=allpages&$format=json", String.class);
             ObjectMapper mapper = new ObjectMapper();
             JsonNode uzhModuleNode = mapper.readTree(results);
             JsonNode result = uzhModuleNode.get("d").get("results");
             if (result.isArray()) {
                 for (final JsonNode objNode : result) {
                     Module module = new Module();
-                    module.setName(objNode.get("SmStext").asText());
-                    module.setDescription(objNode.get("Description").asText());
-                    module.setId(objNode.get("Objid").asLong());
+                    module.setName(objNode.get("SmText").asText());
+                    module.setId(objNode.get("SmObjId").asLong());
+                    module.setCategory(objNode.get("CategoryText").asText());
                     moduleRepository.saveAndFlush(module);
                 }
             }
