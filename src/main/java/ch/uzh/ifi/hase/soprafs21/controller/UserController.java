@@ -1,5 +1,6 @@
 package ch.uzh.ifi.hase.soprafs21.controller;
 
+import ch.uzh.ifi.hase.soprafs21.Application;
 import ch.uzh.ifi.hase.soprafs21.entity.*;
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventGetDTO;
@@ -10,14 +11,22 @@ import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.CustomDeadlineGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.DeadlineGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskPostDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.User.JWTToken;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserPutDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.mapper.DTOMapper;
+import ch.uzh.ifi.hase.soprafs21.security.JWTUtility;
 import ch.uzh.ifi.hase.soprafs21.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -32,7 +41,6 @@ import java.util.Set;
 
 @RestController
 public class UserController {
-
     private final UserService userService;
 
     UserController(UserService userService) {
@@ -42,12 +50,12 @@ public class UserController {
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public UserGetDTO loginUser(@RequestBody UserPostDTO userPostDTO) {
+    public JWTToken loginUser(@RequestBody UserPostDTO userPostDTO) throws Exception {
         User userInput = DTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO);
 
-        User loggedInUser = userService.loginUser(userInput);
+        String jwtToken = userService.loginUser(userInput);
 
-        return DTOMapper.INSTANCE.convertEntityToUserGetDTO(loggedInUser);
+        return new JWTToken(jwtToken);
     }
 
     @PostMapping("/users")
@@ -77,8 +85,11 @@ public class UserController {
     @GetMapping("/users/{userId}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public UserGetDTO getUserInformation(@PathVariable Long userId) {
+    public UserGetDTO getUserInformation(@PathVariable Long userId, Principal principal) {
         User user = userService.getUserById(userId);
+        if(!principal.getName().equals(user.getUsername())){
+            throw new BadCredentialsException("INVALID_CREDENTIALS");
+        }
         UserGetDTO userDTO= DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
         return userDTO;
     }

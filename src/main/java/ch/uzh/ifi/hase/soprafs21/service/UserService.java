@@ -4,12 +4,20 @@ import ch.uzh.ifi.hase.soprafs21.entity.*;
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
 import ch.uzh.ifi.hase.soprafs21.repository.TaskRepository;
 import ch.uzh.ifi.hase.soprafs21.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs21.security.JWTUtility;
+import ch.uzh.ifi.hase.soprafs21.security.SecurityUser;
+import ch.uzh.ifi.hase.soprafs21.security.SecurityUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -32,18 +40,31 @@ public class UserService extends AService{
     private final GroupService groupService;
     private final TaskRepository taskRepository;
     private final TaskService taskService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private JWTUtility jwtUtility;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private SecurityUserDetailsService userDetailsService;
 
     @Autowired
     public UserService(@Qualifier("userRepository") UserRepository userRepository,
                        ModuleService moduleService,
                        GroupService groupService,
                        @Qualifier("taskRepository") TaskRepository taskRepository,
-                       TaskService taskService) {
+                       TaskService taskService,
+                       BCryptPasswordEncoder bCryptPasswordEncoder,
+                       JWTUtility jwtUtility) {
+
         this.userRepository = userRepository;
         this.moduleService = moduleService;
         this.groupService = groupService;
         this.taskRepository = taskRepository;
         this.taskService = taskService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.jwtUtility = jwtUtility;
     }
 
     public List<User> getUsers() {return this.userRepository.findAll();
@@ -51,7 +72,7 @@ public class UserService extends AService{
 
     public User createUser(User userInput) {
         userInput.setToken(UUID.randomUUID().toString());
-
+        userInput.setPassword(bCryptPasswordEncoder.encode(userInput.getPassword()));
         checkIfUserExists(userInput);
 
         userInput = userRepository.save(userInput);
@@ -69,16 +90,27 @@ public class UserService extends AService{
         userRepository.flush();
     }
 
-    public User loginUser(User user) {
-        checkIfCredentialsWrong(user);
+    public String loginUser(User user) throws Exception {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            user.getUsername(),
+                            user.getPassword()
+                    )
+            );
+        } catch (BadCredentialsException e) {
+            throw new BadCredentialsException("INVALID_CREDENTIALS", e);
+        }
 
-        User userByUsername = userRepository.findByUsername(user.getUsername());
-        userByUsername.setToken(UUID.randomUUID().toString());
+        final UserDetails userDetails
+                = userDetailsService.loadUserByUsername(user.getUsername());
 
-        userByUsername = userRepository.saveAndFlush(userByUsername);
+        final String token =
+                jwtUtility.generateToken(userDetails);
 
-        return userByUsername;
+        return token;
     }
+
 
     public void addModuleToUser(Long userId, Long moduleId) {
         User user = getUserById(userId);
