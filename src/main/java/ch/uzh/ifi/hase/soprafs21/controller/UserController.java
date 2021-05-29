@@ -97,7 +97,7 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{userId}/modules/{moduleId}")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     public void leaveModule(@PathVariable Long userId, @PathVariable Long moduleId) {
         userService.removeModuleFromUser(userId, moduleId);
@@ -119,7 +119,7 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{userId}/groups/{groupId}")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @ResponseBody
     public void leaveGroup(@PathVariable Long userId, @PathVariable Long groupId) {
         userService.removeGroupFromUser(userId, groupId);

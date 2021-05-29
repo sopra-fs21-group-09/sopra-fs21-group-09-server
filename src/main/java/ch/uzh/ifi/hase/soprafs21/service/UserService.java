@@ -92,7 +92,10 @@ public class UserService extends AService{
         Module module = moduleService.getModuleById(moduleId);
         user.removeModule(module);
         for(Group group : module.getGroups()){
-            user.removeGroup(group);
+            if (user.getGroups().contains(group)){
+                user.removeGroup(group);
+                groupService.checkDelete(group);
+            }
         }
     }
 
