@@ -66,6 +66,7 @@ public class EventService extends AService{
 
     public void createEventForUser(Event eventToBeCreated, Long userId) {
         User user = userService.getUserById(userId);
+        eventToBeCreated.setInstanceOfModule(Boolean.FALSE);
         Event createdEvent = eventRepository.save(eventToBeCreated);
         eventRepository.flush();
         user.addEvent(createdEvent);

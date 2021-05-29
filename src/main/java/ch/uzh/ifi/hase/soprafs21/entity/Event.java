@@ -35,6 +35,9 @@ public class Event implements Serializable {
     @Enumerated(EnumType.STRING)
     private EventLabel label;
 
+    @Column
+    private Boolean instanceOfModule;
+
     @ManyToOne
     @JoinColumn(name = "MODULE_ID", referencedColumnName = "ID")
     private Module module;
@@ -97,6 +100,14 @@ public class Event implements Serializable {
 
     public void setLabel(EventLabel label) {
         this.label = label;
+    }
+
+    public Boolean getInstanceOfModule() {
+        return instanceOfModule;
+    }
+
+    public void setInstanceOfModule(Boolean instanceOfModule) {
+        this.instanceOfModule = instanceOfModule;
     }
 
     public static long getSerialVersionUID() {

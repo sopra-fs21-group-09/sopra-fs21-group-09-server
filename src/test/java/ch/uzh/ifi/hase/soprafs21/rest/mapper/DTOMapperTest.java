@@ -9,10 +9,7 @@ import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventPutDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Module.ModuleGetDTO;
-import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.DeadlinePostDTO;
-import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskGetDTO;
-import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskPostDTO;
-import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskPutDTO;
+import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.*;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserPutDTO;
@@ -23,6 +20,7 @@ import javax.persistence.Temporal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -166,6 +164,30 @@ public class DTOMapperTest {
         assertEquals(subTask.getName(), taskGetDTO.getSubTasks().get(0).getName());
         assertEquals(subTask.getDescription(), taskGetDTO.getSubTasks().get(0).getDescription());
         assertNull(taskGetDTO.getSubTasks().get(0).getDeadline());
+    }
+
+    @Test
+    public void testGetCustomDeadlines_fromUser_toTaskGetDTO_success() {
+        // Create Task
+        Task task = new Task();
+        task.setName("name");
+        task.setDescription("description");
+
+        Deadline deadline = new Deadline();
+        deadline.setTime(LocalDateTime.parse("2021-01-01T00:00:00"));
+        deadline.setVisible(true);
+        task.setDeadline(deadline);
+
+        // MAP -> Create TaskGetDTO
+        CustomDeadlineGetDTO customDeadlineGetDTO = DTOMapper.INSTANCE.convertEntityToCustomDeadlineGetDTO(task);
+
+        // check content
+        assertEquals(task.getName(), customDeadlineGetDTO.getTitle());
+        assertEquals(task.getDescription(), customDeadlineGetDTO.getDesc());
+        assertEquals(task.getDeadline().getTime(), customDeadlineGetDTO.getStart().toInstant().atZone(ZoneId.of("Europe/London")).toLocalDateTime());
+        assertEquals(task.getDeadline().getTime(), customDeadlineGetDTO.getEnd().toInstant().atZone(ZoneId.of("Europe/London")).toLocalDateTime());
+        assertEquals(EventLabel.DEADLINE, customDeadlineGetDTO.getLabel());
+        assertEquals(Boolean.TRUE, customDeadlineGetDTO.getAllDay());
     }
 
     @Test

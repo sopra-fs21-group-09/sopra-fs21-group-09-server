@@ -12,6 +12,7 @@ public class EventGetDTO implements Comparable<EventGetDTO> {
     private Boolean allDay;
     private String desc;
     private EventLabel label;
+    private Boolean instanceOfModule;
 
     public int getId() {
         return id;
@@ -67,6 +68,14 @@ public class EventGetDTO implements Comparable<EventGetDTO> {
 
     public void setLabel(EventLabel label) {
         this.label = label;
+    }
+
+    public Boolean getInstanceOfModule() {
+        return instanceOfModule;
+    }
+
+    public void setInstanceOfModule(Boolean instanceOfModule) {
+        this.instanceOfModule = instanceOfModule;
     }
 
     @Override

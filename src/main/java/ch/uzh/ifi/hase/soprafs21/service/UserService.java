@@ -91,6 +91,9 @@ public class UserService extends AService{
         User user = getUserById(userId);
         Module module = moduleService.getModuleById(moduleId);
         user.removeModule(module);
+        for(Group group : module.getGroups()){
+            user.removeGroup(group);
+        }
     }
 
     public void addGroupToUser(Long userId, Long groupId) {
