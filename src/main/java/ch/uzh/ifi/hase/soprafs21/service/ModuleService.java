@@ -51,8 +51,8 @@ public class ModuleService extends AService{
 
     public List<Module> getModules() {return this.moduleRepository.findAll();}
 
-    public void loadModuleDetails(Module module){
-        if(!moduleRepository.ModuleHasUser(module.getId())){
+    public Module loadModuleDetails(Module module){
+        if(!moduleRepository.ModuleHasUser(module.getId())||module.getProf_name() == null){
             try {
                 String ModuleDetailsJson = restTemplate.getForObject(
                         "https://studentservices.uzh.ch/sap/opu/odata/uzh/vvz_data_srv/SmDetailsSet(SmObjId='"+module.getId()+"',PiqYear='2020',PiqSession='004')?sap-client=001&$expand=Partof,Organizations,Responsible,Events,Events/Persons,OfferPeriods&$format=json", String.class);
@@ -109,6 +109,7 @@ public class ModuleService extends AService{
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "You joined the module but be aware, some information could not be fetched from UZH.");
             }
         }
+        return module;
     }
 
     public Set<Event> getEventsFromModule(Long moduleId) {

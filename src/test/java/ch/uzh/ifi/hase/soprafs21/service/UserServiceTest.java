@@ -3,6 +3,7 @@ package ch.uzh.ifi.hase.soprafs21.service;
 import ch.uzh.ifi.hase.soprafs21.embeddable.UserTaskKey;
 import ch.uzh.ifi.hase.soprafs21.entity.*;
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
+import ch.uzh.ifi.hase.soprafs21.repository.TaskRepository;
 import ch.uzh.ifi.hase.soprafs21.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,6 +24,9 @@ public class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private TaskRepository taskRepository;
 
     @Mock
     private TaskService taskService;
@@ -233,7 +237,7 @@ public class UserServiceTest {
 
         testUser.addGroup(testGroup);
 
-        assertTrue(!testUser.getGroups().isEmpty());
+        assertFalse(testUser.getGroups().isEmpty());
 
         Mockito.when(groupService.getGroupById(Mockito.any())).thenReturn(testGroup);
 
@@ -256,8 +260,8 @@ public class UserServiceTest {
         testUser.addModule(testModule);
         testUser.addGroup(testGroup);
 
-        assertTrue(!testUser.getModules().isEmpty());
-        assertTrue(!testUser.getGroups().isEmpty());
+        assertFalse(testUser.getModules().isEmpty());
+        assertFalse(testUser.getGroups().isEmpty());
 
         Mockito.when(groupService.getGroupById(Mockito.any())).thenReturn(testGroup);
         Mockito.when(moduleService.getModuleById(Mockito.any())).thenReturn(testModule);
@@ -289,6 +293,229 @@ public class UserServiceTest {
         Set<Event> events = userService.getEventsFromUser(testUser.getId());
         assertTrue(events.contains(testEvent));
         assertTrue(events.contains(testEvent2));
-
     }
+
+
+    @Test
+    public void getTasksFromUser_validInputs_success(){
+        Module testModule = new Module();
+        testModule.setId(1L);
+
+        Group testGroup = new Group();
+        testGroup.setId(1L);
+        testGroup.setName("group");
+        testGroup.setTasks(new HashSet<>());
+        testGroup.setMembers(new HashSet<>());
+
+        Task testTask1 = new Task();
+        testTask1.setId(1L);
+        testTask1.setName("name");
+        testTask1.setDescription("description");
+
+        Task testTask2 = new Task();
+        testTask2.setId(2L);
+        testTask2.setName("name");
+        testTask2.setDescription("description");
+
+        Task testTask3 = new Task();
+        testTask3.setId(2L);
+        testTask3.setName("name");
+        testTask3.setDescription("description");
+
+        testModule.addTask(testTask1);
+        testUser.addModule(testModule);
+
+        testGroup.addTask(testTask2);
+        testUser.addGroup(testGroup);
+
+        testUser.addTask(testTask3);
+
+        Set<Task> userTasks = new HashSet<>();
+        userTasks.add(testTask1);
+        userTasks.add(testTask2);
+
+        Set<Task> groupTasks = new HashSet<>();
+        groupTasks.add(testTask3);
+
+        Mockito.when(taskRepository.findAllTasksForUserByUserId(Mockito.any())).thenReturn(userTasks);
+        Mockito.when(taskRepository.findAllGroupTasksForUserByUserId(Mockito.any())).thenReturn(groupTasks);
+
+        Set<Task> tasks = userService.getTasksFromUser(testUser.getId());
+        assertTrue(tasks.contains(testTask1));
+        assertTrue(tasks.contains(testTask2));
+        assertTrue(tasks.contains(testTask3));
+    }
+
+    @Test
+    public void getTasksWithDeadlineFromUser_validInputs_success(){
+        Module testModule = new Module();
+        testModule.setId(1L);
+
+        Group testGroup = new Group();
+        testGroup.setId(1L);
+        testGroup.setName("group");
+        testGroup.setTasks(new HashSet<>());
+        testGroup.setMembers(new HashSet<>());
+
+        Deadline testDeadline = new Deadline();
+
+        Task testTask1 = new Task();
+        testTask1.setDeadline(testDeadline);
+        testTask1.setId(1L);
+        testTask1.setName("name");
+        testTask1.setDescription("description");
+
+        Task testTask2 = new Task();
+        testTask2.setDeadline(testDeadline);
+        testTask2.setId(2L);
+        testTask2.setName("name");
+        testTask2.setDescription("description");
+
+        Task testTask3 = new Task();
+        testTask3.setDeadline(testDeadline);
+        testTask3.setId(2L);
+        testTask3.setName("name");
+        testTask3.setDescription("description");
+
+        testModule.addTask(testTask1);
+        testUser.addModule(testModule);
+
+        testGroup.addTask(testTask2);
+        testUser.addGroup(testGroup);
+
+        testUser.addTask(testTask3);
+
+        Set<Task> userTasks = new HashSet<>();
+        userTasks.add(testTask1);
+        userTasks.add(testTask2);
+
+        Set<Task> groupTasks = new HashSet<>();
+        groupTasks.add(testTask3);
+
+        Mockito.when(taskRepository.findAllTasksWithDeadlineForUserByUserId(Mockito.any())).thenReturn(userTasks);
+        Mockito.when(taskRepository.findAllGroupTasksWithDeadlineForGroupByUserId(Mockito.any())).thenReturn(groupTasks);
+
+        Set<Task> tasks = userService.getTasksWithDeadlineFromUser(testUser.getId());
+        assertTrue(tasks.contains(testTask1));
+        assertTrue(tasks.contains(testTask2));
+        assertTrue(tasks.contains(testTask3));
+    }
+
+    @Test
+    public void getClosedTasksFromUser_validInputs_success(){
+        Module testModule = new Module();
+        testModule.setId(1L);
+
+        Group testGroup = new Group();
+        testGroup.setId(1L);
+        testGroup.setName("group");
+        testGroup.setTasks(new HashSet<>());
+        testGroup.setMembers(new HashSet<>());
+
+        Deadline testDeadline = new Deadline();
+
+        Task testTask1 = new Task();
+        testTask1.setDeadline(testDeadline);
+        testTask1.setId(1L);
+        testTask1.setName("name");
+        testTask1.setDescription("description");
+
+        Task testTask2 = new Task();
+        testTask2.setDeadline(testDeadline);
+        testTask2.setId(2L);
+        testTask2.setName("name");
+        testTask2.setDescription("description");
+
+        Task testTask3 = new Task();
+        testTask3.setDeadline(testDeadline);
+        testTask3.setId(2L);
+        testTask3.setName("name");
+        testTask3.setDescription("description");
+
+        testModule.addTask(testTask1);
+        testUser.addModule(testModule);
+
+        testGroup.addTask(testTask2);
+        testUser.addGroup(testGroup);
+
+        testUser.addTask(testTask3);
+
+        Set<Task> userTasks = new HashSet<>();
+        userTasks.add(testTask1);
+        userTasks.add(testTask2);
+
+        Set<Task> groupTasks = new HashSet<>();
+        groupTasks.add(testTask3);
+
+        userService.toggle(testUser.getId(), testTask1.getId());
+        userService.toggle(testUser.getId(), testTask2.getId());
+        userService.toggle(testUser.getId(), testTask3.getId());
+
+        doNothing().when(taskRepository).toggleUserTaskCompleted(Mockito.any(), Mockito.any());
+
+        Mockito.when(taskRepository.findAllClosedTasksForUserByUserId(Mockito.any())).thenReturn(userTasks);
+        Mockito.when(taskRepository.findAllClosedGroupTasksForUserByUserId(Mockito.any())).thenReturn(groupTasks);
+
+        Set<Task> tasks = userService.getClosedTasksFromUser(testUser.getId());
+        assertTrue(tasks.contains(testTask1));
+        assertTrue(tasks.contains(testTask2));
+        assertTrue(tasks.contains(testTask3));
+    }
+
+    @Test
+    public void getOpenTasksFromUser_validInputs_success(){
+        Module testModule = new Module();
+        testModule.setId(1L);
+
+        Group testGroup = new Group();
+        testGroup.setId(1L);
+        testGroup.setName("group");
+        testGroup.setTasks(new HashSet<>());
+        testGroup.setMembers(new HashSet<>());
+
+        Deadline testDeadline = new Deadline();
+
+        Task testTask1 = new Task();
+        testTask1.setDeadline(testDeadline);
+        testTask1.setId(1L);
+        testTask1.setName("name");
+        testTask1.setDescription("description");
+
+        Task testTask2 = new Task();
+        testTask2.setDeadline(testDeadline);
+        testTask2.setId(2L);
+        testTask2.setName("name");
+        testTask2.setDescription("description");
+
+        Task testTask3 = new Task();
+        testTask3.setDeadline(testDeadline);
+        testTask3.setId(2L);
+        testTask3.setName("name");
+        testTask3.setDescription("description");
+
+        testModule.addTask(testTask1);
+        testUser.addModule(testModule);
+
+        testGroup.addTask(testTask2);
+        testUser.addGroup(testGroup);
+
+        testUser.addTask(testTask3);
+
+        Set<Task> userTasks = new HashSet<>();
+        userTasks.add(testTask1);
+        userTasks.add(testTask2);
+
+        Set<Task> groupTasks = new HashSet<>();
+        groupTasks.add(testTask3);
+
+        Mockito.when(taskRepository.findAllOpenTasksForUserByUserId(Mockito.any())).thenReturn(userTasks);
+        Mockito.when(taskRepository.findAllOpenGroupTasksForUserByUserId(Mockito.any())).thenReturn(groupTasks);
+
+        Set<Task> tasks = userService.getOpenTasksFromUser(testUser.getId());
+        assertTrue(tasks.contains(testTask1));
+        assertTrue(tasks.contains(testTask2));
+        assertTrue(tasks.contains(testTask3));
+    }
+
+
 }

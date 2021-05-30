@@ -46,7 +46,8 @@ public class ModuleController {
     @ResponseBody
     public ModuleGetDTO getModuleInformation(@PathVariable Long moduleId) {
         Module module = moduleService.getModuleById(moduleId);
-        ModuleGetDTO moduleDTO = DTOMapper.INSTANCE.convertEntityToModuleGetDTO(module);
+        Module updatedModule = moduleService.loadModuleDetails(module);
+        ModuleGetDTO moduleDTO = DTOMapper.INSTANCE.convertEntityToModuleGetDTO(updatedModule);
         return moduleDTO;
     }
 
