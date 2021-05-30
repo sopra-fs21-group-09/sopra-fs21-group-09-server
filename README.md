@@ -83,7 +83,7 @@ If you want to avoid running all tests with every change, use the following comm
 ## Authors and acknowledgment
 
 ### Backend developers
-- [Loris de Luca](https://github.com/DeLucaL), University of Zurich 
+- [Loris De Luca](https://github.com/DeLucaL), University of Zurich 
 - [Robin Wassink](https://github.com/RobinWassink), University of Zurich
 
 # License
