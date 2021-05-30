@@ -2,6 +2,8 @@ package ch.uzh.ifi.hase.soprafs21.service;
 
 import ch.uzh.ifi.hase.soprafs21.entity.Deadline;
 import ch.uzh.ifi.hase.soprafs21.entity.Task;
+import ch.uzh.ifi.hase.soprafs21.entity.User;
+import ch.uzh.ifi.hase.soprafs21.repository.DeadlineRepository;
 import ch.uzh.ifi.hase.soprafs21.repository.TaskRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,6 +24,9 @@ public class TaskServiceTest {
 
     @Mock
     private TaskRepository taskRepository;
+
+    @Mock
+    private DeadlineRepository deadlineRepository;
 
     @InjectMocks
     private TaskService taskService;
@@ -124,6 +129,37 @@ public class TaskServiceTest {
 
         //then
         assertThrows(ResponseStatusException.class, () -> taskService.getTask(testTask.getId()));
+    }
+
+    @Test
+    public void updateTask_validInputs_success() {
+        // given
+        Task updatesToTask = new Task();
+        Deadline updatesToDeadline = new Deadline();
+        updatesToTask.setDeadline(updatesToDeadline);
+
+        updatesToTask.setId(2L);
+        updatesToTask.setName("name 2 ");
+        updatesToTask.setDescription("description 2");
+
+        updatesToDeadline.setId(2L);
+        updatesToDeadline.setVisible(false);
+        updatesToDeadline.setTime(LocalDateTime.parse("2021-01-01T00:00:02"));
+
+        Mockito.when(taskRepository.save(Mockito.any())).thenReturn(testTask);
+        Mockito.when(taskRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testTask));
+        Mockito.when(deadlineRepository.findById(Mockito.any())).thenReturn(java.util.Optional.ofNullable(testDeadline));
+        taskService.updateTask(testTask.getId(), updatesToTask);
+
+        // then
+        Mockito.verify(taskRepository, Mockito.times(1)).save(Mockito.any());
+
+        assertEquals(testTask.getId(), updatesToTask.getId());
+        assertEquals(testTask.getName(), updatesToTask.getName());
+        assertEquals(testTask.getDescription(), updatesToTask.getDescription());
+        assertEquals(testTask.getDeadline().getId(), updatesToDeadline.getId());
+        assertEquals(testTask.getDeadline().getVisible(), updatesToDeadline.getVisible());
+        assertEquals(testTask.getDeadline().getTime(), updatesToDeadline.getTime());
     }
 
 }

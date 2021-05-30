@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs21.controller;
 
 import ch.uzh.ifi.hase.soprafs21.constant.EventLabel;
 import ch.uzh.ifi.hase.soprafs21.entity.Event;
+import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.repository.ModuleRepository;
 import ch.uzh.ifi.hase.soprafs21.repository.UserRepository;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Event.EventPostDTO;
@@ -20,11 +21,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -81,5 +86,33 @@ public class EventControllerTest extends ControllerTest {
         // then
         mockMvc.perform(putRequest)
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void givenEvents_whenGetEvents_thenReturnJsonArray() throws Exception {
+        // given
+        Event event1 = new Event();
+        event1.setId(1L);
+        event1.setName("testEvent");
+
+        Event event2 = new Event();
+        event2.setId(2L);
+        event2.setName("test Event 2");
+
+        List<Event> allEvents = new ArrayList();
+        allEvents.add(event1);
+        allEvents.add(event2);
+
+        given(eventService.getEvents()).willReturn(allEvents);
+
+        // when
+        MockHttpServletRequestBuilder getRequest = get("/events").contentType(MediaType.APPLICATION_JSON);
+
+        // then
+        mockMvc.perform(getRequest).andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id", is(event1.getId().intValue())))
+                .andExpect(jsonPath("$[0].title", is(event1.getName())))
+                .andExpect(jsonPath("$[1].id", is(event2.getId().intValue())))
+                .andExpect(jsonPath("$[1].title", is(event2.getName())));
     }
 }

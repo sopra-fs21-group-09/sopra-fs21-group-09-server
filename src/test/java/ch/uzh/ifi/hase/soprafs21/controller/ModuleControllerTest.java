@@ -1,8 +1,10 @@
 package ch.uzh.ifi.hase.soprafs21.controller;
 
+import ch.uzh.ifi.hase.soprafs21.entity.Event;
 import ch.uzh.ifi.hase.soprafs21.entity.Module;
 import ch.uzh.ifi.hase.soprafs21.service.ModuleService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -13,7 +15,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -69,6 +73,44 @@ public class ModuleControllerTest {
                 .andExpect(jsonPath("$[1].name", is(module2.getName())))
                 .andExpect(jsonPath("$[1].description", is(module2.getDescription())))
                 .andExpect(jsonPath("$[1].prof_name", is(module2.getProf_name())));
+    }
+
+
+    @Test
+    public void givenEvents_whenGetEventsFromModule_thenReturnJsonArray() throws Exception {
+        // given
+        Module module1 = new Module();
+        module1.setId(1L);
+        module1.setName("module1");
+        module1.setDescription("description");
+        module1.setProf_name("prof");
+
+        Event event1 = new Event();
+        event1.setId(1L);
+        event1.setName("testEvent");
+
+        Event event2 = new Event();
+        event2.setId(2L);
+        event2.setName("test Event 2");
+
+        module1.addEvent(event1);
+        module1.addEvent(event2);
+
+        Set<Event> allEvents = new HashSet<>();
+        allEvents.add(event1);
+        allEvents.add(event2);
+
+        given(moduleService.getEventsFromModule(Mockito.any())).willReturn(allEvents);
+
+        // when
+        MockHttpServletRequestBuilder getRequest = get("/modules/1/events").contentType(MediaType.APPLICATION_JSON);
+
+        // then
+        mockMvc.perform(getRequest).andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id", is(event1.getId().intValue())))
+                .andExpect(jsonPath("$[0].title", is(event1.getName())))
+                .andExpect(jsonPath("$[1].id", is(event2.getId().intValue())))
+                .andExpect(jsonPath("$[1].title", is(event2.getName())));
     }
 
 }
