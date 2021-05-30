@@ -14,11 +14,13 @@ During the first couple of weeks of our studies, the members of our group recogn
 
 ## How does our backend work?
 
-//TODO: add
+Our backend follows the principles of a RESTful API. We aim to supply all functionalities our frontend needs to provide a user friendly and versatile application. Those functionalities include: User creation and editing, joining modules or groups, creating tasks and many more. 
+On startup, the backend communicates with the database of the University of Zurich to load the relevant modules (currently "Wirtschaftsinformatik" lectures, could be extended but is currently kept simple to minimize data transfer). It furthermore provides all the endpoints our client needs. The requests to our server are handled in the controller classes, each having their own responsibilities. The corresponding services are responsible for the needed functionalities. Every data manipulation is saved in the correlated repository. To reduce database transactions and to make up for our less successful "Database Systems"-midterm, we extended the repository with some tables to keep track of completed tasks and User-Group / Module-Group / User-Module relations.
 
 ## Further functionalities
 
-//TODO: add
+We also added some features next to the functionalities our frontend is currently depending on. The ability to add subtasks to tasks is one of them. 
+Furthermore, there's also a branch with working authentication with JWT Tokens.
 
 ## How to launch the backend
 
