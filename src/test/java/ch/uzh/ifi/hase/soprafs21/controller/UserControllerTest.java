@@ -1,5 +1,7 @@
 package ch.uzh.ifi.hase.soprafs21.controller;
 
+import ch.uzh.ifi.hase.soprafs21.entity.Deadline;
+import ch.uzh.ifi.hase.soprafs21.entity.Task;
 import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserPutDTO;
@@ -16,8 +18,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 import static org.hamcrest.Matchers.is;
@@ -242,5 +247,100 @@ public class UserControllerTest extends ControllerTest{
         mockMvc.perform(deleteRequest)
                 .andExpect(status().isNoContent());
 
+    }
+
+    @Test
+    public void givenTask_whenGetUserAllTasks_thenReturnJson() throws Exception {
+        // given
+        Task task = new Task();
+        task.setId(1L);
+        task.setName("name");
+        task.setDescription("description");
+        Task task2 = new Task();
+        task2.setId(2L);
+        task2.setName("name");
+        task2.setDescription("description");
+
+        Set<Task> tasks = new HashSet<>();
+        tasks.add(task);
+        tasks.add(task2);
+
+        given(userService.getTasksFromUser(Mockito.any())).willReturn(tasks);
+
+        // when/then -> do the request + validate the result
+        MockHttpServletRequestBuilder getRequest = get("/users/1/tasks")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        // then
+        mockMvc.perform(getRequest).andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id", is(task.getId().intValue())))
+                .andExpect(jsonPath("$[0].name", is(task.getName())))
+                .andExpect(jsonPath("$[0].description", is(task.getDescription())))
+                .andExpect(jsonPath("$[1].id", is(task2.getId().intValue())))
+                .andExpect(jsonPath("$[1].name", is(task2.getName())))
+                .andExpect(jsonPath("$[1].description", is(task2.getDescription())));
+    }
+
+    @Test
+    public void givenTask_whenGetUserCompletedTasks_thenReturnJson() throws Exception {
+        // given
+        Task task = new Task();
+        task.setId(1L);
+        task.setName("name");
+        task.setDescription("description");
+        Task task2 = new Task();
+        task2.setId(2L);
+        task2.setName("name");
+        task2.setDescription("description");
+
+        Set<Task> tasks = new HashSet<>();
+        tasks.add(task);
+        tasks.add(task2);
+
+        given(userService.getClosedTasksFromUser(Mockito.any())).willReturn(tasks);
+
+        // when/then -> do the request + validate the result
+        MockHttpServletRequestBuilder getRequest = get("/users/1/tasks?completed=true")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        // then
+        mockMvc.perform(getRequest).andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id", is(task.getId().intValue())))
+                .andExpect(jsonPath("$[0].name", is(task.getName())))
+                .andExpect(jsonPath("$[0].description", is(task.getDescription())))
+                .andExpect(jsonPath("$[1].id", is(task2.getId().intValue())))
+                .andExpect(jsonPath("$[1].name", is(task2.getName())))
+                .andExpect(jsonPath("$[1].description", is(task2.getDescription())));
+    }
+
+    public void givenTask_whenGetUseOpenTasks_thenReturnJson() throws Exception {
+        // given
+        Task task = new Task();
+        task.setId(1L);
+        task.setName("name");
+        task.setDescription("description");
+        Task task2 = new Task();
+        task2.setId(2L);
+        task2.setName("name");
+        task2.setDescription("description");
+
+        Set<Task> tasks = new HashSet<>();
+        tasks.add(task);
+        tasks.add(task2);
+
+        given(userService.getOpenTasksFromUser(Mockito.any())).willReturn(tasks);
+
+        // when/then -> do the request + validate the result
+        MockHttpServletRequestBuilder getRequest = get("/users/1/tasks?completed=false")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        // then
+        mockMvc.perform(getRequest).andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id", is(task.getId().intValue())))
+                .andExpect(jsonPath("$[0].name", is(task.getName())))
+                .andExpect(jsonPath("$[0].description", is(task.getDescription())))
+                .andExpect(jsonPath("$[1].id", is(task2.getId().intValue())))
+                .andExpect(jsonPath("$[1].name", is(task2.getName())))
+                .andExpect(jsonPath("$[1].description", is(task2.getDescription())));
     }
 }

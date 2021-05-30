@@ -48,7 +48,6 @@ public class EventService extends AService{
     }
 
     public void updateEvent(Long id, Event changesToEvent) {
-        // TODO: change rest specification to status code 404
         Event eventToBeUpdated = getEventById(id);
         checkEventParent(eventToBeUpdated);
         BeanUtils.copyProperties(changesToEvent, eventToBeUpdated, getNullPropertyNames(changesToEvent));

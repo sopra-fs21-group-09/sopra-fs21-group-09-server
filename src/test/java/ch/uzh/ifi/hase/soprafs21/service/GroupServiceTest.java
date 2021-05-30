@@ -2,6 +2,7 @@ package ch.uzh.ifi.hase.soprafs21.service;
 
 import ch.uzh.ifi.hase.soprafs21.embeddable.GroupTaskKey;
 import ch.uzh.ifi.hase.soprafs21.entity.Group;
+import ch.uzh.ifi.hase.soprafs21.entity.Module;
 import ch.uzh.ifi.hase.soprafs21.entity.Task;
 import ch.uzh.ifi.hase.soprafs21.entity.User;
 import ch.uzh.ifi.hase.soprafs21.repository.GroupRepository;
@@ -26,26 +27,33 @@ public class GroupServiceTest {
     @Mock
     private TaskService taskService;
 
+    @Mock
+    private UserService userService;
+
+    @Mock
+    private ModuleService moduleService;
 
     @InjectMocks
     private GroupService groupService;
 
     private Group testGroup;
+    private User creator;
 
     @BeforeEach
     public void SetUp() {
         MockitoAnnotations.openMocks(this);
 
-        var user = new User();
-        user.setId(1L);
-        user.setPassword("Firstname Lastname");
-        user.setUsername("creator");
+        creator = new User();
+        creator.setId(1L);
+        creator.setPassword("Firstname Lastname");
+        creator.setUsername("creator");
+        creator.setGroups(new HashSet<>());
 
         testGroup = new Group();
         testGroup.setId(1L);
         testGroup.setName("group");
         testGroup.setDescription("description");
-        testGroup.setCreator(user);
+        testGroup.setCreator(creator);
         testGroup.setOpen(false);
         testGroup.setPassword("password");
         testGroup.setMemberLimit(10);
@@ -88,4 +96,31 @@ public class GroupServiceTest {
         assertEquals(testGroup.getTasks().iterator().next().getTask(), testTask);
         assertTrue(testGroup.getTasks().iterator().next().getId()instanceof GroupTaskKey);
     }
+
+    @Test
+    public void createGroupForUser_validInputs_success(){
+        Mockito.when(userService.getUserById(Mockito.any())).thenReturn(creator);
+
+        groupService.createGroupForUser(testGroup, creator.getId());
+
+        assertEquals(creator.getGroups().iterator().next(), testGroup);
+        assertEquals(testGroup.getCreator(), creator);
+    }
+
+    @Test
+    public void createGroupForModule_validInputs_success(){
+        Module testModule = new Module();
+        testModule.setId(1L);
+        testModule.setGroups(new HashSet<>());
+
+        Mockito.when(userService.getUserById(Mockito.any())).thenReturn(creator);
+        Mockito.when(moduleService.getModuleById(Mockito.any())).thenReturn(testModule);
+
+        groupService.createGroupForModule(testGroup, creator.getId(), testModule.getId());
+
+        assertEquals(creator.getGroups().iterator().next(), testGroup);
+        assertEquals(testModule.getGroups().iterator().next(), testGroup);
+        assertEquals(testGroup.getCreator(), creator);
+    }
+
 }
