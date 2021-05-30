@@ -89,7 +89,7 @@ If you want to avoid running all tests with every change, use the following comm
 # License
 MIT License
 
-Copyright (c) 2021-present [Loris de Luca, Robin Wassink]
+Copyright (c) 2021-present [Loris De Luca, Robin Wassink]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
