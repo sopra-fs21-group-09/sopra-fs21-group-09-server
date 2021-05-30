@@ -243,6 +243,4 @@ public class UserControllerTest extends ControllerTest{
                 .andExpect(status().isNoContent());
 
     }
-
-
 }

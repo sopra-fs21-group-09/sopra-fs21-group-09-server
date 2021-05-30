@@ -1,6 +1,8 @@
 package ch.uzh.ifi.hase.soprafs21.service;
 
+import ch.uzh.ifi.hase.soprafs21.entity.Task;
 import ch.uzh.ifi.hase.soprafs21.entity.User;
+import ch.uzh.ifi.hase.soprafs21.repository.TaskRepository;
 import ch.uzh.ifi.hase.soprafs21.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +12,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashSet;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,6 +21,9 @@ public class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private TaskService taskService;
 
     @InjectMocks
     private UserService userService;
@@ -34,6 +40,7 @@ public class UserServiceTest {
         testUser.setPassword("testName");
         testUser.setUsername("testUsername");
         testUser.setToken(UUID.randomUUID().toString());
+        testUser.setTasks(new HashSet<>());
 
         // when -> any object is being save in the userRepository -> return the dummy testUser
         Mockito.when(userRepository.save(Mockito.any())).thenReturn(testUser);
@@ -102,4 +109,17 @@ public class UserServiceTest {
     @Test
     public void addGroupToUser_groupFull_failure(){}
 
+    @Test
+    public void createTaskForUser_validInputs_success(){
+        Task testTask = new Task();
+        testTask.setId(1L);
+        testTask.setName("name");
+        testTask.setDescription("description");
+
+        Mockito.when(taskService.createTask(Mockito.any())).thenReturn(testTask);
+
+        userService.createTaskForUser(1L, testTask);
+
+        assertEquals(testUser.getTasks().iterator().next().getTask(), testTask);
+    }
 }
