@@ -29,7 +29,7 @@ public class DocumentService {
         if (this.documentRepository.findById(id).isEmpty()) {
             var newDoc = new SharedDocument();
             newDoc.setId(id);
-            newDoc.setData("...");
+            newDoc.setData("");
 
             return documentRepository.saveAndFlush(newDoc);
         }
