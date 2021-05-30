@@ -99,7 +99,7 @@ public class UserService extends AService{
                     )
             );
         } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("INVALID_CREDENTIALS", e);
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Wrong credentials");
         }
 
         final UserDetails userDetails
@@ -224,6 +224,10 @@ public class UserService extends AService{
         else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user was not found");
         }
+    }
+
+    public User getUserByUsername(String username){
+        return userRepository.findByUsername(username);
     }
 
     private void checkIfUserExists(User user) {

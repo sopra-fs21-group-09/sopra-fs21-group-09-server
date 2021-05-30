@@ -36,10 +36,6 @@ public class Application{
     @Autowired
     private ModuleRepository moduleRepository;
 
-    @Qualifier("userRepository")
-    @Autowired
-    private UserRepository userRepository;
-
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
@@ -66,24 +62,6 @@ public class Application{
                     moduleRepository.saveAndFlush(module);
                 }
             }
-            String NameURL = "";
-            //https://namey.muffinlabs.com/name.json?count=10&type=female&with_surname=false&frequency=all
-            if(!NameURL.isEmpty()){
-            String names = restTemplate.getForObject(
-                    NameURL, String.class);
-            JsonNode userNode = mapper.readTree(names);
-            if (userNode.isArray()) {
-                for (final JsonNode objNode : userNode) {
-                    User user = new User();
-                    user.setUsername(objNode.asText());
-                    user.setPassword("asdf");
-                    user.setName(objNode.asText());
-                    user.setToken(UUID.randomUUID().toString());
-                    user.setMatrikelNr("Muahahaha");
-                    userRepository.saveAndFlush(user);
-                }
-            }}
-
         };
     }
 
@@ -95,17 +73,17 @@ public class Application{
     }
 
     @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
+                registry.addMapping("/**").allowedMethods("*").allowedOriginPatterns("localhost:3000");
             }
         };
-    }
-
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 }

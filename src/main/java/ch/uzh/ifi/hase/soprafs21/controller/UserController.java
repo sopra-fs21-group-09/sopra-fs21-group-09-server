@@ -61,12 +61,22 @@ public class UserController {
     @PostMapping("/users")
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
-    public UserGetDTO createUser(@RequestBody UserPostDTO userPostDTO) {
+    public JWTToken createUser(@RequestBody UserPostDTO userPostDTO) throws Exception {
         User userInput = DTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO);
 
-        User createdUser = userService.createUser(userInput);
+        userService.createUser(userInput);
+        String jwtToken = userService.loginUser(userInput);
 
-        return DTOMapper.INSTANCE.convertEntityToUserGetDTO(createdUser);
+        return new JWTToken(jwtToken);
+    }
+
+    @PostMapping("/authenticate")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public UserGetDTO authenticate(Principal principal) {
+        User user = userService.getUserByUsername(principal.getName());
+        UserGetDTO userDTO= DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
+        return userDTO;
     }
 
     @GetMapping("/users")
@@ -85,11 +95,9 @@ public class UserController {
     @GetMapping("/users/{userId}")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public UserGetDTO getUserInformation(@PathVariable Long userId, Principal principal) {
+    public UserGetDTO getUserInformation(@PathVariable Long userId) {
         User user = userService.getUserById(userId);
-        if(!principal.getName().equals(user.getUsername())){
-            throw new BadCredentialsException("INVALID_CREDENTIALS");
-        }
+
         UserGetDTO userDTO= DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
         return userDTO;
     }

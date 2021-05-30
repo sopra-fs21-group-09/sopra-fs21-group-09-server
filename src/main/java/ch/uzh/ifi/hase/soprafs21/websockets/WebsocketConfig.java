@@ -2,12 +2,14 @@ package ch.uzh.ifi.hase.soprafs21.websockets;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 @Configuration
 @EnableWebSocketMessageBroker
+@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*", allowCredentials = "true")
 public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
@@ -18,10 +20,10 @@ public class WebsocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws-document").setAllowedOriginPatterns("*").withSockJS();
+        //registry.addEndpoint("/ws-document").setAllowedOriginPatterns("*").withSockJS();
 
         //testing TODO: remove later
-        registry.addEndpoint("/websocket-chat").setAllowedOriginPatterns("*").withSockJS();
+        registry.addEndpoint("/websocket-chat").setAllowedOrigins("*");
     }
 
 }
