@@ -58,6 +58,5 @@ public class ModuleServiceTest {
 
         Mockito.verify(eventRepository, Mockito.times(13)).saveAndFlush(Mockito.any());
         assertEquals(testModule.getProf_name(), "Dr. Christiane Barz");
-
     }
 }
