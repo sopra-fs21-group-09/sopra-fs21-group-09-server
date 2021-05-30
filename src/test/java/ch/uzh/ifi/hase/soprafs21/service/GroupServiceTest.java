@@ -122,5 +122,4 @@ public class GroupServiceTest {
         assertEquals(testModule.getGroups().iterator().next(), testGroup);
         assertEquals(testGroup.getCreator(), creator);
     }
-
 }

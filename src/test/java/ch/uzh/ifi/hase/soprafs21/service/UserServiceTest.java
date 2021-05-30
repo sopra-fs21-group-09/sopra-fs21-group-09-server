@@ -1,11 +1,8 @@
 package ch.uzh.ifi.hase.soprafs21.service;
 
-import ch.uzh.ifi.hase.soprafs21.embeddable.GroupTaskKey;
 import ch.uzh.ifi.hase.soprafs21.embeddable.UserTaskKey;
-import ch.uzh.ifi.hase.soprafs21.entity.Group;
-import ch.uzh.ifi.hase.soprafs21.entity.Task;
-import ch.uzh.ifi.hase.soprafs21.entity.User;
-import ch.uzh.ifi.hase.soprafs21.repository.TaskRepository;
+import ch.uzh.ifi.hase.soprafs21.entity.*;
+import ch.uzh.ifi.hase.soprafs21.entity.Module;
 import ch.uzh.ifi.hase.soprafs21.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,6 +29,9 @@ public class UserServiceTest {
 
     @Mock
     private GroupService groupService;
+
+    @Mock
+    private ModuleService moduleService;
 
     @InjectMocks
     private UserService userService;
@@ -49,6 +50,8 @@ public class UserServiceTest {
         testUser.setToken(UUID.randomUUID().toString());
         testUser.setTasks(new HashSet<>());
         testUser.setGroups(new HashSet<>());
+        testUser.setModules(new HashSet<>());
+        testUser.setEvents(new HashSet<>());
 
         // when -> any object is being save in the userRepository -> return the dummy testUser
         Mockito.when(userRepository.save(Mockito.any())).thenReturn(testUser);
@@ -219,5 +222,73 @@ public class UserServiceTest {
 
         assertEquals(testUser.getTasks().iterator().next().getTask(), testTask);
         assertTrue(testUser.getTasks().iterator().next().getId()instanceof UserTaskKey);
+    }
+
+    @Test
+    public void removeGroupFromUser_validInputs_success(){
+        Group testGroup = new Group();
+        testGroup.setId(1L);
+        testGroup.setName("group");
+        testGroup.setMembers(new HashSet<>());
+
+        testUser.addGroup(testGroup);
+
+        assertTrue(!testUser.getGroups().isEmpty());
+
+        Mockito.when(groupService.getGroupById(Mockito.any())).thenReturn(testGroup);
+
+        userService.removeGroupFromUser(testUser.getId(), testGroup.getId());
+
+        assertTrue(testUser.getGroups().isEmpty());
+    }
+
+    @Test
+    public void removeModuleFromUser_validInputs_success(){
+        Module testModule = new Module();
+        testModule.setId(1L);
+
+        Group testGroup = new Group();
+        testGroup.setId(1L);
+        testGroup.setName("group");
+        testGroup.setMembers(new HashSet<>());
+
+        testModule.addGroup(testGroup);
+        testUser.addModule(testModule);
+        testUser.addGroup(testGroup);
+
+        assertTrue(!testUser.getModules().isEmpty());
+        assertTrue(!testUser.getGroups().isEmpty());
+
+        Mockito.when(groupService.getGroupById(Mockito.any())).thenReturn(testGroup);
+        Mockito.when(moduleService.getModuleById(Mockito.any())).thenReturn(testModule);
+
+        userService.removeModuleFromUser(testUser.getId(), testModule.getId());
+
+        assertTrue(testUser.getGroups().isEmpty());
+        assertTrue(testUser.getModules().isEmpty());
+    }
+
+    @Test
+    public void getEventsFromUser_validInputs_success(){
+        Module testModule = new Module();
+        testModule.setId(1L);
+
+        Event testEvent = new Event();
+        testEvent.setId(1L);
+        testEvent.setName("ModuleEvent");
+
+        Event testEvent2 = new Event();
+        testEvent2.setId(1L);
+        testEvent2.setName("UserEvent");
+
+        testModule.addEvent(testEvent);
+        testUser.addModule(testModule);
+
+        testUser.addEvent(testEvent2);
+
+        Set<Event> events = userService.getEventsFromUser(testUser.getId());
+        assertTrue(events.contains(testEvent));
+        assertTrue(events.contains(testEvent2));
+
     }
 }
