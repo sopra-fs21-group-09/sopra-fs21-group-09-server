@@ -1,8 +1,5 @@
 package ch.uzh.ifi.hase.soprafs21.websockets;
 
-import ch.uzh.ifi.hase.soprafs21.entity.Group;
-import ch.uzh.ifi.hase.soprafs21.entity.Task;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -12,24 +9,22 @@ public class SharedDocument implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    private Long groupId;
+    @Column(name = "group_id")
+    private Long id;
 
+    @Column
     private String data;
 
-    public SharedDocument(Long groupId, String data) {
-        this.groupId = groupId;
-        this.data = data;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
-    public SharedDocument() {
+    public Long getId() {
+        return id;
     }
 
-    public Long getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(Long groupId) {
-        this.groupId = groupId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getData() {

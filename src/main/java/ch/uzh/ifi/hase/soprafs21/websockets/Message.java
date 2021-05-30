@@ -1,7 +1,6 @@
 package ch.uzh.ifi.hase.soprafs21.websockets;
 
-//testing TODO: remove later
-public class MessageBean {
+public class Message {
     private String name;
     private String message;
 
