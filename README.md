@@ -83,13 +83,13 @@ If you want to avoid running all tests with every change, use the following comm
 ## Authors and acknowledgment
 
 ### Backend developers
-- [Loris de Luca](https://github.com/DeLucaL), University of Zurich 
+- [Loris De Luca](https://github.com/DeLucaL), University of Zurich 
 - [Robin Wassink](https://github.com/RobinWassink), University of Zurich
 
 # License
 MIT License
 
-Copyright (c) 2021-present [Loris de Luca, Robin Wassink]
+Copyright (c) 2021-present [Loris De Luca, Robin Wassink]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
