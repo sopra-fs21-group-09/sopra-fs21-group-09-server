@@ -7,7 +7,6 @@ import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Group.GroupPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Module.ModuleGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.CustomDeadlineGetDTO;
-import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.DeadlineGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskGetDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.Task.TaskPostDTO;
 import ch.uzh.ifi.hase.soprafs21.rest.dto.User.UserGetDTO;
