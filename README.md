@@ -1,13 +1,28 @@
-# SoPra RESTful Service Template FS21
+# SoPra FS21 - BROLAT
 
-## Getting started with Spring Boot
+## Introduction
 
--   Documentation: https://docs.spring.io/spring-boot/docs/current/reference/html/index.html
--   Guides: http://spring.io/guides
-    -   Building a RESTful Web Service: http://spring.io/guides/gs/rest-service/
-    -   Building REST services with Spring: http://spring.io/guides/tutorials/bookmarks/
+Hi there! We are five students from the University of Zurich. As part of the module "Software Computer Engineering Lab" we were instructed to create an application. In order to learn how to implement a server/client-architecture, we had to integrate a collaborative feature as well as to include an external API.  
 
-## Setup this Template with your IDE of choice
+During the first couple of weeks of our studies, the members of our group recognized, that it is often overwhelming to get a hold of all the deadlines from the different modules we booked. We think all this energy of planning the semester could be simplified. For this reason, we want to build an interactive application, where users can communicate with each other in small groups and handle all their personal or shared tasks in a simple and intuitive way. Information about various modules, tasks you need to work on and collaborations with other students is centralized in one application. A well designed homepage delivers all the information you need to know about the current week lectures, tasks, exercises, deadlines and meetings that are coming up.
+
+## Technologies used
+- [React](https://reactjs.org/) as our frontend - see further information in our [client repository](https://github.com/sopra-fs21-group-09/sopra-fs21-group-09-client)
+- [Spring Boot](https://spring.io/) as our backend
+- [JPA/Hibernate](https://hibernate.org/orm/documentation/5.4/) for persistence
+- [Sonarqube](https://www.sonarqube.org/) to check our source-code quality
+
+## How does our backend work?
+
+//TODO: add
+
+## Further functionalities
+
+//TODO: add
+
+## How to launch the backend
+
+### Get your IDE of choice
 
 Download your IDE of choice: (e.g., [Eclipse](http://www.eclipse.org/downloads/), [IntelliJ](https://www.jetbrains.com/idea/download/)), [Visual Studio Code](https://code.visualstudio.com/) and make sure Java 15 is installed on your system (for Windows-users, please make sure your JAVA_HOME environment variable is set to the correct version of Java).
 
@@ -16,17 +31,7 @@ Download your IDE of choice: (e.g., [Eclipse](http://www.eclipse.org/downloads/)
 
 To build right click the `build.gradle` file and choose `Run Build`
 
-### VS Code
-The following extensions will help you to run it more easily:
--   `pivotal.vscode-spring-boot`
--   `vscjava.vscode-spring-initializr`
--   `vscjava.vscode-spring-boot-dashboard`
--   `vscjava.vscode-java-pack`
--   `richardwillis.vscode-gradle`
-
-**Note:** You'll need to build the project first with Gradle, just click on the `build` command in the _Gradle Tasks_ extension. Then check the _Spring Boot Dashboard_ extension if it already shows `soprafs21` and hit the play button to start the server. If it doesn't show up, restart VS Code and check again.
-
-## Building with Gradle
+### Building with Gradle
 
 You can use the local Gradle Wrapper to build the application.
 
@@ -38,25 +43,19 @@ Plattform-Prefix:
 
 More Information about [Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html) and [Gradle](https://gradle.org/docs/).
 
-### Build
+#### Build
 
-```bash
-./gradlew build
-```
+`./gradlew build`
 
-### Run
+#### Run
 
-```bash
-./gradlew bootRun
-```
+`./gradlew bootRun`
 
-### Test
+#### Test
 
-```bash
-./gradlew test
-```
+`./gradlew test`
 
-### Development Mode
+#### Development Mode
 
 You can start the backend in development mode, this will automatically trigger a new build and reload the application
 once the content of a file has been changed and you save the file.
@@ -79,21 +78,32 @@ If you want to avoid running all tests with every change, use the following comm
 
 -   We highly recommend to use [Postman](https://www.getpostman.com) in order to test your API Endpoints.
 
-## Debugging
+## Authors and acknowledgment
 
-If something is not working and/or you don't know what is going on. We highly recommend that you use a debugger and step
-through the process step-by-step.
+### Backend developers
+- [Loris de Luca](https://github.com/DeLucaL), University of Zurich 
+- [Robin Wassink](https://github.com/RobinWassink), University of Zurich
 
-To configure a debugger for SpringBoot's Tomcat servlet (i.e. the process you start with `./gradlew bootRun` command),
-do the following:
+# License
+MIT License
 
-1. Open Tab: **Run**/Edit Configurations
-2. Add a new Remote Configuration and name it properly
-3. Start the Server in Debug mode: `./gradlew bootRun --debug-jvm`
-4. Press `Shift + F9` or the use **Run**/Debug"Name of your task"
-5. Set breakpoints in the application where you need it
-6. Step through the process one step at a time
+Copyright (c) 2021-present [Stefanie Krohmann, Jonas Gebel, Samuele Walzer]
 
-## Testing
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-Have a look here: https://www.baeldung.com/spring-boot-testing
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+)
